@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PELE Cinema - Trải Nghiệm Điện Ảnh Đỉnh Cao</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E50914;
+            --bg-dark: #0b0c10;
+            --bg-card: #1f2833;
+            --text-light: #c5c6c7;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            padding-top: 70px;
+        }
+
+        /* --- THANH ĐIỀU HƯỚNG --- */
+        .navbar {
+            background: rgba(11, 12, 16, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .navbar-brand { font-weight: 800; font-size: 1.8rem; letter-spacing: 2px; color: var(--primary-color) !important; }
+        .navbar-brand span { color: #fff; }
+        .nav-link { font-weight: 600; text-transform: uppercase; font-size: 0.9rem; margin-right: 15px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-color) !important; }
+
+        /* --- BANNER THU GỌN (HERO SECTION) --- */
+        .hero-section {
+            padding: 60px 0;
+            min-height: 400px;
+            background: linear-gradient(to right, rgba(11, 12, 16, 0.9) 30%, rgba(11, 12, 16, 0.3)),
+                        url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop') center/cover;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        .hero-title { font-weight: 800; font-size: 3rem; text-transform: uppercase; }
+        .hero-subtitle { font-size: 1.1rem; color: #bbb; }
+
+        /* BOX TIN TỨC BÊN PHẢI */
+        .hero-info-box {
+            background: rgba(31, 40, 51, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(229, 9, 20, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .news-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 10px; }
+        .news-item:last-child { border: none; margin-bottom: 0; }
+        .badge-hot { background: var(--primary-color); font-size: 0.7rem; }
+
+        /* --- THẺ PHIM --- */
+        .movie-card { background-color: transparent; border: none; transition: transform 0.3s ease; border-radius: 12px; cursor: pointer; }
+        .movie-card:hover { transform: translateY(-10px); }
+        .movie-poster-wrapper { position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .movie-poster { height: 380px; width: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .movie-card:hover .movie-poster { transform: scale(1.08); filter: brightness(0.8); }
+        .movie-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%); padding: 20px; opacity: 0; transition: opacity 0.3s ease; }
+        .movie-card:hover .movie-overlay { opacity: 1; }
+        .btn-book { background-color: var(--primary-color); color: white; border: none; border-radius: 25px; padding: 8px 20px; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+        .btn-book:hover { background-color: #b80710; color: white; box-shadow: 0 0 15px rgba(229, 9, 20, 0.6); }
+        .movie-title { font-weight: 700; font-size: 1.1rem; margin-top: 15px; margin-bottom: 5px; color: #fff; transition: 0.2s; }
+        .movie-title:hover { color: var(--primary-color); }
+        .movie-info { color: var(--text-light); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">PELE <span>CINEMA</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav align-items-center">
+                <li class="nav-item"><a class="nav-link active" href="#movies">Lịch Chiếu</a></li>
+                <li class="nav-item"><a class="nav-link" href="/upcoming">Phim Sắp Chiếu</a></li>
+                <li class="nav-item"><a class="nav-link" href="/news">Góc Điện Ảnh</a></li>
+                <li class="nav-item"><a class="nav-link text-warning" href="/promotions"><i class="fa-solid fa-gift me-1"></i> Khuyến Mãi</a></li>
+
+                <li class="nav-item ms-3" th:if="${session.loggedInUser == null}">
+                    <a class="btn btn-outline-danger px-4 rounded-pill fw-bold" href="/login"><i class="fa-solid fa-user me-2"></i>Đăng Nhập</a>
+                </li>
+
+                <li class="nav-item d-flex align-items-center ms-3" th:if="${session.loggedInUser != null}">
+                    <span class="text-white me-3 fw-bold">Xin chào, <span class="text-warning" th:text="${session.loggedInUser.fullName}">Khách</span>!</span>
+                    <a href="/my-tickets" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold text-uppercase me-2"><i class="fa-solid fa-ticket-simple me-1"></i> Vé của tôi</a>
+
+                    <th:block th:if="${session.loggedInUser.role == 'ADMIN'}">
+                        <a href="/admin" class="btn btn-outline-warning btn-sm rounded-pill px-3 fw-bold text-uppercase me-2"><i class="fa-solid fa-shield-halved me-1"></i> Quản Trị</a>
+                        <a href="/admin/promotions" class="btn btn-warning btn-sm rounded-pill px-3 fw-bold text-uppercase text-dark me-2"><i class="fa-solid fa-tags me-1"></i> Quản Lý Mã</a>
+                    </th:block>
+
+                    <a href="/logout" class="btn btn-danger btn-sm rounded-pill px-3 fw-bold text-uppercase"><i class="fa-solid fa-right-from-bracket me-1"></i> Đăng xuất</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <h1 class="hero-title">THẾ GIỚI <span class="text-danger">ĐIỆN ẢNH</span></h1>
+                <p class="hero-subtitle">Sống trọn từng khoảnh khắc tại <b class="text-white">PELE Cinema</b></p>
+                <div class="mt-4">
+                    <a href="#movies" class="btn btn-danger btn-lg rounded-pill px-4 fw-bold shadow-lg">ĐẶT VÉ NGAY</a>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block">
+                <div class="hero-info-box">
+                    <h6 class="text-warning fw-bold mb-3"><i class="fa-solid fa-bullhorn me-2"></i>TIN NỔI BẬT</h6>
+                    <div class="news-item">
+                        <span class="badge badge-hot">HOT</span>
+                        <p class="small mb-0 mt-1 text-light">Mua 2 vé tặng 1 bắp nước vào Thứ Tư vui vẻ!</p>
+                    </div>
+                    <div class="news-item">
+                        <span class="badge bg-info text-dark" style="font-size: 0.7rem;">NEW</span>
+                        <p class="small mb-0 mt-1 text-light">Rạp IMAX mới đã chính thức đi vào hoạt động.</p>
+                    </div>
+                    <div class="news-item">
+                        <p class="small mb-0 text-secondary"><i class="fa-solid fa-circle-info me-1"></i> Đặt vé online để nhận ưu đãi thành viên.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div id="movies" class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold border-start border-4 border-danger ps-3 m-0">PHIM ĐANG CHIẾU</h3>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-3" th:each="movie : ${movies}">
+            <div class="movie-card">
+                <div class="movie-poster-wrapper">
+                    <img th:src="${movie.posterUrl}" class="movie-poster" alt="Poster">
+                    <div class="movie-overlay text-center">
+                        <a th:href="@{/movie/{id}(id=${movie.id})}" class="btn btn-book w-100"><i class="fa-solid fa-ticket me-2"></i>Mua Vé</a>
+                    </div>
+                </div>
+                <div class="px-1 mt-2">
+                    <a th:href="@{/movie/{id}(id=${movie.id})}" class="text-decoration-none">
+                        <h5 class="movie-title text-truncate" th:text="${movie.title}">Tên Phim</h5>
+                    </a>
+                    <div class="movie-info d-flex justify-content-between mt-2">
+                        <span><i class="fa-solid fa-video text-danger me-1"></i>2D Phụ Đề</span>
+                        <span><i class="fa-regular fa-clock text-danger me-1"></i><span th:text="${movie.duration} + ' phút'"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
