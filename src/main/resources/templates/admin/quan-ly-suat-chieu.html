@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Suất Chiếu - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #E50914; --bg-dark: #0b0c10; --bg-card: #1f2833; }
+        body { background-color: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 70px; }
+        .navbar { background: rgba(0,0,0,0.9) !important; border-bottom: 2px solid var(--primary); }
+        .sidebar { background: #0d0e12; min-height: 100vh; border-right: 1px solid rgba(255,255,255,0.05); }
+        .nav-link.admin-nav { color: #aaa; padding: 14px 20px; transition: 0.3s; border-left: 3px solid transparent; }
+        .nav-link.admin-nav:hover, .nav-link.admin-nav.active { background: rgba(229,9,20,0.1); color: var(--primary); border-left-color: var(--primary); }
+        .table-dark-custom { background: rgba(255,255,255,0.03); border-radius: 12px; overflow: hidden; }
+        .table-dark-custom thead { background: rgba(229,9,20,0.3); }
+        .table-dark-custom td, .table-dark-custom th { border: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
+        .movie-thumb { width: 60px; height: 80px; object-fit: cover; border-radius: 6px; }
+        .form-control-dark { background: #1a1a1a; border: 1px solid #333; color: #fff; }
+        .form-control-dark:focus { background: #1a1a1a; border-color: var(--primary); box-shadow: none; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/">
+            <span style="color:#fff">PELE</span> <span style="color:var(--primary)">CINEMA</span>
+            <span class="badge bg-danger ms-2"><i class="fa-solid fa-shield-halved me-1"></i>ADMIN</span>
+        </a>
+        <div class="d-flex align-items-center">
+            <span class="text-secondary me-3"><strong class="text-warning" th:text="${session.loggedInUser.fullName}">Admin</strong></span>
+            <a href="/logout" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-right-from-bracket me-1"></i>Đăng Xuất</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sidebar p-0">
+            <div class="p-3 border-bottom border-secondary">
+                <h6 class="text-uppercase text-secondary mb-0"><i class="fa-solid fa-gear me-2"></i>QUẢN TRỊ</h6>
+            </div>
+            <nav class="nav flex-column p-0">
+                <a href="/admin" class="nav-link admin-nav"><i class="fa-solid fa-chart-line me-3"></i>Tổng Quan</a>
+                <a href="/admin/movies" class="nav-link admin-nav"><i class="fa-solid fa-film me-3"></i>Quản Lý Phim</a>
+                <a href="/admin/showtimes" class="nav-link admin-nav active"><i class="fa-solid fa-clock me-3"></i>Suất Chiếu</a>
+                <a href="/admin/bookings" class="nav-link admin-nav"><i class="fa-solid fa-receipt me-3"></i>Quản Lý Hoá Đơn</a>
+                <a href="/" class="nav-link admin-nav"><i class="fa-solid fa-house me-3"></i>Về Trang Chính</a>
+            </nav>
+        </div>
+
+        <div class="col-md-10 p-4">
+            <h4 class="fw-bold mb-4"><i class="fa-solid fa-clock text-danger me-2"></i>Quản Lý Suất Chiếu</h4>
+
+            <div th:if="${success != null}" class="alert alert-success bg-transparent border-success text-success mb-4">
+                <i class="fa-solid fa-check-circle me-2"></i><span th:text="${success}"></span>
+            </div>
+            <div th:if="${error != null}" class="alert alert-danger bg-transparent border-danger text-danger mb-4">
+                <i class="fa-solid fa-exclamation-circle me-2"></i><span th:text="${error}"></span>
+            </div>
+
+            <!-- Add Showtime Form -->
+            <div class="card border-secondary bg-dark mb-4">
+                <div class="card-header bg-danger bg-opacity-25 border-secondary">
+                    <h6 class="mb-0 fw-bold"><i class="fa-solid fa-plus me-2"></i>Thêm Suất Chiếu Mới</h6>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/admin/showtimes/save}" method="POST">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label small text-secondary">Phim *</label>
+                                <select name="movieId" class="form-select form-control-dark" required>
+                                    <option value="">-- Chọn phim --</option>
+                                    <option th:each="m : ${movies}" th:value="${m.id}" th:text="${m.title}">Phim</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label small text-secondary">Phòng *</label>
+                                <select name="roomId" class="form-select form-control-dark" required title="Chọn phòng chiếu">
+                                    <option value="">-- Chọn phòng --</option>
+                                    <option th:each="r : ${rooms}" th:value="${r.id}" th:text="${r.name ?: 'Phòng '+r.id}">Phòng</option>
+                                </select>
+                                <small class="text-warning" th:if="${#lists.isEmpty(rooms)}">Chưa có phòng. Khởi động lại app để tạo phòng mặc định.</small>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small text-secondary">Giờ Chiếu *</label>
+                                <input type="datetime-local" name="startTime" class="form-control form-control-dark" required title="Chọn cả ngày và giờ (VD: 18:00)">
+                                <small class="text-muted">Chọn cả <strong>ngày</strong> và <strong>giờ</strong></small>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label small text-secondary">Giá Vé (VNĐ) *</label>
+                                <input type="number" name="price" class="form-control form-control-dark" required min="10000" step="1000" placeholder="80000">
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-danger w-100 rounded-pill fw-bold">
+                                    <i class="fa-solid fa-plus me-2"></i>Thêm
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Showtimes List -->
+            <div class="card border-secondary bg-dark">
+                <div class="card-header bg-danger bg-opacity-25 border-secondary">
+                    <h6 class="mb-0 fw-bold"><i class="fa-solid fa-list me-2"></i>Danh Sách Suất Chiếu</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover mb-0 table-dark-custom">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th>Poster</th>
+                                    <th>Tên Phim</th>
+                                    <th>Phòng</th>
+                                    <th>Giờ Chiếu</th>
+                                    <th>Giá Vé</th>
+                                    <th>Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="s, iter : ${showtimes}">
+                                    <td class="text-center" th:text="${iter.index + 1}">1</td>
+                                    <td>
+                                        <img th:src="${s.movie?.posterUrl}" class="movie-thumb" alt="poster"
+                                             onerror="this.src='https://via.placeholder.com/60x80/1f2833/cccccc?text=N/A';">
+                                    </td>
+                                    <td class="fw-bold text-warning" th:text="${s.movie?.title ?: 'N/A'}">Phim</td>
+                                    <td><i class="fa-solid fa-door-open text-info me-1"></i><span th:text="${s.room?.name ?: 'N/A'}">Phòng</span></td>
+                                    <td>
+                                        <i class="fa-regular fa-clock text-warning me-1"></i>
+                                        <span th:text="${#temporals.format(s.startTime, 'dd/MM/yyyy HH:mm')}">01/01/2024 19:00</span>
+                                    </td>
+                                    <td class="text-success fw-bold" th:text="${#numbers.formatDecimal(s.price, 0, 'COMMA', 0, 'POINT')} + ' đ'">80.000 đ</td>
+                                    <td>
+                                        <a th:href="@{/admin/showtimes/delete/{id}(id=${s.id})}"
+                                           class="btn btn-sm btn-danger rounded-pill"
+                                           onclick="return confirm('Xóa suất chiếu này?');">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(showtimes)}">
+                                    <td colspan="7" class="text-center text-secondary py-5">
+                                        <i class="fa-solid fa-clock fa-3x mb-3 d-block opacity-25"></i>
+                                        Chưa có suất chiếu nào.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
