@@ -250,16 +250,22 @@
         <a class="nav-link" style="color: #ffc107 !important;" th:href="@{/ticket-market}">
             <i class="fa-solid fa-tags"></i> CHỢ PASS VÉ
         </a>
+        <a class="nav-link" style="color: #667eea !important;" th:href="@{/group}">
+            <i class="fa-solid fa-users"></i> ĐẶT VÉ NHÓM
+        </a>
 
         <div class="sidebar-heading">Khám phá điện ảnh</div>
         <a class="nav-link active" href="#movies"><i class="fa-solid fa-calendar-days"></i>Lịch Chiếu</a>
         <a class="nav-link" href="/upcoming"><i class="fa-solid fa-film"></i>Phim Sắp Chiếu</a>
         <a class="nav-link" href="/news"><i class="fa-solid fa-newspaper"></i>Góc Điện Ảnh</a>
         <a class="nav-link text-warning" href="/promotions"><i class="fa-solid fa-gift"></i>Khuyến Mãi</a>
+        <a class="nav-link" th:href="@{/group-booking/{id}(id=${showtime?.id})}" href="#"><i class="fa-solid fa-users"></i>Đặt Vé Nhóm</a>
 
         <th:block th:if="${session.loggedInUser != null}">
             <div class="sidebar-heading">Tài khoản của tôi</div>
             <a href="/my-tickets" class="nav-link"><i class="fa-solid fa-ticket-simple"></i>Vé đã đặt</a>
+            <a href="/my-passes" class="nav-link"><i class="fa-solid fa-tags"></i>Vé Đang Bán</a>
+            <a href="/my-group-bookings" class="nav-link"><i class="fa-solid fa-users"></i>Vé Nhóm Của Tôi</a>
 
             <th:block th:if="${session.loggedInUser.role == 'ADMIN'}">
                 <a href="/admin" class="nav-link text-info"><i class="fa-solid fa-user-shield"></i>Quản Trị Hệ Thống</a>

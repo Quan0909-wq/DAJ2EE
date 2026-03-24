@@ -2,6 +2,8 @@ package com.example.demoj2ee.controller;
 
 import com.example.demoj2ee.model.*;
 import com.example.demoj2ee.repository.*;
+import com.example.demoj2ee.repository.GroupBookingRepository;
+import com.example.demoj2ee.repository.GroupMemberRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -35,6 +39,12 @@ public class AdminController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private GroupBookingRepository groupBookingRepository;
+
+    @Autowired
+    private GroupMemberRepository groupMemberRepository;
 
     private boolean isAdmin(HttpSession session) {
         User user = (User) session.getAttribute("loggedInUser");
@@ -293,5 +303,99 @@ public class AdminController {
         showtimeRepository.deleteById(id);
         ra.addFlashAttribute("success", "Xóa suất chiếu thành công!");
         return "redirect:/admin/showtimes";
+    }
+
+    // ================== QUẢN LÝ ĐẶT VÉ NHÓM ==================
+
+    @GetMapping("/group-bookings")
+    public String manageGroupBookings(HttpSession session,
+                                     @RequestParam(required = false) String status,
+                                     Model model) {
+        if (!isLoggedIn(session)) return "redirect:/login";
+        if (!isAdmin(session)) return "redirect:/";
+
+        List<GroupBooking> all = groupBookingRepository.findAll();
+
+        List<GroupBooking> bookings;
+        if (status != null && !status.isEmpty() && !status.equals("all")) {
+            if ("SUCCESS".equals(status)) {
+                bookings = all.stream().filter(b -> b.getStatus() == 2).toList();
+            } else if ("PENDING".equals(status)) {
+                bookings = all.stream().filter(b -> b.getStatus() == 0 || b.getStatus() == 1).toList();
+            } else if ("CANCELLED".equals(status)) {
+                bookings = all.stream().filter(b -> b.getStatus() == 3).toList();
+            } else {
+                bookings = all;
+            }
+        } else {
+            bookings = all;
+        }
+
+        bookings = bookings.stream()
+                .sorted((a, b) -> {
+                    LocalDateTime ta = a.getCreatedAt() != null ? a.getCreatedAt() : LocalDateTime.MIN;
+                    LocalDateTime tb = b.getCreatedAt() != null ? b.getCreatedAt() : LocalDateTime.MIN;
+                    return tb.compareTo(ta);
+                })
+                .toList();
+
+        long totalBookings = groupBookingRepository.count();
+        long successBookings = all.stream().filter(b -> b.getStatus() == 2).count();
+        long pendingBookings = all.stream().filter(b -> b.getStatus() == 0 || b.getStatus() == 1).count();
+        long cancelledBookings = all.stream().filter(b -> b.getStatus() == 3).count();
+
+        Map<Long, Long> memberCounts = new HashMap<>();
+        for (GroupBooking b : bookings) {
+            memberCounts.put(b.getId(), groupMemberRepository.countByGroupBookingId(b.getId()));
+        }
+
+        model.addAttribute("bookings", bookings);
+        model.addAttribute("memberCounts", memberCounts);
+        model.addAttribute("totalBookings", totalBookings);
+        model.addAttribute("successBookings", successBookings);
+        model.addAttribute("pendingBookings", pendingBookings);
+        model.addAttribute("cancelledBookings", cancelledBookings);
+        model.addAttribute("selectedStatus", status != null ? status : "all");
+
+        return "admin/quan-ly-dat-ve-nhom";
+    }
+
+    @GetMapping("/group-booking/{id}")
+    public String groupBookingDetail(@PathVariable Long id, HttpSession session, Model model) {
+        if (!isLoggedIn(session)) return "redirect:/login";
+        if (!isAdmin(session)) return "redirect:/";
+
+        GroupBooking booking = groupBookingRepository.findById(id).orElse(null);
+        if (booking == null) return "redirect:/admin/group-bookings";
+
+        List<GroupMember> members = groupMemberRepository.findByGroupBookingIdOrderById(id);
+
+        model.addAttribute("booking", booking);
+        model.addAttribute("members", members);
+
+        return "admin/group-booking-detail";
+    }
+
+    @PostMapping("/group-bookings/update-status")
+    public String updateGroupBookingStatus(@RequestParam Long id,
+                                          @RequestParam String status,
+                                          HttpSession session,
+                                          RedirectAttributes ra) {
+        if (!isLoggedIn(session)) return "redirect:/login";
+        if (!isAdmin(session)) return "redirect:/";
+
+        GroupBooking booking = groupBookingRepository.findById(id).orElse(null);
+        if (booking != null) {
+            int statusInt = switch (status) {
+                case "SUCCESS" -> 2;
+                case "PENDING" -> 0;
+                case "CANCELLED" -> 3;
+                default -> booking.getStatus();
+            };
+            booking.setStatus(statusInt);
+            groupBookingRepository.save(booking);
+            ra.addFlashAttribute("success", "Cập nhật trạng thái thành công!");
+        }
+        return "redirect:/admin/group-bookings";
     }
 }

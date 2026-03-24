@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Đặt vé nhóm thành công - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #E50914;
+            --bg-body: #050505;
+            --bg-card: #121212;
+            --accent-purple: #667eea;
+            --accent-green: #28a745;
+        }
+        body {
+            background-color: var(--bg-body);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+        }
+
+        .success-header {
+            background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 100%);
+            padding: 50px 0;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-green);
+        }
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #28a745, #15c964);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 3rem;
+            animation: bounceIn 0.6s;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .booking-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .member-ticket {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--accent-green);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .member-ticket:last-child {
+            margin-bottom: 0;
+        }
+
+        .ticket-seats {
+            background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2));
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .total-box {
+            background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+            border: 2px solid rgba(102,126,234,0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary-gradient:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+            color: #fff;
+        }
+
+        .btn-success-gradient {
+            background: linear-gradient(135deg, #28a745 0%, #15c964 100%);
+            border: none;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-success-gradient:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(40,167,69,0.4);
+            color: #fff;
+        }
+
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 9999;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #667eea;
+            animation: confettiFall 3s ease-out forwards;
+        }
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="confetti" id="confetti"></div>
+
+<div class="success-header">
+    <div class="container">
+        <div class="success-icon">
+            <i class="fas fa-check text-white"></i>
+        </div>
+        <h1 class="fw-bold mb-2">ĐẶT VÉ NHÓM THÀNH CÔNG!</h1>
+        <p class="text-white-50 mb-0">Cả nhóm cùng tận hưởng bộ phim tuyệt vời</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="booking-card">
+
+                <!-- THONG TIN CHUNG -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="text-secondary small">Mã phòng</div>
+                        <div class="fw-bold" style="font-size: 1.5rem; letter-spacing: 5px;"
+                             th:text="${group.roomCode}">ABC123</div>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <div class="text-secondary small">Phim</div>
+                        <div class="fw-bold" th:text="${showtime.movie.title}">Tên phim</div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="text-secondary small">Suất chiếu</div>
+                        <div class="fw-bold" th:text="${#temporals.format(showtime.startTime, 'HH:mm - dd/MM/yyyy')}">19:00</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-secondary small">Phòng chiếu</div>
+                        <div class="fw-bold" th:text="${showtime.room.name}">Phòng 1</div>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <div class="text-secondary small">Tổng ghế</div>
+                        <div class="fw-bold" style="color: var(--accent-green); font-size: 1.3rem;"
+                             th:text="${statusData.totalSeats}">0</div>
+                    </div>
+                </div>
+
+                <hr class="border-secondary">
+
+                <!-- DANH SACH THANH VIEN -->
+                <h5 class="fw-bold mb-3">
+                    <i class="fas fa-users me-2" style="color: var(--accent-green);"></i>
+                    Danh sách thành viên
+                </h5>
+
+                <div th:each="m : ${members}" class="member-ticket" th:if="${m.seats != null && !m.seats.empty}">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-purple), #764ba2); display: flex; align-items: center; justify-content: center; font-weight: 800;"
+                         th:text="${#strings.substring(m.name, 0, 1)}">A</div>
+                    <div class="flex-grow-1">
+                        <div class="fw-bold" th:text="${m.name}">Nguyễn Văn A</div>
+                        <div class="small text-secondary" th:text="${m.email}">email@example.com</div>
+                    </div>
+                    <div class="ticket-seats" th:text="${m.seats}">A1, A2</div>
+                </div>
+
+                <div th:each="m : ${members}" class="member-ticket" th:if="${m.seats == null || m.seats.empty}" style="opacity: 0.5; border-left-color: #666;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #333; display: flex; align-items: center; justify-content: center; font-weight: 800;"
+                         th:text="${#strings.substring(m.name, 0, 1)}">B</div>
+                    <div class="flex-grow-1">
+                        <div class="fw-bold" th:text="${m.name}">Trần Thị B</div>
+                        <div class="small text-secondary" th:text="${m.email}">email@example.com</div>
+                    </div>
+                    <div class="ticket-seats" style="background: rgba(255,255,255,0.1); color: #666;">Không chọn ghế</div>
+                </div>
+
+                <!-- TONG KET -->
+                <div class="total-box mt-4">
+                    <div class="row g-3">
+                        <div class="col-4">
+                            <div class="text-secondary small">Giá gốc</div>
+                            <div class="fw-bold" th:text="${#numbers.formatDecimal(statusData.originalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">400,000đ</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-secondary small">Giảm giá</div>
+                            <div class="fw-bold text-success"
+                                 th:text="${statusData.discountPercent > 0} ? (${statusData.discountPercent * 100} + '%') : 'Không'">10%</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-secondary small">Tổng cộng</div>
+                            <div class="fw-bold" style="color: var(--accent-green); font-size: 1.3rem;"
+                                 th:text="${#numbers.formatDecimal(statusData.finalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">360,000đ</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HANH DONG -->
+                <div class="row g-3 mt-4">
+                    <div class="col-md-6">
+                        <a href="/" class="btn btn-primary-gradient w-100">
+                            <i class="fas fa-home me-2"></i>QUAY VỀ TRANG CHỦ
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="/my-tickets" class="btn btn-success-gradient w-100">
+                            <i class="fas fa-ticket-alt me-2"></i>XEM VÉ CỦA TÔI
+                        </a>
+                    </div>
+                </div>
+
+                <!-- LUU Y -->
+                <div class="mt-4 p-3" style="background: rgba(255,193,7,0.08); border-radius: 10px; border: 1px solid rgba(255,193,7,0.2);">
+                    <h7 class="fw-bold text-warning d-block mb-2">
+                        <i class="fas fa-exclamation-triangle me-1"></i> Lưu ý quan trọng
+                    </h7>
+                    <ul class="small text-secondary mb-0 ps-3">
+                        <li>Hãy đến rạp trước 15 phút để nhận vé</li>
+                        <li>Xuất trình mã đặt vé hoặc email xác nhận khi nhận vé</li>
+                        <li>Không được mang đồ ăn uống từ bên ngoài vào rạp</li>
+                        <li>Vé đã đặt không được hoàn tiền</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    // Confetti animation
+    function createConfetti() {
+        const container = document.getElementById('confetti');
+        const colors = ['#667eea', '#764ba2', '#28a745', '#ffc107', '#E50914', '#ffffff'];
+
+        for (let i = 0; i < 50; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'confetti-piece';
+            piece.style.left = Math.random() * 100 + 'vw';
+            piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+            piece.style.animationDelay = Math.random() * 2 + 's';
+            piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+            piece.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+            container.appendChild(piece);
+        }
+
+        setTimeout(() => {
+            container.innerHTML = '';
+        }, 5000);
+    }
+
+    createConfetti();
+</script>
+
+</body>
+</html>
