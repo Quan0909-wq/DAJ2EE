@@ -4,17 +4,18 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-
 @Entity
 @Table(name = "bookings")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Booking {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user; // Thêm để liên kết với tài khoản người dùng
+    private User user; // Liên kết với tài khoản người dùng
 
     @ManyToOne
     @JoinColumn(name = "showtime_id")
@@ -22,8 +23,11 @@ public class Booking {
 
     private String customerName;
     private String customerEmail;
+    private String customerPhone;
     private String seatNumbers; // Lưu dạng chuỗi: "A1, A2, A3"
     private double totalAmount;
     private LocalDateTime bookingTime;
-    private String customerPhone; // Thêm dòng này
+
+    // Thêm trường status này là Controller sẽ tự động hết báo lỗi đỏ
+    private String status;
 }

@@ -1,4 +1,5 @@
 package com.example.demoj2ee.model;
+
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;

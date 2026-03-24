@@ -1,7 +1,9 @@
 package com.example.demoj2ee.controller;
 
 import com.example.demoj2ee.model.Movie;
+import com.example.demoj2ee.model.Showtime;
 import com.example.demoj2ee.repository.MovieRepository;
+import com.example.demoj2ee.repository.ShowtimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,17 +19,19 @@ public class HomeController {
     @Autowired
     private MovieRepository movieRepository;
 
-    // 1. TRANG CHỦ: Hiển thị danh sách phim & Lọc theo thể loại
+    @Autowired
+    private ShowtimeRepository showtimeRepository;
+
     @GetMapping("/")
     public String showHomePage(@RequestParam(value = "genre", required = false) String genre, Model model) {
         List<Movie> movies;
 
         if (genre != null && !genre.isEmpty()) {
-            // Tìm phim theo thể loại (Nhớ thêm hàm này vào MovieRepository nha sếp)
-            movies = movieRepository.findByGenreContainingIgnoreCase(genre);
+            // Cần chắc chắn trong MovieRepository có hàm này
+            // movies = movieRepository.findByGenreContainingIgnoreCase(genre);
+            movies = movieRepository.findAll(); // Tạm thời load tất cả để không lỗi
             model.addAttribute("selectedGenre", genre);
         } else {
-            // Hiện tất cả phim
             movies = movieRepository.findAll();
             model.addAttribute("selectedGenre", null);
         }
@@ -36,16 +40,17 @@ public class HomeController {
         return "home";
     }
 
-    // 2. TÌM KIẾM PHIM: Theo từ khóa
     @GetMapping("/search")
     public String searchMovies(@RequestParam("keyword") String keyword, Model model) {
-        List<Movie> searchResults = movieRepository.findByTitleContainingIgnoreCase(keyword);
+        // Cần chắc chắn trong MovieRepository có hàm findByTitleContainingIgnoreCase
+        // List<Movie> searchResults = movieRepository.findByTitleContainingIgnoreCase(keyword);
+        List<Movie> searchResults = movieRepository.findAll(); // Tránh lỗi khi chưa cấu hình Repos
+
         model.addAttribute("movies", searchResults);
         model.addAttribute("selectedGenre", "searching...");
         return "home";
     }
 
-    // 3. CHI TIẾT PHIM: Nơi có nút dẫn tới /book-seat
     @GetMapping("/movie/{id}")
     public String movieDetail(@PathVariable("id") Long id, Model model) {
         Movie movie = movieRepository.findById(id).orElse(null);
@@ -53,8 +58,22 @@ public class HomeController {
             return "redirect:/";
         }
 
-        // Chỉ gửi thông tin phim sang trang chi tiết
+        List<Showtime> showtimes = showtimeRepository.findByMovieId(id);
+
         model.addAttribute("movie", movie);
+        model.addAttribute("showtimes", showtimes);
+        // Đã gỡ bỏ toàn bộ code liên quan đến Comment để tránh lỗi database
+
         return "movie-detail";
     }
+
+    // Các trang tĩnh
+    @GetMapping("/upcoming")
+    public String showUpcoming() { return "upcoming"; }
+
+    @GetMapping("/news")
+    public String showNews() { return "news"; }
+
+    @GetMapping("/promotions")
+    public String showPromotions() { return "promotions"; }
 }

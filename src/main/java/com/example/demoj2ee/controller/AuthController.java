@@ -1,66 +1,73 @@
-package com.example.demoj2ee.controller; // Nhớ đổi tên package theo project sếp nha
+package com.example.demoj2ee.controller;
 
 import com.example.demoj2ee.model.User;
-import com.example.demoj2ee.service.AuthService;import jakarta.servlet.http.HttpSession;
+import com.example.demoj2ee.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AuthController {
 
     @Autowired
-    private AuthService authService;
+    private UserRepository userRepository;
 
-    // Mở giao diện
+    // ----- PHẦN ĐĂNG KÝ -----
+    @GetMapping("/register")
+    public String showRegisterForm() {
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String registerUser(@RequestParam String username, @RequestParam String password,
+                               @RequestParam String email, @RequestParam String fullName,
+                               Model model) {
+        // Kiểm tra xem tên đăng nhập hoặc email đã tồn tại chưa
+        if (userRepository.existsByUsername(username) || userRepository.existsByEmail(email)) {
+            model.addAttribute("error", "Tên đăng nhập hoặc Email đã được sử dụng!");
+            return "register";
+        }
+
+        // Tạo tài khoản mới (Đã bỏ thuộc tính Phone và Role để khớp Database)
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setPassword(password); // Tạm thời lưu thẳng pass
+        newUser.setEmail(email);
+        newUser.setFullName(fullName);
+        userRepository.save(newUser);
+
+        return "redirect:/login?success=true";
+    }
+
+    // ----- PHẦN ĐĂNG NHẬP -----
     @GetMapping("/login")
-    public String showLoginPage() {
+    public String showLoginForm() {
         return "login";
     }
 
-    // XỬ LÝ KHI BẤM NÚT ĐĂNG KÝ
-    @PostMapping("/register")
-    public String processRegister(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
-        String result = authService.registerNewUser(user);
-
-        if ("SUCCESS".equals(result)) {
-            // Gửi tin nhắn thành công qua HTML
-            redirectAttributes.addFlashAttribute("success", "Đăng ký thành công! Hãy đăng nhập để vào Rạp PELE.");
-        } else {
-            // Gửi tin nhắn lỗi (trùng username)
-            redirectAttributes.addFlashAttribute("error", result);
-        }
-        return "redirect:/login"; // Đá về lại trang login
-    }
-
-    // XỬ LÝ KHI BẤM NÚT ĐĂNG NHẬP
     @PostMapping("/login")
-    public String processLogin(@RequestParam("username") String username,
-                               @RequestParam("password") String password,
-                               HttpSession session,
-                               RedirectAttributes redirectAttributes) {
+    public String loginUser(@RequestParam String username, @RequestParam String password,
+                            HttpSession session, Model model) {
+        User user = userRepository.findByUsername(username);
 
-        User user = authService.authenticate(username, password);
-
-        if (user != null) {
-            // ĐĂNG NHẬP THÀNH CÔNG: Lưu thông tin vào Session (Phiên làm việc)
+        // Kiểm tra đúng tên và mật khẩu
+        if (user != null && user.getPassword().equals(password)) {
             session.setAttribute("loggedInUser", user);
-            return "redirect:/"; // Đá về trang chủ
-        } else {
-            // THẤT BẠI: Báo lỗi
-            redirectAttributes.addFlashAttribute("error", "Tên đăng nhập hoặc mật khẩu không chính xác!");
-            return "redirect:/login";
+            return "redirect:/";
         }
+
+        model.addAttribute("error", "Sai tên đăng nhập hoặc mật khẩu!");
+        return "login";
     }
 
-    // XỬ LÝ ĐĂNG XUẤT
+    // ----- PHẦN ĐĂNG XUẤT -----
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate(); // Xóa sạch trí nhớ của hệ thống về user này
-        return "redirect:/login";
+        session.invalidate();
+        return "redirect:/";
     }
 }

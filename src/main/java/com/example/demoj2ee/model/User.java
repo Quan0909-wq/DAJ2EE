@@ -1,72 +1,45 @@
 package com.example.demoj2ee.model;
 
+
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import lombok.*;
 
 @Entity
 @Table(name = "users")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Các trường quan trọng nhất để nộp bài
-    private String name;
-    private String email;
-    private String password;
-    private String role;
-    private String dateOfBirth; // Để kiểu String cho chắc chắn không bị lỗi định dạng
-    private String address;
-    private String phoneNumber;
+    @Column(nullable = false, unique = true)
+    private String username; // Tên đăng nhập (không được trùng)
 
-    // Giữ lại các trường cũ của project đặt vé để tránh lỗi liên đới
-    private String username;
-    private String fullName;
-    private String phone;
-    private String peleRank;
+    @Column(nullable = false)
+    private String password; // Mật khẩu
 
-    public User() {}
+    @Column(nullable = false, unique = true)
+    private String email; // Email (để sau này làm chức năng gửi Gmail xác nhận)
 
-    // TỰ TAY VIẾT GETTER/SETTER (KHÔNG DÙNG LOMBOK ĐỂ TRÁNH LỖI)
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    private String fullName; // Họ và tên thật
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    private String phone; // Số điện thoại
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    // Mặc định ai đăng ký mới cũng là khách hàng (USER).
+    // Lát nữa mình vào Database sửa 1 tài khoản thành ADMIN để cậu quản lý rạp.
+    private String role = "USER";
+    @Column(columnDefinition = "LONGTEXT")
+    private String avatar;
+    @Column(name = "total_tickets_bought", columnDefinition = "integer default 0")
+    private int totalTicketsBought = 0; // Đếm tổng số vé đã mua
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    @Column(name = "pele_rank")
+    private String peleRank = "GHOUL"; // Mặc định đăng ký mới là Tân Binh (Ghoul)
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    // Sếp nhớ tạo Getter và Setter cho 2 biến này nhé!
+    public int getTotalTicketsBought() { return totalTicketsBought; }
+    public void setTotalTicketsBought(int totalTicketsBought) { this.totalTicketsBought = totalTicketsBought; }
 
-    public String getDateOfBirth() { return dateOfBirth; }
-    public void setDateOfBirth(String dateOfBirth) { this.dateOfBirth = dateOfBirth; }
-
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
-
-    public String getPhoneNumber() { return phoneNumber; }
-    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
-
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        if (this.username == null) {
-            this.username = "user_" + System.currentTimeMillis();
-        }
-    }
+    public String getPeleRank() { return peleRank; }
+    public void setPeleRank(String peleRank) { this.peleRank = peleRank; }
 }

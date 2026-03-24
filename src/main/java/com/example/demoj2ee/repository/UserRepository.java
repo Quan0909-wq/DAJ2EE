@@ -2,19 +2,14 @@ package com.example.demoj2ee.repository;
 
 import com.example.demoj2ee.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
+    // Dùng cho chức năng Đăng Nhập
     User findByUsername(String username);
 
-    // Hàm "quyền lực" để xóa sạch và reset ID của User về 1
-    @Modifying
-    @Transactional
-    @Query(value = "TRUNCATE TABLE users", nativeQuery = true)
-    void truncateTable();
+    // Dùng cho chức năng Đăng Ký (Kiểm tra xem đã có ai dùng chưa)
+    boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
 }
