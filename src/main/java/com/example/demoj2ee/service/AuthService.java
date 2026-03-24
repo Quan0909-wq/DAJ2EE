@@ -1,6 +1,7 @@
 package com.example.demoj2ee.service;
 
 import com.example.demoj2ee.model.User;
+// DÒNG QUAN TRỌNG NHẤT ĐÂY: Mời Repository vào làm việc
 import com.example.demoj2ee.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class AuthService {
             return "Tên đăng nhập đã tồn tại! Vui lòng chọn tên khác ma mị hơn.";
         }
 
-        // Chỗ này sau này làm dự án thật sếp nhớ mã hóa mật khẩu (Bcrypt) nhé, giờ anh em mình lưu thô cho dễ test
+        // Lưu xuống Database
         userRepository.save(newUser);
         return "SUCCESS";
     }

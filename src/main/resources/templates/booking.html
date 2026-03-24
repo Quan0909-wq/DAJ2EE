@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chọn Ghế - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #E50914;
+            --bg-body: #050505;
+            --bg-card: #121212;
+            --seat-empty: #252525;
+        }
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background-color: var(--bg-body);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .main-wrapper {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .movie-info h2 { font-size: 1.5rem; font-weight: 800; margin: 0; }
+        .movie-info p { font-size: 0.8rem; color: #888; margin-bottom: 15px; }
+
+        .screen-container { width: 70%; margin: 0 auto 30px auto; text-align: center; }
+        .screen-curve {
+            height: 8px; width: 100%;
+            border-top: 3px solid var(--primary-red);
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+            box-shadow: 0 -5px 15px rgba(229, 9, 20, 0.4);
+        }
+        .screen-text { color: var(--primary-red); font-size: 0.6rem; letter-spacing: 5px; font-weight: 700; margin-top: 5px; }
+
+        .seat-container { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .seat-row { display: flex; gap: 6px; align-items: center; }
+        .row-label { width: 20px; font-weight: 800; color: var(--primary-red); text-align: center; font-size: 0.7rem; }
+
+        .seat {
+            width: 28px; height: 28px;
+            background: var(--seat-empty);
+            border: 1px solid #333;
+            border-radius: 5px 5px 8px 8px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.65rem; font-weight: 600; color: #555;
+            transition: 0.2s;
+        }
+        .seat:hover:not(.occupied) { border-color: var(--primary-red); color: #fff; transform: scale(1.1); }
+        .seat.selected {
+            background: var(--primary-red) !important;
+            color: #fff !important;
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.6);
+        }
+        .seat.occupied { background: #1a1a1a !important; color: #333 !important; cursor: not-allowed; }
+
+        .legend-box {
+            margin-top: 25px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(229, 9, 20, 0.2);
+            border-radius: 12px;
+            display: inline-block;
+        }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 700; color: #999; }
+        .legend .seat { width: 18px; height: 18px; font-size: 0; }
+
+        .booking-card {
+            background: var(--bg-card); padding: 20px; border-radius: 15px;
+            border-left: 4px solid var(--primary-red);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-height: 90vh; overflow-y: auto;
+        }
+        .combo-item {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .combo-qty {
+            width: 45px;
+            height: 25px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .text-price { color: var(--primary-red); font-weight: 800; font-size: 1.5rem; }
+        .btn-confirm { padding: 12px; font-size: 0.9rem; text-transform: uppercase; font-weight: 800; }
+
+        .booking-card::-webkit-scrollbar { width: 4px; }
+        .booking-card::-webkit-scrollbar-thumb { background: var(--primary-red); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="container-fluid">
+        <div class="row justify-content-center g-4">
+
+            <div class="col-lg-7 text-center">
+                <div class="movie-info text-start mb-4 ps-5">
+                    <h2 th:text="${showtime.movie.title}"></h2>
+                    <p th:text="${showtime.room.name} + ' | ' + ${#temporals.format(showtime.startTime, 'HH:mm - dd/MM/yyyy')}"></p>
+                </div>
+
+                <div class="screen-container">
+                    <div class="screen-curve"></div>
+                    <div class="screen-text">MÀN HÌNH</div>
+                </div>
+
+                <div class="seat-container">
+                    <div class="seat-row" th:each="r : ${#numbers.sequence(1, rows)}">
+                        <div class="row-label" th:text="${#strings.substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', r-1, r)}"></div>
+                        <div class="seat" th:each="c : ${#numbers.sequence(1, cols)}"
+                             th:data-seat="${#strings.substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', r-1, r)} + ${c}"
+                             onclick="toggleSeat(this)">
+                            <span th:text="${c}"></span>
+                        </div>
+                        <div class="row-label" th:text="${#strings.substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', r-1, r)}"></div>
+                    </div>
+                </div>
+
+                <div class="legend-box">
+                    <div class="d-flex gap-4">
+                        <div class="legend-item"><div class="seat"></div> TRỐNG</div>
+                        <div class="legend-item"><div class="seat selected"></div> ĐANG CHỌN</div>
+                        <div class="legend-item"><div class="seat occupied"><i class="fa-solid fa-xmark"></i></div> ĐÃ BÁN</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <form action="/booking/checkout" method="POST" class="booking-card">
+                    <input type="hidden" name="showtimeId" th:value="${showtime.id}">
+                    <input type="hidden" name="seats" id="seats-input">
+                    <input type="hidden" name="totalAmount" id="amount-input">
+
+                    <h5 class="fw-bold mb-3 border-bottom border-secondary pb-2">VÉ CỦA BẠN</h5>
+
+                    <div class="mb-3">
+                        <p class="text-secondary small fw-bold mb-1">GHẾ CHỌN</p>
+                        <h6 id="selected-seats-list" class="fw-bold text-white m-0">Chưa chọn ghế</h6>
+                    </div>
+
+                    <div class="mb-4">
+                        <p class="text-warning small fw-bold mb-2"><i class="fa-solid fa-popcorn me-1"></i> THÊM COMBO</p>
+                        <div th:each="p : ${products}" class="combo-item d-flex justify-content-between align-items-center">
+                            <div style="flex: 1;">
+                                <div class="small fw-bold text-white" th:text="${p.name}" style="font-size: 0.7rem;">Combo</div>
+                                <div class="text-danger fw-bold" th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + 'đ'" style="font-size: 0.75rem;">0đ</div>
+                            </div>
+                            <input type="number" class="form-control combo-qty bg-dark text-white border-secondary p-0"
+                                   value="0" min="0" th:data-price="${p.price}" onchange="updateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="mb-4 border-top border-secondary pt-2">
+                        <p class="text-secondary small fw-bold mb-1">TỔNG TIỀN</p>
+                        <div class="text-price"><span id="total-price">0</span> <small class="fs-6">đ</small></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger w-100 btn-confirm" id="btn-confirm" disabled>
+                        XÁC NHẬN
+                    </button>
+
+                    <a href="/" class="btn btn-link btn-sm w-100 text-secondary mt-2 text-decoration-none">Quay lại trang chủ</a>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    let selectedSeats = [];
+    const pricePerSeat = [[${showtime.price}]];
+    const occupiedSeatsStr = [[${occupiedSeats}]] || "";
+    const occupiedSeats = occupiedSeatsStr.split(',').filter(s => s !== "");
+
+    // Đánh dấu ghế đã bán
+    document.querySelectorAll('.seat').forEach(seat => {
+        if (occupiedSeats.includes(seat.getAttribute('data-seat'))) {
+            seat.classList.add('occupied');
+            seat.innerHTML = '<i class="fa-solid fa-xmark" style="font-size: 8px;"></i>';
+        }
+    });
+
+    // Hàm chọn ghế
+    function toggleSeat(element) {
+        if (element.classList.contains('occupied')) return;
+        const seatId = element.getAttribute('data-seat');
+        if (element.classList.contains('selected')) {
+            element.classList.remove('selected');
+            selectedSeats = selectedSeats.filter(s => s !== seatId);
+        } else {
+            element.classList.add('selected');
+            selectedSeats.push(seatId);
+        }
+        updateTotal(); // Gọi hàm tính tiền mỗi khi chọn ghế
+    }
+
+    // HÀM TÍNH TỔNG TIỀN (GỒM GHẾ + BẮP NƯỚC)
+    function updateTotal() {
+        // Tiền ghế
+        const seatTotal = selectedSeats.length * pricePerSeat;
+
+        // Tiền bắp nước
+        let comboTotal = 0;
+        document.querySelectorAll('.combo-qty').forEach(input => {
+            const qty = parseInt(input.value) || 0;
+            const price = parseFloat(input.getAttribute('data-price'));
+            comboTotal += qty * price;
+        });
+
+        const total = seatTotal + comboTotal;
+
+        // Cập nhật giao diện
+        document.getElementById('selected-seats-list').innerText = selectedSeats.length > 0 ? selectedSeats.join(', ') : 'Chưa chọn ghế';
+        document.getElementById('total-price').innerText = total.toLocaleString();
+
+        // Cập nhật input để gửi form
+        document.getElementById('seats-input').value = selectedSeats.join(',');
+        document.getElementById('amount-input').value = total;
+
+        // Bật/tắt nút xác nhận
+        document.getElementById('btn-confirm').disabled = selectedSeats.length === 0;
+    }
+</script>
+
+</body>
+</html>

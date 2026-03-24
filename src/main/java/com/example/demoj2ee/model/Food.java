@@ -1,24 +1,20 @@
 package com.example.demoj2ee.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
+@Data // Tui thấy sếp có cài Lombok rồi nên xài luôn cho lẹ, khỏi viết Getter/Setter
 @Table(name = "foods")
-@Getter
-@Setter
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name; // Ví dụ: Combo Bắp Phô Mai + 2 Nước
+    private String name;
+    private double price;
+    private String description;
 
-    private double price; // Giá tiền
-
-    private String description; // Mô tả (Gồm 1 bắp lớn, 2 nước ngọt lớn...)
-
-    private String imageUrl; // Link ảnh cục bắp nước
+    @Column(columnDefinition = "TEXT")
+    private String imageUrl;
 }

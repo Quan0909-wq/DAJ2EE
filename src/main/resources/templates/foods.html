@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PELE Cinema - Quầy Bắp Nước</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0b0c10; color: white; font-family: 'Montserrat', sans-serif; padding-top: 80px; }
+        .navbar { background: rgba(0, 0, 0, 0.9); border-bottom: 1px solid #E50914; }
+
+        .page-title { color: #E50914; font-weight: 800; text-transform: uppercase; text-shadow: 0 0 10px rgba(229, 9, 20, 0.5); }
+
+        /* Hiệu ứng thẻ bắp nước */
+        .food-card {
+            background: #1f2833; border: 1px solid #333; border-radius: 15px;
+            overflow: hidden; transition: 0.3s; height: 100%;
+        }
+        .food-card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(229, 9, 20, 0.3); border-color: #E50914; }
+
+        .food-img { width: 100%; height: 250px; object-fit: cover; border-bottom: 3px solid #E50914; }
+
+        .food-title { font-weight: 700; color: #fff; font-size: 1.2rem; }
+        .food-desc { color: #c5c6c7; font-size: 0.9rem; min-height: 50px; }
+        .food-price { color: #ffc107; font-weight: 800; font-size: 1.4rem; }
+
+        .btn-add-cart { background-color: #E50914; color: white; border: none; font-weight: bold; width: 100%; padding: 10px; border-radius: 8px; transition: 0.3s; }
+        .btn-add-cart:hover { background-color: #b80710; box-shadow: 0 0 15px rgba(229, 9, 20, 0.6); }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark fixed-top">
+    <div class="container d-flex justify-content-between">
+        <a class="navbar-brand fw-bold" href="/"><i class="fa-solid fa-ghost text-danger"></i> PELE <span class="text-danger">CINEMA</span></a>
+        <a href="#" class="btn btn-outline-warning rounded-pill px-4 fw-bold">
+            <i class="fa-solid fa-cart-shopping me-2"></i> GIỎ HÀNG (0)
+        </a>
+    </div>
+</nav>
+
+<div class="container mb-5">
+    <div class="text-center mb-5 mt-4">
+        <h1 class="page-title"><i class="fa-solid fa-popcorn me-2"></i> QUẦY TIẾP TẾ</h1>
+        <p class="text-secondary">Nạp năng lượng trước khi bước vào thế giới điện ảnh</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4" th:each="food : ${foods}">
+            <div class="food-card">
+                <img th:src="${food.imageUrl}" class="food-img" alt="Hình ảnh bắp nước">
+                <div class="p-4">
+                    <h3 class="food-title" th:text="${food.name}">Tên Combo</h3>
+                    <p class="food-desc mt-2" th:text="${food.description}">Mô tả combo...</p>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="food-price" th:text="${#numbers.formatDecimal(food.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">Giá</span>
+                    </div>
+
+                    <form action="#" method="POST" class="mt-4">
+                        <input type="hidden" name="foodId" th:value="${food.id}">
+                        <button type="button" class="btn-add-cart" onclick="alert('Tính năng giỏ hàng đang bảo trì để sếp Quan code tiếp!')">
+                            <i class="fa-solid fa-plus me-2"></i> THÊM VÀO GIỎ
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
