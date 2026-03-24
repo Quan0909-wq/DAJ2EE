@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Phim - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #E50914; --bg-dark: #0b0c10; --bg-card: #1f2833; }
+        body { background-color: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 70px; }
+        .navbar { background: rgba(0,0,0,0.9) !important; border-bottom: 2px solid var(--primary); }
+        .sidebar { background: #0d0e12; min-height: 100vh; border-right: 1px solid rgba(255,255,255,0.05); }
+        .nav-link.admin-nav { color: #aaa; padding: 14px 20px; transition: 0.3s; border-left: 3px solid transparent; }
+        .nav-link.admin-nav:hover, .nav-link.admin-nav.active { background: rgba(229,9,20,0.1); color: var(--primary); border-left-color: var(--primary); }
+        .form-control-dark { background: #1a1a1a; border: 1px solid #333; color: #fff; }
+        .form-control-dark:focus { background: #1a1a1a; border-color: var(--primary); color: #fff; box-shadow: none; }
+        .form-label { color: #aaa; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/">
+            <span style="color:#fff">PELE</span> <span style="color:var(--primary)">CINEMA</span>
+            <span class="badge bg-danger ms-2"><i class="fa-solid fa-shield-halved me-1"></i>ADMIN</span>
+        </a>
+        <div class="d-flex align-items-center">
+            <a href="/admin/movies" class="btn btn-outline-secondary btn-sm me-3"><i class="fa-solid fa-arrow-left me-1"></i>Quay Lại</a>
+            <span class="text-secondary me-3"><strong class="text-warning" th:text="${session.loggedInUser.fullName}">Admin</strong></span>
+            <a href="/logout" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-right-from-bracket me-1"></i>Đăng Xuất</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sidebar p-0">
+            <div class="p-3 border-bottom border-secondary">
+                <h6 class="text-uppercase text-secondary mb-0"><i class="fa-solid fa-gear me-2"></i>QUẢN TRỊ</h6>
+            </div>
+            <nav class="nav flex-column p-0">
+                <a href="/admin" class="nav-link admin-nav"><i class="fa-solid fa-chart-line me-3"></i>Tổng Quan</a>
+                <a href="/admin/movies" class="nav-link admin-nav active"><i class="fa-solid fa-film me-3"></i>Quản Lý Phim</a>
+                <a href="/admin/showtimes" class="nav-link admin-nav"><i class="fa-solid fa-clock me-3"></i>Suất Chiếu</a>
+                <a href="/admin/bookings" class="nav-link admin-nav"><i class="fa-solid fa-receipt me-3"></i>Quản Lý Hoá Đơn</a>
+                <a href="/" class="nav-link admin-nav"><i class="fa-solid fa-house me-3"></i>Về Trang Chính</a>
+            </nav>
+        </div>
+
+        <div class="col-md-10 p-4">
+            <h4 class="fw-bold mb-4">
+                <i class="fa-solid fa-film text-danger me-2"></i>
+                <span th:text="${movie.id != null} ? 'Sửa Phim' : 'Thêm Phim Mới'">Thêm Phim Mới</span>
+            </h4>
+
+            <div class="card border-secondary bg-dark">
+                <div class="card-body p-4">
+                    <form th:action="@{/admin/movies/save}" method="POST">
+                        <input type="hidden" name="id" th:value="${movie.id}" th:if="${movie.id != null}">
+
+                        <div class="row g-4">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label class="form-label"><i class="fa-solid fa-clapperboard me-2"></i>Tên Phim *</label>
+                                    <input type="text" name="title" class="form-control form-control-dark" required th:value="${movie.title ?: ''}" placeholder="VD: Đào, Phở và Piano">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label"><i class="fa-solid fa-align-left me-2"></i>Mô Tả</label>
+                                    <textarea name="description" class="form-control form-control-dark" rows="4" th:text="${movie.description ?: ''}" placeholder="Nội dung tóm tắt phim..."></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label"><i class="fa-solid fa-user me-2"></i>Đạo Diễn</label>
+                                        <input type="text" name="director" class="form-control form-control-dark" th:value="${movie.director ?: ''}" placeholder="VD: Trần Anh Hùng">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label"><i class="fa-solid fa-users me-2"></i>Diễn Viên</label>
+                                        <input type="text" name="cast" class="form-control form-control-dark" th:value="${movie.cast ?: ''}" placeholder="VD: Minh Duy, Phương Linh Đan">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label"><i class="fa-solid fa-clock me-2"></i>Thời Lượng (phút) *</label>
+                                        <input type="number" name="duration" class="form-control form-control-dark" required min="1" th:value="${movie.duration ?: 90}" placeholder="90">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label"><i class="fa-solid fa-calendar me-2"></i>Khởi Chiếu *</label>
+                                        <input type="date" name="releaseDate" class="form-control form-control-dark" required th:value="${movie.releaseDate ?: ''}">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label"><i class="fa-solid fa-tag me-2"></i>Thể Loại</label>
+                                        <select name="genre" class="form-select form-control-dark">
+                                            <option value="">-- Chọn thể loại --</option>
+                                            <option value="Hành Động" th:selected="${movie.genre == 'Hành Động'}">Hành Động</option>
+                                            <option value="Kinh Dị" th:selected="${movie.genre == 'Kinh Dị'}">Kinh Dị</option>
+                                            <option value="Hài Hước" th:selected="${movie.genre == 'Hài Hước'}">Hài Hước</option>
+                                            <option value="Tình Cảm" th:selected="${movie.genre == 'Tình Cảm'}">Tình Cảm</option>
+                                            <option value="Viễn Tưởng" th:selected="${movie.genre == 'Viễn Tưởng'}">Viễn Tưởng</option>
+                                            <option value="Hoạt Hình" th:selected="${movie.genre == 'Hoạt Hình'}">Hoạt Hình</option>
+                                            <option value="Trinh Thám" th:selected="${movie.genre == 'Trinh Thám'}">Trinh Thám</option>
+                                            <option value="Thần Thoại" th:selected="${movie.genre == 'Thần Thoại'}">Thần Thoại</option>
+                                            <option value="Chiến Tranh" th:selected="${movie.genre == 'Chiến Tranh'}">Chiến Tranh</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label"><i class="fa-solid fa-image me-2"></i>Link Poster</label>
+                                    <input type="url" name="posterUrl" class="form-control form-control-dark" th:value="${movie.posterUrl ?: ''}" placeholder="https://...">
+                                    <div class="mt-2 text-center" th:if="${movie.posterUrl != null and !movie.posterUrl.isEmpty()}">
+                                        <img th:src="${movie.posterUrl}" class="img-thumbnail" style="max-height:200px; border-radius:8px;" alt="poster"
+                                             onerror="this.style.display='none';">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label"><i class="fa-brands fa-youtube me-2"></i>Link Trailer (YouTube)</label>
+                                    <input type="url" name="trailerUrl" class="form-control form-control-dark" th:value="${movie.trailerUrl ?: ''}" placeholder="https://www.youtube.com/embed/...">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 d-flex gap-3">
+                            <button type="submit" class="btn btn-danger rounded-pill px-5 fw-bold">
+                                <i class="fa-solid fa-floppy-disk me-2"></i>Lưu Phim
+                            </button>
+                            <a href="/admin/movies" class="btn btn-secondary rounded-pill px-4">Hủy Bỏ</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

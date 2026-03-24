@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi Tiết Hoá Đơn - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #E50914; --bg-dark: #0b0c10; --bg-card: #1f2833; }
+        body { background-color: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 70px; }
+        .navbar { background: rgba(0,0,0,0.9) !important; border-bottom: 2px solid var(--primary); }
+        .invoice-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; }
+        .info-row { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 12px 0; }
+        .info-label { color: #aaa; font-size: 0.85rem; text-transform: uppercase; }
+        .info-value { color: #fff; font-weight: 600; }
+        .total-row { background: rgba(229,9,20,0.15); border-radius: 10px; padding: 15px; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/">
+            <span style="color:#fff">PELE</span> <span style="color:var(--primary)">CINEMA</span>
+            <span class="badge bg-danger ms-2"><i class="fa-solid fa-shield-halved me-1"></i>ADMIN</span>
+        </a>
+        <div class="d-flex align-items-center">
+            <a href="/admin/bookings" class="btn btn-outline-secondary btn-sm me-3"><i class="fa-solid fa-arrow-left me-1"></i>Quay Lại</a>
+            <a href="/logout" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-right-from-bracket me-1"></i>Đăng Xuất</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <h4 class="fw-bold mb-4"><i class="fa-solid fa-receipt text-danger me-2"></i>Chi Tiết Hoá Đơn</h4>
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="invoice-card p-4 mb-4">
+                <h5 class="fw-bold mb-4 border-bottom border-secondary pb-3">
+                    <i class="fa-solid fa-ticket text-warning me-2"></i>Thông Tin Vé
+                </h5>
+
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">Mã Hoá Đơn</span>
+                    <span class="info-value">#<span th:text="${booking.id}">1</span></span>
+                </div>
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">Khách Hàng</span>
+                    <span class="info-value" th:text="${booking.customerName}">Name</span>
+                </div>
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">Email</span>
+                    <span class="info-value" th:text="${booking.customerEmail}">email</span>
+                </div>
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">Số Điện Thoại</span>
+                    <span class="info-value" th:text="${booking.customerPhone}">phone</span>
+                </div>
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">Phim</span>
+                    <span class="info-value text-warning" th:text="${booking.showtime?.movie?.title ?: 'N/A'}">Phim</span>
+                </div>
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">Suất Chiếu</span>
+                    <span class="info-value" th:text="${booking.showtime != null ? #temporals.format(booking.showtime.startTime, 'dd/MM/yyyy HH:mm') : 'N/A'}">Time</span>
+                </div>
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">Phòng Chiếu</span>
+                    <span class="info-value" th:text="${booking.showtime?.room?.name ?: 'N/A'}">Phòng</span>
+                </div>
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">Số Ghế</span>
+                    <span class="info-value">
+                        <span class="badge bg-danger" th:each="seat : ${booking.seatNumbers.split(',')}" th:text="${seat.trim()}" style="margin-right:4px;"></span>
+                    </span>
+                </div>
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">Ngày Đặt</span>
+                    <span class="info-value" th:text="${#temporals.format(booking.bookingTime, 'dd/MM/yyyy HH:mm')}">Time</span>
+                </div>
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">Trạng Thái</span>
+                    <span class="info-value">
+                        <span th:if="${booking.status == 'SUCCESS'}" class="badge bg-success">Thành Công</span>
+                        <span th:if="${booking.status == 'CANCELLED'}" class="badge bg-danger">Đã Hủy</span>
+                        <span th:if="${booking.status == 'PENDING'}" class="badge bg-warning text-dark">Chờ Xác Nhận</span>
+                    </span>
+                </div>
+
+                <div class="total-row mt-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold text-uppercase">Tổng Thanh Toán</span>
+                        <span class="fs-4 fw-bold text-danger" th:text="${#numbers.formatDecimal(booking.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="invoice-card p-4">
+                <h5 class="fw-bold mb-4 border-bottom border-secondary pb-3">
+                    <i class="fa-solid fa-gear text-secondary me-2"></i>Thao Tác
+                </h5>
+
+                <form th:action="@{/admin/bookings/update-status}" method="POST" class="mb-3">
+                    <input type="hidden" name="id" th:value="${booking.id}">
+                    <label class="info-label mb-2">Cập nhật trạng thái</label>
+                    <div class="d-flex gap-2">
+                        <select name="status" class="form-select bg-dark border-secondary text-white">
+                            <option value="SUCCESS" th:selected="${booking.status == 'SUCCESS'}">Thành Công</option>
+                            <option value="PENDING" th:selected="${booking.status == 'PENDING'}">Chờ Xác Nhận</option>
+                            <option value="CANCELLED" th:selected="${booking.status == 'CANCELLED'}">Hủy</option>
+                        </select>
+                        <button type="submit" class="btn btn-danger rounded-pill px-4">Cập Nhật</button>
+                    </div>
+                </form>
+
+                <a th:href="@{/movie/{id}(id=${booking.showtime?.movie?.id})}" class="btn btn-outline-secondary w-100 rounded-pill" target="_blank">
+                    <i class="fa-solid fa-film me-2"></i>Xem Phim
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
