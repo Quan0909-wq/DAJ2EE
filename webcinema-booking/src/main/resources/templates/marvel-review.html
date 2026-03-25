@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Review Marvel 2026 - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-color: #E50914; --bg-dark: #0b0c10; }
+        body { background-color: var(--bg-dark); color: #fff; padding-top: 100px; font-family: 'Montserrat', sans-serif; }
+
+        /* Navbar */
+        .navbar { background: rgba(11, 12, 16, 0.95) !important; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .navbar-brand { font-weight: 800; color: var(--primary-color) !important; }
+
+        /* Khung bài viết */
+        .detail-box { background: #121212; border: 1px solid #1f2833; border-radius: 20px; padding: 50px; max-width: 850px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .back-link { color: var(--primary-color); text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .back-link:hover { color: #fff; text-shadow: 0 0 10px var(--primary-color); letter-spacing: 1px; }
+
+        .content-img { width: 100%; border-radius: 15px; margin: 30px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); }
+
+        /* Nội dung SÁNG TRƯNG nè sếp */
+        .content { line-height: 1.9; color: #fff; font-size: 1.1rem; text-align: justify; }
+        .content p { margin-bottom: 20px; }
+        .highlight-quote { border-left: 4px solid var(--primary-color); background: rgba(229, 9, 20, 0.05); padding: 20px; font-style: italic; border-radius: 0 10px 10px 0; margin: 30px 0; color: #fff; }
+
+        .btn-booking { background: linear-gradient(45deg, #E50914, #800000); border: none; font-weight: 800; padding: 15px 40px; font-size: 1.2rem; transition: 0.3s; }
+        .btn-booking:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(229, 9, 20, 0.5); color: #fff; }
+    </style>
+</head>
+<body>
+<nav th:replace="~{home :: nav}"></nav>
+<div class="container mb-5">
+    <div class="detail-box">
+        <a href="/news" class="back-link d-inline-block mb-4"><i class="fa-solid fa-arrow-left-long me-2"></i>QUAY LẠI</a>
+        <span class="badge bg-danger mb-2 px-3 py-2 text-uppercase">Review Phim</span>
+        <h1 class="fw-bold mt-2" style="font-size: 2.5rem; line-height: 1.3;">Marvel 2026: Đỉnh Cao Kỹ Xảo Điện Ảnh Tại PELE Cinema</h1>
+        <div class="d-flex align-items-center text-white-50 small mt-3 border-bottom border-secondary pb-4">
+            <span class="me-4"><i class="fa-regular fa-calendar me-2"></i>11/03/2026</span>
+            <span><i class="fa-solid fa-pen-nib me-2"></i>Tác giả: Admin Quan</span>
+        </div>
+        <img src="/img/mavel.jpg" class="content-img" alt="Marvel 2026">
+        <div class="content">
+            <p>Vũ trụ Điện ảnh Marvel (MCU) đã chính thức bước sang một kỷ nguyên hoàn toàn mới! Trải nghiệm xem phim tại PELE Cinema không chỉ là "xem", mà là <b>"sống trong chính bộ phim đó"</b>.</p>
+            <div class="highlight-quote">"PELE tự hào là rạp đầu tiên cập nhật chuẩn hình ảnh IMAX Laser sắc nét gấp 4 lần và hệ thống âm thanh vòm Dolby Atmos 128 kênh độc lập."</div>
+            <h4 class="text-white fw-bold mt-5 mb-3"><i class="fa-solid fa-gift text-danger me-2"></i>ĐẶC QUYỀN ĐẶT VÉ SỚM TẠI PELE</h4>
+            <ul class="text-white">
+                <li class="mb-2"><span class="text-danger fw-bold">1 Combo Bắp Nước Siêu Anh Hùng</span> phiên bản giới hạn.</li>
+                <li>Cơ hội bốc thăm trúng thưởng <span class="text-warning fw-bold">Mô hình Iron Man 1:1</span> trị giá 50.000.000 VNĐ.</li>
+            </ul>
+            <div class="text-center mt-5">
+                <a href="/upcoming" class="btn btn-booking rounded-pill"><i class="fa-solid fa-ticket me-2"></i>SĂN VÉ SUẤT CHIẾU SỚM NGAY</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

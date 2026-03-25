@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PELE Dating - Bảng Tin Thả Thính</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #0a0a0a; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .page-title { color: #ff4757; font-weight: 900; text-transform: uppercase; text-shadow: 0 0 10px rgba(255, 71, 87, 0.5); }
+        .dating-card { background-color: #141414; border: 1px solid #ff4757; border-radius: 12px; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.2); }
+        .host-name { color: #ffc107; font-weight: bold; font-size: 1.5rem; margin-bottom: 0; }
+        .info-text { color: #f8f9fa !important; font-size: 1.1rem; margin-bottom: 8px; }
+        .info-text strong { color: #ff4757; }
+        .bio-box { background-color: #2b0000; border-left: 4px solid #ff4757; padding: 15px; color: #ffffff; font-style: italic; border-radius: 4px; font-size: 1.05rem; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+
+        .btn-tym { border: 1px solid #ff4757; color: #ff4757; font-weight: bold; border-radius: 20px; transition: 0.2s; background: transparent; }
+        .btn-tym:hover { background-color: #ff4757; color: white; }
+        .btn-tym-active { background-color: #ff4757; color: white; font-weight: bold; border: 1px solid #ff4757; border-radius: 20px; transition: 0.2s; }
+        .btn-tym-active:hover { background-color: #e84118; color: white; }
+
+        .btn-comment { border: 1px solid #6c757d; color: #ced4da; font-weight: bold; border-radius: 20px; }
+        .btn-comment:hover { background-color: #343a40; color: white; }
+        .comment-input { background-color: #222 !important; color: #fff !important; border: 1px solid #444; border-radius: 20px; }
+        .comment-input:focus { border-color: #ff4757; box-shadow: 0 0 0 0.25rem rgba(255, 71, 87, 0.25); }
+
+        .comment-scroll { max-height: 250px; overflow-y: auto; overflow-x: hidden; padding-right: 5px; }
+        .comment-scroll::-webkit-scrollbar { width: 6px; }
+        .comment-scroll::-webkit-scrollbar-track { background: #1a1a1a; border-radius: 10px; }
+        .comment-scroll::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+        .comment-scroll::-webkit-scrollbar-thumb:hover { background: #ff4757; }
+
+        .modal-content { background-color: #1a1a1a; border: 2px solid #ff4757; box-shadow: 0 0 20px rgba(255, 71, 87, 0.5); }
+        .action-link { cursor: pointer; color: #adb5bd; text-decoration: none; font-size: 0.85rem; font-weight: bold; transition: 0.2s; }
+        .action-link:hover { color: #ff4757; }
+
+        /* CSS ẢNH AVATAR & HIỆU ỨNG BẤM ĐỔI ẢNH */
+        .avatar-img { object-fit: cover; border: 2px solid #ff4757; }
+        .clickable-avatar { cursor: pointer; transition: 0.3s; position: relative; }
+        .clickable-avatar:hover { opacity: 0.7; box-shadow: 0 0 15px #ffc107; border-radius: 50%; }
+        .clickable-avatar::after { content: "📸"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; transition: 0.3s; font-size: 1.2rem; }
+        .clickable-avatar:hover::after { opacity: 1; }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="page-title">PELE DATING 💘</h1>
+        <p class="text-light fs-5">Bảng tin thả thính - Thoát ế liền tay!</p>
+
+        <button type="button" class="btn btn-warning fw-bold px-4 py-2 mt-2 text-dark" data-bs-toggle="modal" data-bs-target="#postDatingModal" style="border-radius: 30px;">
+            ✍️ ĐĂNG STATUS TÌM CẠ CỨNG
+        </button>
+    </div>
+
+    <form id="avatarUploadForm" th:action="@{/pele-dating/update-avatar}" method="post" enctype="multipart/form-data" class="d-none">
+        <input type="file" id="hiddenAvatarInput" name="avatarFile" accept="image/*" onchange="document.getElementById('avatarUploadForm').submit();">
+    </form>
+
+    <div th:if="${successMessage}" class="alert alert-success bg-success text-white border-0 alert-dismissible fade show text-center fw-bold w-75 mx-auto mb-4" role="alert">
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger bg-danger text-white border-0 alert-dismissible fade show text-center fw-bold w-75 mx-auto mb-4" role="alert">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-4" th:each="date : ${datingList}">
+            <div class="card dating-card p-3">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div th:class="${currentUser != null and date.hostUser.id == currentUser.id} ? 'clickable-avatar me-3' : 'me-3'"
+                             th:onclick="${currentUser != null and date.hostUser.id == currentUser.id} ? 'document.getElementById(\'hiddenAvatarInput\').click();' : ''"
+                             title="Nhấn để đổi Avatar">
+
+                            <div th:if="${date.hostUser == null or date.hostUser.avatar == null}" class="bg-danger rounded-circle d-flex justify-content-center align-items-center fw-bold fs-4" style="width: 50px; height: 50px; color: white; flex-shrink: 0;">
+                                <span th:text="${date.hostUser != null ? #strings.substring(date.hostUser.username,0,1).toUpperCase() : 'U'}">U</span>
+                            </div>
+                            <img th:if="${date.hostUser != null and date.hostUser.avatar != null}" th:src="${date.hostUser.avatar}" class="rounded-circle avatar-img" style="width: 50px; height: 50px; flex-shrink: 0;">
+                        </div>
+
+                        <div>
+                            <h4 class="host-name mb-0" th:text="${date.hostUser != null ? date.hostUser.username : 'Người Dùng Ẩn Danh'}">Tên Người Dùng</h4>
+                            <small class="text-muted" th:text="${#temporals.format(date.createdAt, 'dd/MM/yyyy HH:mm')}">Vừa xong</small>
+                        </div>
+                    </div>
+
+                    <p class="info-text">🎬 <strong>Phim:</strong> <span th:text="${date.movie != null ? date.movie.title : 'Chưa chọn phim'}">Tên Phim</span></p>
+                    <p class="info-text">⏰ <strong>Suất chiếu:</strong> <span th:text="${date.showtime != null ? date.showtime.startTime : 'Chưa rõ'}">19:00</span></p>
+
+                    <div class="bio-box mt-2 mb-3 text-start">
+                        "<span th:text="${date.bioMessage}">Lời thả thính...</span>"
+                    </div>
+
+                    <hr style="border-color: #444; margin: 10px 0;">
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <button type="button" th:id="'like-btn-' + ${date.id}"
+                                th:class="${currentUser != null and date.isLikedBy(currentUser)} ? 'btn btn-tym-active w-50 pe-1' : 'btn btn-tym w-50 pe-1'"
+                                th:onclick="'thangJSdiThaTym(' + ${date.id} + ')'">
+                            <span th:id="'like-text-' + ${date.id}" th:text="${currentUser != null and date.isLikedBy(currentUser)} ? '❤️ Đã Tym' : '🤍 Thả Tym'"></span>
+                            <span th:id="'like-count-' + ${date.id}" th:text="${#lists.size(date.likedByUsers) > 0} ? '(' + ${#lists.size(date.likedByUsers)} + ')' : ''"></span>
+                        </button>
+                        <button type="button" class="btn btn-comment w-50 ps-1" th:onclick="'document.getElementById(\'commentInput' + ${date.id} + '\').focus()'">
+                            💬 Bình luận
+                        </button>
+                    </div>
+
+                    <form th:action="@{/pele-dating/request-match}" method="post" class="d-flex align-items-center bg-dark p-2 rounded-pill mb-3" style="border: 1px solid #444;">
+                        <input type="hidden" name="dateId" th:value="${date.id}">
+
+                        <div class="clickable-avatar me-2" onclick="document.getElementById('hiddenAvatarInput').click();" title="Nhấn để đổi Avatar">
+                            <img th:if="${currentUser != null and currentUser.avatar != null}" th:src="${currentUser.avatar}" class="rounded-circle avatar-img" style="width: 35px; height: 35px; flex-shrink: 0;">
+                            <div th:unless="${currentUser != null and currentUser.avatar != null}" class="bg-secondary rounded-circle d-flex justify-content-center align-items-center" style="width: 35px; height: 35px; flex-shrink: 0; color: white; font-weight: bold;">
+                                <span th:text="${currentUser != null ? #strings.substring(currentUser.username,0,1).toUpperCase() : '✍️'}">C</span>
+                            </div>
+                        </div>
+
+                        <input type="text" name="message" th:id="'commentInput' + ${date.id}" class="form-control comment-input border-0 bg-transparent text-white px-0 shadow-none" placeholder="Viết bình luận ghép đôi..." required>
+                        <button type="submit" class="btn text-danger fw-bold ms-2 px-3" style="border-radius: 20px;">GỬI</button>
+                    </form>
+
+                    <div class="text-start comment-scroll" th:if="${date.matchRequests != null and !date.matchRequests.isEmpty()}">
+                        <div th:each="req : ${date.matchRequests}" class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <div th:if="${req.requester.avatar == null}" class="bg-primary rounded-circle me-2 d-flex justify-content-center align-items-center fw-bold" style="width: 30px; height: 30px; color: white; font-size: 0.8rem; flex-shrink: 0;">
+                                    <span th:text="${#strings.substring(req.requester.username,0,1).toUpperCase()}">U</span>
+                                </div>
+                                <img th:if="${req.requester.avatar != null}" th:src="${req.requester.avatar}" class="rounded-circle avatar-img me-2" style="width: 30px; height: 30px; flex-shrink: 0;">
+
+                                <div class="p-2 rounded flex-grow-1" style="background-color: #222; border: 1px solid #333;">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <strong class="text-info" style="font-size: 0.9rem;" th:text="${req.requester.username}">Tên người cmt</strong>
+                                    </div>
+                                    <p class="mb-0 text-light" style="font-size: 0.95rem;" th:text="${req.message}">Nội dung...</p>
+                                </div>
+                            </div>
+
+                            <div class="ms-5 mt-1 d-flex align-items-center">
+                                <span th:id="'cmt-heart-' + ${req.id}" class="me-3" th:style="${req.isLikedByHost ? 'display:inline-block;' : 'display:none;'}">❤️</span>
+                                <span th:if="${currentUser != null and date.hostUser.id == currentUser.id}">
+                                    <a class="action-link me-3" th:onclick="'likeComment(' + ${req.id} + ')'">Thích</a>
+                                    <a class="action-link" th:onclick="'showReplyForm(' + ${req.id} + ')'">Phản hồi</a>
+                                </span>
+                            </div>
+
+                            <div th:id="'reply-form-' + ${req.id}" class="ms-5 mt-2 d-none">
+                                <div class="d-flex">
+                                    <input type="text" th:id="'reply-input-' + ${req.id}" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Nhập câu trả lời...">
+                                    <button class="btn btn-sm btn-danger ms-2 fw-bold" th:onclick="'sendReply(' + ${req.id} + ')'">Gửi</button>
+                                </div>
+                            </div>
+
+                            <div th:id="'reply-box-' + ${req.id}" th:style="${req.hostReply != null ? 'display:flex;' : 'display:none;'}" class="ms-5 mt-2 align-items-start">
+                                <div th:if="${date.hostUser.avatar == null}" class="bg-danger rounded-circle me-2 d-flex justify-content-center align-items-center fw-bold" style="width: 25px; height: 25px; color: white; font-size: 0.7rem; flex-shrink: 0;">
+                                    <span th:text="${#strings.substring(date.hostUser.username,0,1).toUpperCase()}">C</span>
+                                </div>
+                                <img th:if="${date.hostUser.avatar != null}" th:src="${date.hostUser.avatar}" class="rounded-circle avatar-img me-2" style="width: 25px; height: 25px; flex-shrink: 0;">
+
+                                <div class="p-2 rounded flex-grow-1" style="background-color: #3b0a0f; border: 1px solid #ff4757;">
+                                    <strong class="text-warning" style="font-size: 0.85rem;">Chủ thớt trả lời:</strong>
+                                    <p th:id="'reply-text-' + ${req.id}" class="mb-0 text-light" style="font-size: 0.9rem;" th:text="${req.hostReply}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${#lists.isEmpty(datingList)}" class="col-12 text-center mt-5">
+            <h5 class="text-light" style="line-height: 2;">Chưa có ai đăng status nào.<br>Sếp làm người đi tiên phong nhé! 😎</h5>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="postDatingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-3">
+            <div class="modal-header border-0 pb-0">
+                <h4 class="modal-title fw-bold">Tạo Status Tìm Cạ Cứng 💘</h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/pele-dating/post}" method="post">
+                    <div class="mb-3">
+                        <textarea class="form-control comment-input rounded-3 p-3" rows="4" name="bioMessage" placeholder="Bạn đang nghĩ gì? Sợ ma quá cần người đi xem phim cùng..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-danger w-100 py-2 mt-2 fw-bold" style="border-radius: 20px;">🚀 ĐĂNG LÊN BẢNG TIN</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function thangJSdiThaTym(dateId) {
+        fetch('/pele-dating/toggle-like?dateId=' + dateId, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).then(res => res.json()).then(data => {
+            if (data.success) {
+                let btn = document.getElementById('like-btn-' + dateId);
+                let textSpan = document.getElementById('like-text-' + dateId);
+                let countSpan = document.getElementById('like-count-' + dateId);
+                if (data.isLiked) {
+                    btn.className = 'btn btn-tym-active w-50 pe-1';
+                    textSpan.innerText = '❤️ Đã Tym';
+                } else {
+                    btn.className = 'btn btn-tym w-50 pe-1';
+                    textSpan.innerText = '🤍 Thả Tym';
+                }
+                countSpan.innerText = data.likeCount > 0 ? '(' + data.likeCount + ')' : '';
+            }
+        });
+    }
+
+    function likeComment(reqId) {
+        fetch('/pele-dating/like-comment?requestId=' + reqId, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).then(res => res.json()).then(data => {
+            if (data.success) {
+                let heart = document.getElementById('cmt-heart-' + reqId);
+                heart.style.display = data.isLiked ? 'inline-block' : 'none';
+            }
+        });
+    }
+
+    function showReplyForm(reqId) {
+        let form = document.getElementById('reply-form-' + reqId);
+        form.classList.toggle('d-none');
+    }
+
+    function sendReply(reqId) {
+        let text = document.getElementById('reply-input-' + reqId).value;
+        if (!text) return;
+        fetch('/pele-dating/reply-comment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'requestId=' + reqId + '&replyText=' + encodeURIComponent(text)
+        }).then(res => res.json()).then(data => {
+            if (data.success) {
+                document.getElementById('reply-form-' + reqId).classList.add('d-none');
+                document.getElementById('reply-box-' + reqId).style.display = 'flex';
+                document.getElementById('reply-text-' + reqId).innerText = data.replyText;
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

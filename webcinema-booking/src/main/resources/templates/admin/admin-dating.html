@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PELE Admin - Trung Tâm Phán Xét</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+
+        :root {
+            --pele-red: #E50914;
+            --pele-gold: #ffc107;
+            --bg-dark: #050505;
+            --card-bg: #111111;
+            --glass-border: rgba(229, 9, 20, 0.3);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        /* Header Ma Mị & Công Nghệ */
+        .admin-nav {
+            background: linear-gradient(180deg, rgba(229, 9, 20, 0.15) 0%, transparent 100%);
+            padding: 30px 0;
+            border-bottom: 1px solid var(--glass-border);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--pele-red);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 0 15px rgba(229, 9, 20, 0.8);
+            margin: 0;
+        }
+
+        /* Container & Table Card */
+        .main-wrapper { padding: 0 50px 50px; }
+
+        .judgement-table-container {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 0 30px rgba(0,0,0,1);
+            position: relative;
+        }
+
+        /* Custom Table */
+        .table { color: #e0e0e0; border-collapse: separate; border-spacing: 0 15px; }
+        .table thead th {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--pele-gold);
+            border: none;
+            padding: 15px;
+            font-size: 0.8rem;
+            text-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
+        }
+
+        .table tbody tr {
+            background: rgba(255, 255, 255, 0.03);
+            transition: 0.3s;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(229, 9, 20, 0.05);
+            box-shadow: 0 0 15px rgba(229, 9, 20, 0.2);
+            transform: scale(1.005);
+        }
+
+        .table tbody td {
+            border: none;
+            padding: 20px 15px;
+            vertical-align: middle;
+        }
+
+        .table tbody td:first-child { border-radius: 10px 0 0 10px; }
+        .table tbody td:last-child { border-radius: 0 10px 10px 0; }
+
+        /* Nội dung status rực sáng */
+        .status-bubble {
+            background: #000000;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 12px;
+            color: #fff;
+            font-style: italic;
+            border-left: 4px solid var(--pele-red);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* Khu vực comment hầm hố */
+        .comment-item {
+            background: rgba(255, 193, 7, 0.05);
+            border: 1px solid rgba(255, 193, 7, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .btn-action-post {
+            background: linear-gradient(45deg, #880000, var(--pele-red));
+            border: none;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+
+        .btn-action-post:hover {
+            box-shadow: 0 0 20px rgba(229, 9, 20, 0.8);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .btn-kill-cmt {
+            color: #ff4757;
+            background: none;
+            border: 1px solid #ff4757;
+            border-radius: 5px;
+            width: 24px; height: 24px;
+            line-height: 20px;
+            transition: 0.2s;
+        }
+        .btn-kill-cmt:hover { background: #ff4757; color: white; }
+
+        /* Nút quay lại */
+        .btn-back {
+            color: #888;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn-back:hover { color: var(--pele-gold); }
+    </style>
+</head>
+<body>
+
+<div class="admin-nav">
+    <h1 class="page-title"><i class="fa-solid fa-eye"></i> PELE JUDGEMENT ROOM</h1>
+    <p class="text-secondary small mt-2">Duyệt Thả Thính - Thanh Trừng Toxic</p>
+    <a th:href="@{/admin}" class="btn-back mt-3 d-inline-block">
+        <i class="fa-solid fa-chevron-left me-1"></i> DASHBOARD ADMIN
+    </a>
+</div>
+
+<div class="main-wrapper">
+
+    <div th:if="${successMessage}" class="alert alert-dark border-success text-success text-center fw-bold mb-4 shadow">
+        <i class="fa-solid fa-skull me-2"></i> <span th:text="${successMessage}"></span>
+    </div>
+
+    <div class="judgement-table-container">
+        <table class="table align-middle">
+            <thead>
+            <tr>
+                <th width="5%">ID</th>
+                <th width="15%">ĐỐI TƯỢNG</th>
+                <th width="35%">NỘI DUNG STATUS</th>
+                <th width="15%">LÊN SÓNG</th>
+                <th width="20%">BÌNH LUẬN</th>
+                <th width="10%" class="text-center">XỬ LÝ</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${allPosts}">
+                <td class="text-muted fw-bold" th:text="'#' + ${post.id}">#01</td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <img th:if="${post.hostUser.avatar != null}" th:src="${post.hostUser.avatar}" class="rounded-circle me-2 border border-danger" style="width: 40px; height: 40px; object-fit: cover;">
+                        <div th:unless="${post.hostUser.avatar != null}" class="bg-danger rounded-circle d-flex justify-content-center align-items-center me-2" style="width: 40px; height: 40px; color: white; font-weight: bold;">
+                            <span th:text="${#strings.substring(post.hostUser.username,0,1).toUpperCase()}"></span>
+                        </div>
+                        <span class="fw-bold text-white" th:text="${post.hostUser.username}">admin</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="status-bubble" th:text="${post.bioMessage}">"anh iu ems"</div>
+                </td>
+                <td>
+                    <small class="text-secondary d-block"><i class="fa-regular fa-clock me-1"></i> <span th:text="${#temporals.format(post.createdAt, 'HH:mm')}"></span></small>
+                    <small class="text-secondary d-block"><i class="fa-regular fa-calendar me-1"></i> <span th:text="${#temporals.format(post.createdAt, 'dd/MM/yyyy')}"></span></small>
+                </td>
+                <td>
+                    <div class="comment-scroll" style="max-height: 150px; overflow-y: auto;">
+                        <div th:each="cmt : ${post.matchRequests}" class="comment-item">
+                            <div class="d-flex justify-content-between">
+                                <small class="text-warning fw-bold" th:text="${cmt.requester.username}"></small>
+                                <form th:action="@{/admin/dating/delete-comment}" method="post">
+                                    <input type="hidden" name="commentId" th:value="${cmt.id}">
+                                    <button type="submit" class="btn-kill-cmt">×</button>
+                                </form>
+                            </div>
+                            <small class="text-white-50 d-block" th:text="${cmt.message}"></small>
+                        </div>
+                        <span th:if="${#lists.isEmpty(post.matchRequests)}" class="text-muted small">Chưa có tương tác</span>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <form th:action="@{/admin/dating/delete-post}" method="post">
+                        <input type="hidden" name="postId" th:value="${post.id}">
+                        <button type="submit" class="btn-action-post" onclick="return confirm('Bạn có chắc muốn TRẢM bài viết này?')">
+                            <i class="fa-solid fa-bolt-lightning me-1"></i> TRẢM
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${#lists.isEmpty(allPosts)}" class="text-center py-5">
+            <h4 class="text-muted"><i class="fa-solid fa-ghost me-2"></i> Bảng tin đang sạch bóng quân thù!</h4>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
