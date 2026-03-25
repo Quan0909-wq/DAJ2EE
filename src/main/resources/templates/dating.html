@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Xem Phim Cùng Người Lạ - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #E50914; --bg-dark: #0b0c10; --bg-card: #1f2833; }
+        body { background: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 80px; min-height: 100vh; }
+        .navbar { background: rgba(0,0,0,0.92) !important; border-bottom: 2px solid rgba(229,9,20,0.4); }
+        .card-date { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; }
+        .avatar-sm { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); cursor: pointer; transition: .2s; }
+        .avatar-sm:hover { transform: scale(1.1); box-shadow: 0 0 15px rgba(229,9,20,0.5); }
+        .avatar-lg { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); }
+        .avatar-gallery { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-like { transition: .2s; }
+        .btn-like.liked { color: var(--primary); }
+        .form-dark { background: #1a1a1a; border: 1px solid #333; color: #fff; }
+        .form-dark:focus { background: #111; border-color: var(--primary); color: #fff; box-shadow: none; }
+        .profile-link { cursor: pointer; transition: .2s; }
+        .profile-link:hover { color: var(--primary); }
+        .alert-setup { background: linear-gradient(135deg, rgba(255,193,7,0.15), rgba(229,9,20,0.15)); border: 1px solid rgba(255,193,7,0.3); border-radius: 12px; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/"><span style="color:#fff">PELE</span> <span style="color:var(--primary)">CINEMA</span></a>
+        <div class="d-flex align-items-center gap-2">
+            <a href="/" class="btn btn-outline-light btn-sm rounded-pill"><i class="fa-solid fa-house me-1"></i>Trang chủ</a>
+            <th:block th:if="${currentUser != null}">
+                <th:block th:if="${!currentUser.datingProfileComplete}">
+                    <a href="/settings/dating-profile" class="btn btn-warning btn-sm rounded-pill">
+                        <i class="fa-solid fa-user-pen me-1"></i>Hoàn thiện hồ sơ
+                    </a>
+                </th:block>
+                <th:block th:if="${currentUser.datingProfileComplete}">
+                    <a href="/settings/dating-profile" class="btn btn-outline-secondary btn-sm rounded-pill">
+                        <i class="fa-solid fa-gear me-1"></i>Hồ sơ
+                    </a>
+                </th:block>
+                <span class="text-secondary small ms-2">
+                    Xin chào, <strong class="text-warning" th:text="${currentUser.fullName != null ? currentUser.fullName : currentUser.username}">User</strong>
+                </span>
+            </th:block>
+        </div>
+    </div>
+</nav>
+
+<!-- Banner nhắc hoàn thiện hồ sơ (chỉ hiện khi chưa xong) -->
+<th:block th:if="${currentUser != null and !currentUser.datingProfileComplete}">
+    <div class="alert-setup mx-auto m-3 text-center" style="max-width: 700px;">
+        <div class="p-3 d-flex align-items-center justify-content-center gap-3 flex-wrap">
+            <i class="fa-solid fa-triangle-exclamation text-warning fa-2x"></i>
+            <div class="text-start">
+                <strong class="text-warning">Bạn chưa hoàn thiện hồ sơ Dating!</strong>
+                <p class="mb-0 small text-secondary">Vui lòng cập nhật đầy đủ thông tin để có thể đăng bài tìm bạn xem phim.</p>
+            </div>
+            <a href="/settings/dating-profile" class="btn btn-warning btn-sm rounded-pill fw-bold">
+                <i class="fa-solid fa-pen-to-square me-1"></i>Hoàn thiện ngay
+            </a>
+        </div>
+    </div>
+</th:block>
+
+<div class="container py-4">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold"><i class="fa-solid fa-heart text-danger me-2"></i>PELE Dating</h1>
+        <p class="text-secondary">Tìm bạn xem phim cùng — đăng tin hoặc gửi lời mời.</p>
+    </div>
+
+    <div th:if="${successMessage}" class="alert alert-success border-success bg-transparent text-success mb-4">
+        <i class="fa-solid fa-check-circle me-2"></i><span th:text="${successMessage}"></span>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger border-danger bg-transparent text-danger mb-4">
+        <i class="fa-solid fa-circle-exclamation me-2"></i><span th:text="${errorMessage}"></span>
+    </div>
+
+    <!-- Đăng tin tìm bạn (chỉ hiện khi đã hoàn thiện hồ sơ) -->
+    <th:block th:if="${currentUser != null and currentUser.datingProfileComplete}">
+        <div class="card card-date mb-5">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3"><i class="fa-solid fa-pen me-2 text-danger"></i>Đăng tin tìm bạn xem phim</h6>
+                <form th:action="@{/pele-dating/post}" method="post">
+                    <textarea name="bioMessage" class="form-control form-dark mb-3" rows="3" required
+                              placeholder="Giới thiệu bản thân, phim muốn xem, giờ rảnh..."></textarea>
+                    <button type="submit" class="btn btn-danger rounded-pill px-4 fw-bold">
+                        <i class="fa-solid fa-paper-plane me-2"></i>Đăng tin
+                    </button>
+                </form>
+            </div>
+        </div>
+    </th:block>
+
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-list me-2 text-danger"></i>Bài đang đăng</h5>
+    <div class="row g-4" th:if="${datingList != null and !datingList.isEmpty()}">
+        <div class="col-md-6 col-lg-4" th:each="d : ${datingList}">
+            <div class="card card-date h-100">
+                <div class="card-body">
+                    <!-- Host info with profile click -->
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                        <img th:if="${d.hostUser != null and d.hostUser.datingAvatar != null and !#strings.isEmpty(d.hostUser.datingAvatar)}"
+                             th:src="${d.hostUser.datingAvatar}" class="avatar-sm profile-link"
+                             th:attr="data-user-id=${d.hostUser.id}"
+                             onclick="showUserProfile(this.getAttribute('data-user-id'))" alt="">
+                        <div th:unless="${d.hostUser != null and d.hostUser.datingAvatar != null and !#strings.isEmpty(d.hostUser.datingAvatar)}"
+                             class="avatar-sm bg-secondary d-flex align-items-center justify-content-center profile-link"
+                             th:attr="data-user-id=${d.hostUser?.id}"
+                             onclick="showUserProfile(this.getAttribute('data-user-id'))">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold profile-link" style="color:#fff;"
+                                 th:attr="data-user-id=${d.hostUser?.id}"
+                                 onclick="showUserProfile(this.getAttribute('data-user-id'))"
+                                 th:text="${d.hostUser != null ? (d.hostUser.fullName != null ? d.hostUser.fullName : d.hostUser.username) : '—'}">Host</div>
+                            <small class="text-secondary" th:text="${#temporals.format(d.createdAt, 'dd/MM/yyyy HH:mm')}">—</small>
+                        </div>
+                    </div>
+
+                    <!-- Quick profile badges -->
+                    <div class="mb-2" th:if="${d.hostUser?.age != null}">
+                        <span class="badge bg-secondary me-1"><i class="fa-solid fa-user me-1"></i><span th:text="${d.hostUser.age}">0</span> tuổi</span>
+                        <span class="badge bg-secondary me-1" th:if="${d.hostUser?.height != null}"><i class="fa-solid fa-ruler me-1"></i><span th:text="${#numbers.formatDecimal(d.hostUser.height,1,0,'POINT')}">0</span>cm</span>
+                        <span class="badge bg-secondary" th:if="${d.hostUser?.hometown != null}"><i class="fa-solid fa-location-dot me-1"></i><span th:text="${d.hostUser.hometown}">—</span></span>
+                    </div>
+
+                    <p class="mb-3" th:text="${d.bioMessage}">Bio</p>
+
+                    <!-- Photos gallery (up to 4) -->
+                    <div class="row g-2 mb-3" th:if="${d.hostUser?.datingPhoto1 != null or d.hostUser?.datingPhoto2 != null or d.hostUser?.datingPhoto3 != null}">
+                        <div class="col-4" th:if="${d.hostUser?.datingPhoto1 != null}">
+                            <img th:src="${d.hostUser.datingPhoto1}" class="avatar-gallery w-100" alt="Photo 1" referrerpolicy="no-referrer" onclick="showUserProfile(${d.hostUser.id})">
+                        </div>
+                        <div class="col-4" th:if="${d.hostUser?.datingPhoto2 != null}">
+                            <img th:src="${d.hostUser.datingPhoto2}" class="avatar-gallery w-100" alt="Photo 2" referrerpolicy="no-referrer" onclick="showUserProfile(${d.hostUser.id})">
+                        </div>
+                        <div class="col-4" th:if="${d.hostUser?.datingPhoto3 != null}">
+                            <img th:src="${d.hostUser.datingPhoto3}" class="avatar-gallery w-100" alt="Photo 3" referrerpolicy="no-referrer" onclick="showUserProfile(${d.hostUser.id})">
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <button type="button" class="btn btn-sm btn-outline-danger btn-like rounded-pill"
+                                th:classappend="${currentUser != null and d.isLikedBy(currentUser)} ? ' liked' : ''"
+                                th:attr="data-date-id=${d.id}"
+                                onclick="toggleLike(this)">
+                            <i class="fa-solid fa-heart"></i>
+                            <span class="like-count ms-1" th:text="${d.likedByUsers != null ? #sets.size(d.likedByUsers) : 0}">0</span>
+                        </button>
+                    </div>
+
+                    <!-- Gửi lời mời -->
+                    <div th:if="${currentUser != null and d.hostUser != null and d.hostUser.id != currentUser.id and currentUser.datingProfileComplete}">
+                        <form th:action="@{/pele-dating/request-match}" method="post" class="mt-2">
+                            <input type="hidden" name="dateId" th:value="${d.id}">
+                            <input type="text" name="message" class="form-control form-dark form-control-sm mb-2" placeholder="Lời nhắn kèm lời mời..." required>
+                            <button type="submit" class="btn btn-sm btn-danger rounded-pill w-100">Gửi lời mời</button>
+                        </form>
+                    </div>
+                    <div th:if="${currentUser != null and !currentUser.datingProfileComplete and d.hostUser != null and d.hostUser.id != currentUser.id}">
+                        <a href="/settings/dating-profile" class="btn btn-sm btn-outline-warning rounded-pill w-100">
+                            <i class="fa-solid fa-user-pen me-1"></i>Hoàn thiện hồ sơ để nhắn tin
+                        </a>
+                    </div>
+
+                    <!-- Lời mời (chủ bài) -->
+                    <div th:if="${currentUser != null and d.hostUser != null and d.hostUser.id == currentUser.id and d.matchRequests != null and !d.matchRequests.isEmpty()}"
+                         class="mt-3 pt-3 border-top border-secondary">
+                        <div class="small fw-bold text-warning mb-2">Lời mời nhận được</div>
+                        <div th:each="req : ${d.matchRequests}" class="mb-2 p-2 rounded" style="background:rgba(0,0,0,0.25);">
+                            <div class="small">
+                                <strong th:text="${req.requester != null ? (req.requester.fullName != null ? req.requester.fullName : req.requester.username) : '—'}">Người gửi</strong>:
+                                <span th:text="${req.message}">msg</span>
+                            </div>
+                            <div th:if="${req.hostReply != null}" class="small text-info mt-1">
+                                <i class="fa-solid fa-reply me-1"></i><span th:text="${req.hostReply}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:if="${datingList == null or datingList.isEmpty()}" class="text-center text-secondary py-5 mb-5">
+        <i class="fa-solid fa-heart-crack fa-3x mb-3 opacity-25"></i>
+        <p>Chưa có bài đăng nào. Hãy là người đầu tiên!</p>
+    </div>
+</div>
+
+<!-- ========== MODAL XEM PROFILE NGƯỜI DÙNG ========== -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="background: #1f2833; color: #fff; border: 1px solid rgba(229,9,20,0.3); border-radius: 20px;">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title fw-bold"><i class="fa-solid fa-user text-danger me-2"></i>Hồ Sơ Người Dùng</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="profileModalBody">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-danger" role="status"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function toggleLike(btn) {
+    const id = btn.getAttribute('data-date-id');
+    const fd = new FormData();
+    fd.append('dateId', id);
+    fetch('/pele-dating/toggle-like', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                btn.querySelector('.like-count').textContent = data.likeCount;
+                btn.classList.toggle('liked', data.isLiked);
+            } else if (data.message === 'not_logged_in') {
+                window.location.href = '/login';
+            }
+        });
+}
+
+function showUserProfile(userId) {
+    const modal = new bootstrap.Modal(document.getElementById('profileModal'));
+    document.getElementById('profileModalBody').innerHTML = '<div class="text-center py-5"><div class="spinner-border text-danger" role="status"></div></div>';
+    modal.show();
+
+    const fd = new FormData();
+    fd.append('userId', userId);
+    fetch('/pele-dating/user-profile', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) {
+                document.getElementById('profileModalBody').innerHTML = '<p class="text-center text-danger py-4">' + data.error + '</p>';
+                return;
+            }
+
+            const photos = [data.datingPhoto1, data.datingPhoto2, data.datingPhoto3].filter(p => p).map(p =>
+                '<img src="' + p + '" class="avatar-gallery me-2" alt="Photo" referrerpolicy="no-referrer">'
+            ).join('');
+
+            const statusClass = data.relationshipStatus === 'Độc thân' ? 'bg-success' : data.relationshipStatus === 'Đang hẹn hò' ? 'bg-warning text-dark' : 'bg-danger';
+
+            document.getElementById('profileModalBody').innerHTML = `
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <img src="${data.datingAvatar || 'https://via.placeholder.com/120'}"
+                             class="avatar-lg mb-3" alt="Avatar" referrerpolicy="no-referrer"
+                             onerror="this.src='https://via.placeholder.com/120/1f2833/cccccc?text=Avatar'">
+                        <h5 class="fw-bold">${data.fullName}</h5>
+                        <span class="badge ${statusClass}">${data.relationshipStatus}</span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <p class="text-secondary small mb-1">GIỚI THIỆU</p>
+                            <p style="line-height:1.7;">${data.datingBio}</p>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-4">
+                                <div class="p-2 rounded text-center" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05);">
+                                    <div class="text-danger fw-bold">${data.age || '—'}</div>
+                                    <small class="text-secondary">Tuổi</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="p-2 rounded text-center" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05);">
+                                    <div class="text-danger fw-bold">${data.height ? data.height.toFixed(0) : '—'}</div>
+                                    <small class="text-secondary">Chiều cao (cm)</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="p-2 rounded text-center" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05);">
+                                    <div class="text-danger fw-bold text-truncate d-block" style="font-size:0.8rem;">${data.hometown || '—'}</div>
+                                    <small class="text-secondary">Quê quán</small>
+                                </div>
+                            </div>
+                        </div>
+                        ${photos ? '<div><p class="text-secondary small mb-2">ẢNH KHÁC</p><div class="d-flex flex-wrap">' + photos + '</div></div>' : ''}
+                    </div>
+                </div>
+            `;
+        })
+        .catch(() => {
+            document.getElementById('profileModalBody').innerHTML = '<p class="text-center text-danger py-4">Không thể tải hồ sơ.</p>';
+        });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Khuyến Mãi - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #E50914; --bg-dark: #0b0c10; --bg-card: #1f2833; }
+        body { background: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 80px; }
+        .navbar { background: rgba(0,0,0,0.92) !important; border-bottom: 2px solid rgba(229,9,20,0.4); }
+        .promo-banner { background: linear-gradient(135deg, #E50914 0%, #8B0000 100%); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 40px; box-shadow: 0 10px 40px rgba(229,9,20,0.3); }
+        .promo-code { background: rgba(0,0,0,0.4); border: 2px dashed rgba(255,255,255,0.5); border-radius: 12px; padding: 15px 30px; display: inline-block; font-size: 1.8rem; font-weight: 800; letter-spacing: 4px; color: #fff; margin: 15px 0; }
+        .promo-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 30px; transition: .3s; }
+        .promo-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(229,9,20,0.15); }
+        .promo-price { font-size: 2.5rem; font-weight: 800; color: #ffc107; text-shadow: 0 0 20px rgba(255,193,7,0.5); }
+        .badge-promo { background: rgba(255,193,7,0.15); color: #ffc107; border: 1px solid rgba(255,193,7,0.3); border-radius: 30px; padding: 4px 14px; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/"><span style="color:#fff">PELE</span> <span style="color:var(--primary)">CINEMA</span></a>
+        <div class="d-flex gap-2">
+            <a href="/" class="btn btn-outline-light btn-sm rounded-pill"><i class="fa-solid fa-house me-1"></i>Trang chủ</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <div class="text-center mb-2">
+        <h1 class="fw-bold"><i class="fa-solid fa-gift text-danger me-2"></i>Khuyến Mãi</h1>
+        <p class="text-secondary">Ưu đãi hấp dẫn dành riêng cho khán giả PELE Cinema.</p>
+    </div>
+
+    <!-- Banner chính -->
+    <div class="promo-banner mt-4">
+        <h2 class="fw-bold mb-2">🎉 Giảm Ngay 50k Combo Bắp Nước!</h2>
+        <p class="mb-1 opacity-75">Áp dụng cho tất cả các khung giờ — từ nay đến hết tháng</p>
+        <div class="promo-code">PELE50K</div>
+        <p class="small mb-0 opacity-50">Code sử dụng tại quầy bán hàng</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Promo 1 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="promo-card h-100">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <span class="badge-promo">⭐ Nổi bật</span>
+                    <i class="fa-solid fa-ticket-simple text-danger fs-4"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Thứ Ba Vàng — Giảm 20% Vé</h5>
+                <p class="text-secondary small mb-3">Mỗi thứ Ba, giá vé tất cả các suất chiếu 2D được giảm 20%. Áp dụng cho cả online và quầy.</p>
+                <div class="promo-price mb-2">-20%</div>
+                <p class="small text-secondary mb-0"><i class="fa-solid fa-calendar me-1"></i>Thứ Ba hàng tuần</p>
+            </div>
+        </div>
+
+        <!-- Promo 2 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="promo-card h-100">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <span class="badge-promo">🆕 Mới</span>
+                    <i class="fa-solid fa-users text-danger fs-4"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Happy Hour — 2 Vé Giá 1</h5>
+                <p class="text-secondary small mb-3">Suất chiếu từ 14h–16h các ngày trong tuần: 2 vé chỉ tính giá 1 vé. Áp dụng cho phòng chiếu thường.</p>
+                <div class="promo-price mb-2">2x1</div>
+                <p class="small text-secondary mb-0"><i class="fa-solid fa-clock me-1"></i>14h–16h hàng ngày</p>
+            </div>
+        </div>
+
+        <!-- Promo 3 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="promo-card h-100">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <span class="badge-promo">👥 Nhóm</span>
+                    <i class="fa-solid fa-users-gear text-danger fs-4"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Gói Nhóm 10+ — Giảm 30%</h5>
+                <p class="text-secondary small mb-3">Đặt vé nhóm từ 10 người trở lên được giảm 30% tổng hóa đơn + 1 combo bắp nước miễn phí.</p>
+                <div class="promo-price mb-2">-30%</div>
+                <p class="small text-secondary mb-0"><i class="fa-solid fa-phone me-1"></i>Liên hệ hotline đặt nhóm</p>
+            </div>
+        </div>
+
+        <!-- Promo 4 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="promo-card h-100">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <span class="badge-promo">🎂 Sinh nhật</span>
+                    <i class="fa-solid fa-cake-candles text-danger fs-4"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Sinh Nhật Miễn Phí</h5>
+                <p class="text-secondary small mb-3">Khách hàng đặt vé online vào đúng ngày sinh nhật được tặng 1 vé xem phim miễn phí (suất chiếu bất kỳ).</p>
+                <div class="promo-price mb-2">FREE</div>
+                <p class="small text-secondary mb-0"><i class="fa-solid fa-star me-1"></i>Ngày sinh nhật</p>
+            </div>
+        </div>
+
+        <!-- Promo 5 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="promo-card h-100">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <span class="badge-promo">💳 Thẻ thành viên</span>
+                    <i class="fa-solid fa-credit-card text-danger fs-4"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Tích Điểm Đổi Quà</h5>
+                <p class="text-secondary small mb-3">Mỗi 100.000đ vé = 10 điểm. Tích đủ 100 điểm đổi 1 vé xem phim miễn phí. Điểm không giới hạn.</p>
+                <div class="promo-price mb-2">10%</div>
+                <p class="small text-secondary mb-0"><i class="fa-solid fa-database me-1"></i>Cộng dồn vô thời hạn</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

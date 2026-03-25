@@ -19,12 +19,10 @@ public class Movie {
 
 
     @Column(nullable = false)
-    private String title; // Tên phim (VD: Mai, Đào Phở và Piano)
+    private String title;
 
-
-    @Column(columnDefinition = "LONGTEXT") // Ép Database nhận link dài
-
-    private String description; // Nội dung tóm tắt phim
+    @Column(columnDefinition = "LONGTEXT")
+    private String description;
     private String director; // Đạo diễn
 
     private String cast; // Dàn diễn viên chính

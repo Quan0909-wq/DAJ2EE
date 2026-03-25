@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phim Sắp Chiếu - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #E50914; --bg-dark: #0b0c10; --bg-card: #1f2833; }
+        body { background: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 80px; }
+        .navbar { background: rgba(0,0,0,0.92) !important; border-bottom: 2px solid rgba(229,9,20,0.4); }
+        .card-film { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; transition: .3s; }
+        .card-film:hover { transform: translateY(-6px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(229,9,20,0.15); }
+        .film-poster { height: 380px; width: 100%; object-fit: cover; }
+        .badge-soon { background: rgba(229,9,20,0.8); font-size: 0.8rem; padding: 6px 14px; border-radius: 30px; }
+        .countdown-box { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px 15px; display: inline-block; min-width: 60px; }
+        .countdown-num { font-size: 1.5rem; font-weight: 800; color: var(--primary); line-height: 1; }
+        .countdown-label { font-size: 0.65rem; text-transform: uppercase; color: #888; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/"><span style="color:#fff">PELE</span> <span style="color:var(--primary)">CINEMA</span></a>
+        <div class="d-flex gap-2">
+            <a href="/" class="btn btn-outline-light btn-sm rounded-pill"><i class="fa-solid fa-house me-1"></i>Trang chủ</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold"><i class="fa-solid fa-film text-danger me-2"></i>Phim Sắp Chiếu</h1>
+        <p class="text-secondary">Những tác phẩm điện ảnh đáng chờ đợi nhất sắp ra mắt tại PELE Cinema.</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Phim 1 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card-film">
+                <div class="position-relative">
+                    <img src="https://image.tmdb.org/t/p/original/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg" class="film-poster w-100" alt="Avatar 2" referrerpolicy="no-referrer">
+                    <span class="badge badge-soon position-absolute top-0 end-0 m-2"><i class="fa-solid fa-clock me-1"></i>Sắp ra mắt</span>
+                </div>
+                <div class="p-4">
+                    <h5 class="fw-bold mb-2">Avatar: The Way of Water</h5>
+                    <p class="text-secondary small mb-3">Hành động / Viễn tưởng — 2026</p>
+                    <p class="small text-secondary mb-3">Phần tiếp theo của loạt phim điện ảnh thành công nhất mọi thời đại. James Cameron đưa khán giả trở lại hành tinh Pandora đầy màu sắc.</p>
+                    <div class="d-flex gap-3 mb-3">
+                        <div class="countdown-box text-center">
+                            <div class="countdown-num">45</div><div class="countdown-label">Ngày</div>
+                        </div>
+                        <div class="countdown-box text-center">
+                            <div class="countdown-num">12</div><div class="countdown-label">Giờ</div>
+                        </div>
+                        <div class="countdown-box text-center">
+                            <div class="countdown-num">30</div><div class="countdown-label">Phút</div>
+                        </div>
+                    </div>
+                    <a href="/" class="btn btn-outline-danger btn-sm rounded-pill w-100"><i class="fa-solid fa-bell me-2"></i>Nhắc khi có vé</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phim 2 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card-film">
+                <div class="position-relative">
+                    <img src="https://image.tmdb.org/t/p/original/8Gvv8Bn6ROeD1k4q3fJ8QWXv5jO.jpg" class="film-poster w-100" alt="Thunderbolts" referrerpolicy="no-referrer">
+                    <span class="badge badge-soon position-absolute top-0 end-0 m-2"><i class="fa-solid fa-clock me-1"></i>Sắp ra mắt</span>
+                </div>
+                <div class="p-4">
+                    <h5 class="fw-bold mb-2">Thunderbolts*</h5>
+                    <p class="text-secondary small mb-3">Hành động / Siêu anh hùng — 2026</p>
+                    <p class="small text-secondary mb-3">Đội siêu anh hùng "phản diện" được tuyển mộ bởi Valentina Allegra de Fontaine thực hiện nhiệm vụ bí mật.</p>
+                    <div class="d-flex gap-3 mb-3">
+                        <div class="countdown-box text-center">
+                            <div class="countdown-num">60</div><div class="countdown-label">Ngày</div>
+                        </div>
+                        <div class="countdown-box text-center">
+                            <div class="countdown-num">08</div><div class="countdown-label">Giờ</div>
+                        </div>
+                        <div class="countdown-box text-center">
+                            <div class="countdown-num">15</div><div class="countdown-label">Phút</div>
+                        </div>
+                    </div>
+                    <a href="/" class="btn btn-outline-danger btn-sm rounded-pill w-100"><i class="fa-solid fa-bell me-2"></i>Nhắc khi có vé</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phim 3 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card-film">
+                <div class="position-relative">
+                    <img src="https://image.tmdb.org/t/p/original/v9oEQRrBJjzKIvOVaJmNWB0M5TJ.jpg" class="film-poster w-100" alt="Deadpool 3" referrerpolicy="no-referrer">
+                    <span class="badge badge-soon position-absolute top-0 end-0 m-2"><i class="fa-solid fa-clock me-1"></i>Sắp ra mắt</span>
+                </div>
+                <div class="p-4">
+                    <h5 class="fw-bold mb-2">Deadpool & Wolverine</h5>
+                    <p class="text-secondary small mb-3">Hành động / Hài — 2026</p>
+                    <p class="small text-secondary mb-3">Deadpool trở lại với sự góp mặt của Wolverine trong một cuộc phiêu lưu xuyên vũ trụ đầy khói lửa và cả tiếng cười.</p>
+                    <div class="d-flex gap-3 mb-3">
+                        <div class="countdown-box text-center">
+                            <div class="countdown-num">75</div><div class="countdown-label">Ngày</div>
+                        </div>
+                        <div class="countdown-box text-center">
+                            <div class="countdown-num">20</div><div class="countdown-label">Giờ</div>
+                        </div>
+                        <div class="countdown-box text-center">
+                            <div class="countdown-num">45</div><div class="countdown-label">Phút</div>
+                        </div>
+                    </div>
+                    <a href="/" class="btn btn-outline-danger btn-sm rounded-pill w-100"><i class="fa-solid fa-bell me-2"></i>Nhắc khi có vé</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -4,34 +4,22 @@ import com.example.demoj2ee.model.Comment;
 import com.example.demoj2ee.model.Movie;
 import com.example.demoj2ee.model.Showtime;
 import com.example.demoj2ee.model.User;
+import com.example.demoj2ee.repository.CommentRepository;
 import com.example.demoj2ee.repository.MovieRepository;
 import com.example.demoj2ee.repository.ShowtimeRepository;
-import com.example.demoj2ee.service.CommentService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 public class HomeController {
-
-    /** Chuyen YouTube watch URL sang embed URL de iframe hien thi duoc */
-    private String toYoutubeEmbedUrl(String url) {
-        if (url == null || url.trim().isEmpty()) return "";
-        String u = url.trim();
-        // Da la embed URL
-        if (u.contains("youtube.com/embed/")) return u;
-        // youtube.com/watch?v=VIDEO_ID
-        Pattern p1 = Pattern.compile("(?:youtube\\.com/watch\\?v=|youtu\\.be/)([a-zA-Z0-9_-]{11})");
-        Matcher m1 = p1.matcher(u);
-        if (m1.find()) return "https://www.youtube.com/embed/" + m1.group(1);
-        return u;
-    }
 
     @Autowired
     private MovieRepository movieRepository;
@@ -40,16 +28,14 @@ public class HomeController {
     private ShowtimeRepository showtimeRepository;
 
     @Autowired
-    private CommentService commentService;
+    private CommentRepository commentRepository;
 
     @GetMapping("/")
     public String showHomePage(@RequestParam(value = "genre", required = false) String genre, Model model) {
         List<Movie> movies;
 
         if (genre != null && !genre.isEmpty()) {
-            // Cần chắc chắn trong MovieRepository có hàm này
-            // movies = movieRepository.findByGenreContainingIgnoreCase(genre);
-            movies = movieRepository.findAll(); // Tạm thời load tất cả để không lỗi
+            movies = movieRepository.findByGenreContainingIgnoreCase(genre);
             model.addAttribute("selectedGenre", genre);
         } else {
             movies = movieRepository.findAll();
@@ -62,10 +48,7 @@ public class HomeController {
 
     @GetMapping("/search")
     public String searchMovies(@RequestParam("keyword") String keyword, Model model) {
-        // Cần chắc chắn trong MovieRepository có hàm findByTitleContainingIgnoreCase
-        // List<Movie> searchResults = movieRepository.findByTitleContainingIgnoreCase(keyword);
-        List<Movie> searchResults = movieRepository.findAll(); // Tránh lỗi khi chưa cấu hình Repos
-
+        List<Movie> searchResults = movieRepository.findByTitleContainingIgnoreCase(keyword);
         model.addAttribute("movies", searchResults);
         model.addAttribute("selectedGenre", "searching...");
         return "home";
@@ -79,10 +62,9 @@ public class HomeController {
         }
 
         List<Showtime> showtimes = showtimeRepository.findByMovieId(id);
-        List<Comment> comments = commentService.getCommentsByMovie(id);
+        List<Comment> comments = commentRepository.findByMovieIdOrderByCreatedAtDesc(id);
 
         model.addAttribute("movie", movie);
-        model.addAttribute("trailerEmbedUrl", toYoutubeEmbedUrl(movie.getTrailerUrl()));
         model.addAttribute("showtimes", showtimes);
         model.addAttribute("comments", comments);
 
@@ -90,28 +72,53 @@ public class HomeController {
     }
 
     @PostMapping("/movie/comment")
-    public String postComment(@RequestParam Long movieId,
-                             @RequestParam String content,
-                             @RequestParam int rating,
-                             jakarta.servlet.http.HttpSession session,
-                             RedirectAttributes ra) {
+    public String postComment(@RequestParam("movieId") Long movieId,
+                              @RequestParam("content") String content,
+                              @RequestParam("rating") int rating,
+                              HttpSession session) {
+
         User user = (User) session.getAttribute("loggedInUser");
         if (user == null) {
             return "redirect:/login";
         }
 
-        commentService.saveComment(movieId, user.getUsername(), content, rating);
-        ra.addFlashAttribute("success", "Binh luan cua ban da duoc dang!");
+        Comment comment = new Comment();
+        comment.setMovie(movieRepository.findById(movieId).orElse(null));
+        comment.setUser(user);
+        comment.setContent(content);
+        comment.setRating(rating);
+        commentRepository.save(comment);
+
         return "redirect:/movie/" + movieId;
     }
 
-    // Các trang tĩnh
     @GetMapping("/upcoming")
-    public String showUpcoming() { return "upcoming"; }
+    public String showUpcoming(Model model) {
+        return "upcoming";
+    }
 
     @GetMapping("/news")
-    public String showNews() { return "news"; }
+    public String showNews() {
+        return "news";
+    }
+
+    @GetMapping("/news/{id}")
+    public String newsDetail(@PathVariable Long id, Model model) {
+        return "news-detail";
+    }
+
+    @GetMapping("/news/detail/{id}")
+    public String showNewsDetail(@PathVariable Long id, Model model) {
+        model.addAttribute("author", "Admin Quan");
+        if (id == 1) {
+            return "marvel-review";
+        } else {
+            return "promo-bap-nuoc";
+        }
+    }
 
     @GetMapping("/promotions")
-    public String showPromotions() { return "promotions"; }
+    public String showPromotions() {
+        return "promotions";
+    }
 }

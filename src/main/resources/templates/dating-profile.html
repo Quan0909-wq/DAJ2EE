@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hồ Sơ Dating - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #E50914; --bg-dark: #0b0c10; --bg-card: #1f2833; }
+        body { background: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 80px; min-height: 100vh; }
+        .navbar { background: rgba(0,0,0,0.92) !important; border-bottom: 2px solid rgba(229,9,20,0.4); }
+        .card-profile { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 40px; max-width: 700px; margin: 0 auto; }
+        .form-dark { background: #1a1a1a; border: 1px solid #333; color: #fff; }
+        .form-dark:focus { background: #111; border-color: var(--primary); color: #fff; box-shadow: none; }
+        .form-label-custom { color: #aaa; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .photo-upload-box { background: #1a1a1a; border: 2px dashed #333; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: .3s; min-height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .photo-upload-box:hover { border-color: var(--primary); background: rgba(229,9,20,0.05); }
+        .photo-upload-box img { max-width: 100%; max-height: 140px; border-radius: 8px; object-fit: cover; }
+        .avatar-box { background: #1a1a1a; border: 3px dashed var(--primary); border-radius: 50%; width: 180px; height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: .3s; margin: 0 auto; }
+        .avatar-box:hover { border-color: #fff; box-shadow: 0 0 20px rgba(229,9,20,0.4); }
+        .avatar-box img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        .required-star { color: var(--primary); margin-left: 3px; }
+        .btn-dating { background: var(--primary); color: #fff; border: none; border-radius: 30px; padding: 14px 40px; font-weight: 700; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; transition: .3s; }
+        .btn-dating:hover { background: #b80710; color: #fff; box-shadow: 0 5px 20px rgba(229,9,20,0.5); transform: translateY(-2px); }
+        .info-badge { background: rgba(255,193,7,0.1); border: 1px solid rgba(255,193,7,0.3); border-radius: 10px; padding: 15px; color: #ffc107; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/"><span style="color:#fff">PELE</span> <span style="color:var(--primary)">CINEMA</span></a>
+        <div class="d-flex gap-2">
+            <a href="/" class="btn btn-outline-light btn-sm rounded-pill"><i class="fa-solid fa-house me-1"></i>Trang chủ</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold"><i class="fa-solid fa-heart-pulse text-danger me-2"></i>Hoàn Thiện Hồ Sơ Dating</h1>
+        <p class="text-secondary">Điền đầy đủ thông tin để bắt đầu tìm bạn xem phim.</p>
+    </div>
+
+    <div class="card-profile">
+        <!-- Thông báo -->
+        <div th:if="${successMessage}" class="alert alert-success bg-transparent border-success text-success mb-4">
+            <i class="fa-solid fa-check-circle me-2"></i><span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger bg-transparent border-danger text-danger mb-4">
+            <i class="fa-solid fa-circle-exclamation me-2"></i><span th:text="${errorMessage}"></span>
+        </div>
+
+        <div class="info-badge mb-4">
+            <i class="fa-solid fa-circle-info me-2"></i>
+            Những trường có dấu <span class="required-star">*</span> là bắt buộc. Tuổi phải từ 18 trở lên, chiều cao từ 100-250cm.
+        </div>
+
+        <form th:action="@{/settings/dating-profile}" method="post" enctype="multipart/form-data" id="profileForm">
+
+            <!-- Avatar đại diện (BẮT BUỘC) -->
+            <div class="mb-4 text-center">
+                <p class="form-label-custom text-center mb-3">Ảnh Đại Diện <span class="required-star">*</span></p>
+                <label class="avatar-box" id="avatarBox">
+                    <input type="file" name="datingAvatarFile" id="avatarInput" accept="image/*" class="d-none" required onchange="previewAvatar(this)">
+                    <div id="avatarPlaceholder">
+                        <i class="fa-solid fa-camera fa-2x mb-2 text-secondary"></i>
+                        <p class="small text-secondary mb-0">Chọn ảnh đại diện</p>
+                    </div>
+                </label>
+                <p class="small text-secondary mt-2">Ảnh này sẽ hiển thị trên bài đăng dating của bạn.</p>
+            </div>
+
+            <!-- Ảnh bổ sung (tối đa 3 ảnh) -->
+            <div class="mb-4">
+                <p class="form-label-custom mb-3">Ảnh Bổ Sung (tối đa 3 ảnh)</p>
+                <div class="row g-3">
+                    <div class="col-4">
+                        <label class="photo-upload-box w-100" id="photoBox1">
+                            <input type="file" name="photo1" accept="image/*" class="d-none" onchange="previewPhoto(this, 1)">
+                            <div id="photoPlaceholder1">
+                                <i class="fa-solid fa-plus text-secondary fa-lg mb-2"></i>
+                                <p class="small text-secondary mb-0">Ảnh 1</p>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <label class="photo-upload-box w-100" id="photoBox2">
+                            <input type="file" name="photo2" accept="image/*" class="d-none" onchange="previewPhoto(this, 2)">
+                            <div id="photoPlaceholder2">
+                                <i class="fa-solid fa-plus text-secondary fa-lg mb-2"></i>
+                                <p class="small text-secondary mb-0">Ảnh 2</p>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <label class="photo-upload-box w-100" id="photoBox3">
+                            <input type="file" name="photo3" accept="image/*" class="d-none" onchange="previewPhoto(this, 3)">
+                            <div id="photoPlaceholder3">
+                                <i class="fa-solid fa-plus text-secondary fa-lg mb-2"></i>
+                                <p class="small text-secondary mb-0">Ảnh 3</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thông tin cá nhân -->
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label-custom">Họ và tên <span class="required-star">*</span></label>
+                    <input type="text" name="fullName" class="form-control form-dark" required minlength="2" maxlength="50"
+                           th:value="${user?.fullName != null ? user.fullName : ''}" placeholder="VD: Nguyễn Văn A">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label-custom">Tuổi <span class="required-star">*</span></label>
+                    <input type="number" name="ageStr" class="form-control form-dark" required min="18" max="99"
+                           th:value="${user?.age != null ? user.age : ''}" placeholder="VD: 25">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label-custom">Chiều cao (cm) <span class="required-star">*</span></label>
+                    <input type="number" name="heightStr" class="form-control form-dark" required min="100" max="250" step="0.1"
+                           th:value="${user?.height != null ? user.height : ''}" placeholder="VD: 170">
+                </div>
+            </div>
+
+            <div class="row g-3 mt-2">
+                <div class="col-md-6">
+                    <label class="form-label-custom">Quê quán <span class="required-star">*</span></label>
+                    <input type="text" name="hometown" class="form-control form-dark" required minlength="2" maxlength="100"
+                           th:value="${user?.hometown != null ? user.hometown : ''}" placeholder="VD: Bình Dương">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Tình trạng <span class="required-star">*</span></label>
+                    <select name="relationshipStatus" class="form-select form-dark" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="DOC_THAN" th:selected="${user?.relationshipStatus == 'DOC_THAN'}">Độc thân</option>
+                        <option value="HEN_HO" th:selected="${user?.relationshipStatus == 'HEN_HO'}">Đang hẹn hò</option>
+                        <option value="PHUC_TAP" th:selected="${user?.relationshipStatus == 'PHUC_TAP'}">Phức tạp</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <label class="form-label-custom">Giới thiệu bản thân <span class="required-star">*</span></label>
+                <textarea name="datingBio" class="form-control form-dark" rows="4" required minlength="10" maxlength="500"
+                          placeholder="Chia se som thing ban than, so thich xem phim, loi ra rang..." th:text="${user?.datingBio != null ? user.datingBio : ''}"></textarea>
+                <small class="text-secondary">Tối thiểu 10 ký tự, tối đa 500 ký tự.</small>
+            </div>
+
+            <div class="mt-4 text-center">
+                <button type="submit" class="btn btn-dating px-5">
+                    <i class="fa-solid fa-heart me-2"></i>Hoàn Tất Hồ Sơ
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// CHỈ cập nhật vùng preview — KHÔNG thay innerHTML của cả label (sẽ xóa mất <input type="file">).
+function previewAvatar(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var ph = document.getElementById('avatarPlaceholder');
+            if (ph) {
+                ph.innerHTML = '<img src="' + e.target.result + '" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover">';
+            }
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function previewPhoto(input, num) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var ph = document.getElementById('photoPlaceholder' + num);
+            if (ph) {
+                ph.innerHTML = '<img src="' + e.target.result + '" alt="Photo" style="max-width:100%;max-height:140px;border-radius:8px;object-fit:cover">';
+            }
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+</body>
+</html>

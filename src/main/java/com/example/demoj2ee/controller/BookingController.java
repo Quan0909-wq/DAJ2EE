@@ -6,6 +6,9 @@ import com.example.demoj2ee.model.User;
 import com.example.demoj2ee.repository.BookingRepository;
 import com.example.demoj2ee.repository.ProductRepository;
 import com.example.demoj2ee.repository.ShowtimeRepository;
+import com.example.demoj2ee.repository.UserRepository;
+import com.example.demoj2ee.service.EmailService;
+import com.example.demoj2ee.service.PeleBookingService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class BookingController {
@@ -21,22 +26,29 @@ public class BookingController {
     @Autowired private ShowtimeRepository showtimeRepository;
     @Autowired private BookingRepository bookingRepository;
     @Autowired private ProductRepository productRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private EmailService emailService;
+    @Autowired private PeleBookingService peleBookingService;
 
-    // 1. Hiển thị sơ đồ ghế
     @GetMapping("/booking/{id}")
     public String showSeatMap(@PathVariable("id") Long id, Model model) {
         Showtime showtime = showtimeRepository.findById(id).orElse(null);
         if (showtime == null) return "redirect:/";
 
+        List<Booking> bookings = bookingRepository.findByShowtimeId(id);
+        String occupiedSeats = bookings.stream()
+                .map(Booking::getSeatNumbers)
+                .collect(Collectors.joining(","));
+
         model.addAttribute("showtime", showtime);
-        model.addAttribute("rows", 10); // Fix cứng số hàng ghế để test trước
-        model.addAttribute("cols", 10);
+        model.addAttribute("occupiedSeats", occupiedSeats);
+        model.addAttribute("rows", showtime.getRoom().getTotalRows());
+        model.addAttribute("cols", showtime.getRoom().getTotalCols());
         model.addAttribute("products", productRepository.findAll());
 
         return "booking";
     }
 
-    // 2. Chuyển sang trang nhập thông tin
     @PostMapping("/booking/checkout")
     public String showCheckoutPage(@RequestParam Long showtimeId,
                                    @RequestParam String seats,
@@ -50,22 +62,18 @@ public class BookingController {
         model.addAttribute("user", loggedInUser);
         model.addAttribute("showtime", showtime);
         model.addAttribute("seats", seats);
-
-        // Tự động áp mã giảm giá 20% trên tổng bill để tiết kiệm chi phí
-        double discountedAmount = totalAmount * 0.8;
-        model.addAttribute("totalAmount", discountedAmount);
+        model.addAttribute("totalAmount", totalAmount);
 
         return "checkout";
     }
 
-    // 3. XÁC NHẬN VÀ LƯU VÉ
     @PostMapping("/booking/confirm")
     public String confirmBooking(@RequestParam Long showtimeId,
                                  @RequestParam String seats,
                                  @RequestParam(defaultValue = "0") double foodAmount,
                                  @RequestParam String customerName,
+                                 @RequestParam String customerPhone,
                                  @RequestParam String customerEmail,
-                                 @RequestParam double finalAmount, // Nhận giá đã giảm từ form
                                  HttpSession session,
                                  RedirectAttributes ra) {
 
@@ -74,15 +82,38 @@ public class BookingController {
 
         User loggedInUser = (User) session.getAttribute("loggedInUser");
 
+        String[] seatArray = seats.split(",");
+        int seatCount = seatArray.length;
+        double ticketPrice = showtime.getPrice();
+
+        double finalAmount = peleBookingService.calculateTotalBill(loggedInUser, seatCount, ticketPrice, foodAmount);
+
         Booking booking = new Booking();
         booking.setShowtime(showtime);
         booking.setSeatNumbers(seats);
         booking.setTotalAmount(finalAmount);
+        booking.setCustomerName(customerName);
+        booking.setCustomerPhone(customerPhone);
+        booking.setCustomerEmail(customerEmail);
         booking.setBookingTime(LocalDateTime.now());
-        booking.setStatus("SUCCESS");
         if (loggedInUser != null) booking.setUser(loggedInUser);
 
         Booking savedBooking = bookingRepository.save(booking);
+
+        if (loggedInUser != null) {
+            int newTotal = loggedInUser.getTotalTicketsBought() + seatCount;
+            loggedInUser.setTotalTicketsBought(newTotal);
+            String newRank = peleBookingService.updatePeleRank(newTotal);
+            loggedInUser.setPeleRank(newRank);
+            userRepository.save(loggedInUser);
+            session.setAttribute("loggedInUser", loggedInUser);
+        }
+
+        try {
+            emailService.sendTicketEmail(savedBooking);
+        } catch (Exception e) {
+            System.out.println("Loi gui mail: " + e.getMessage());
+        }
 
         ra.addFlashAttribute("bookingId", savedBooking.getId());
         return "redirect:/booking/success";
@@ -91,5 +122,22 @@ public class BookingController {
     @GetMapping("/booking/success")
     public String success() {
         return "success";
+    }
+
+    @GetMapping("/my-tickets")
+    public String myBookings(HttpSession session, Model model) {
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) return "redirect:/login";
+
+        List<Booking> myBookings = bookingRepository.findByCustomerEmailIgnoreCaseOrderByBookingTimeDesc(loggedInUser.getEmail());
+        model.addAttribute("bookings", myBookings);
+
+        return "my-tickets";
+    }
+
+    @GetMapping("/booking/early/{id}")
+    public String showEarlyBookingPage(@PathVariable Long id, Model model) {
+        model.addAttribute("movieId", id);
+        return "early-booking";
     }
 }

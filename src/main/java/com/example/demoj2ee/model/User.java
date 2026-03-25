@@ -36,10 +36,30 @@ public class User {
     @Column(name = "pele_rank")
     private String peleRank = "GHOUL"; // Mặc định đăng ký mới là Tân Binh (Ghoul)
 
-    // Sếp nhớ tạo Getter và Setter cho 2 biến này nhé!
-    public int getTotalTicketsBought() { return totalTicketsBought; }
-    public void setTotalTicketsBought(int totalTicketsBought) { this.totalTicketsBought = totalTicketsBought; }
+    // ========== DATING PROFILE ==========
+    private Integer age; // Tuổi: 18-99
+    private Double height; // Chiều cao (cm): 100-250
+    private String hometown; // Quê quán
+    private String relationshipStatus; // Tình trạng: DOC_THAN, HEN_HO, PHUC_TAP
+    private String datingBio; // Giới thiệu bản thân
 
-    public String getPeleRank() { return peleRank; }
-    public void setPeleRank(String peleRank) { this.peleRank = peleRank; }
+    @Column(columnDefinition = "LONGTEXT")
+    private String datingAvatar; // Ảnh đại diện dating (bắt buộc)
+    @Column(columnDefinition = "LONGTEXT")
+    private String datingPhoto1; // Ảnh 1
+    @Column(columnDefinition = "LONGTEXT")
+    private String datingPhoto2; // Ảnh 2
+    @Column(columnDefinition = "LONGTEXT")
+    private String datingPhoto3; // Ảnh 3
+
+    private boolean datingProfileComplete = false; // Đã hoàn thiện hồ sơ dating chưa
+
+    public boolean isDatingProfileComplete() {
+        return datingAvatar != null && !datingAvatar.isBlank()
+            && age != null && age >= 18
+            && height != null && height >= 100
+            && hometown != null && !hometown.isBlank()
+            && relationshipStatus != null && !relationshipStatus.isBlank()
+            && datingBio != null && !datingBio.isBlank();
+    }
 }

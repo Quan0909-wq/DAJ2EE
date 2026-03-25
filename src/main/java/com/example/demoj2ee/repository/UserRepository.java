@@ -6,10 +6,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    // Dùng cho chức năng Đăng Nhập
     User findByUsername(String username);
-
-    // Dùng cho chức năng Đăng Ký (Kiểm tra xem đã có ai dùng chưa)
+    User findByEmail(String email);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
+    long countByRole(String role);
 }
