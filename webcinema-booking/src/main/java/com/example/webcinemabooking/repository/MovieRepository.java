@@ -3,8 +3,13 @@ package com.example.webcinemabooking.repository;
 import com.example.webcinemabooking.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
-    // Chỉ cần để trống thế này, Spring Boot đã tự biết làm các lệnh Thêm, Sửa, Xóa, Tìm kiếm phim rồi!
+
+    List<Movie> findByTitleContainingIgnoreCase(String keyword);
+
+    // THAY ĐỔI DÒNG NÀY: Thêm chữ Containing vào để nó tìm TƯƠNG ĐỐI
+    List<Movie> findByGenreContainingIgnoreCase(String genre);
 }

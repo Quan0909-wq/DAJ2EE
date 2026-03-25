@@ -12,6 +12,9 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user; // Thêm để liên kết với tài khoản người dùng
 
     @ManyToOne
     @JoinColumn(name = "showtime_id")

@@ -33,7 +33,7 @@
         /* Quick Action Buttons */
         .action-card {
             background: white; border-radius: 15px; padding: 20px; text-align: center;
-            transition: 0.3s; text-decoration: none; display: block; border: 1px solid #eee;
+            transition: 0.3s; text-decoration: none; display: block; border: 1px solid #eee; height: 100%;
         }
         .action-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-color: #E50914; }
         .action-icon { width: 60px; height: 60px; line-height: 60px; background: rgba(229, 9, 20, 0.1); color: #E50914; border-radius: 50%; font-size: 1.5rem; margin: 0 auto 15px; }
@@ -57,15 +57,18 @@
         <li class="nav-item">
             <a class="nav-link" href="/admin/bookings"><i class="fa-solid fa-file-invoice-dollar"></i> Hoá Đơn Đặt Vé</a>
         </li>
-
         <li class="nav-item">
             <a class="nav-link" href="/admin/promotions"><i class="fa-solid fa-tags"></i> Mã Khuyến Mãi</a>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/ticket-disputes" style="color: #ff9f43;"><i class="fa-solid fa-scale-balanced"></i> Xử Lý Tranh Chấp</a>
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="/admin/comments"><i class="fa-solid fa-comments"></i> Kiểm Duyệt Cmt</a>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/dating" style="color: #ff4757;"><i class="fa-solid fa-heart-circle-bolt"></i> Duyệt Thả Thính</a>
+        </li>
         <li class="nav-item mt-5">
             <a class="nav-link text-warning" href="/"><i class="fa-solid fa-house"></i> Về Trang Khách</a>
         </li>
@@ -113,7 +116,27 @@
 
     <h5 class="fw-bold mb-4 text-uppercase" style="letter-spacing: 1px;">Thao Tác Quản Trị Nhanh</h5>
     <div class="row g-4">
-        <div class="col-md-3">
+        <div class="col-md-4">
+            <a href="/admin/ticket-disputes" class="action-card border-warning shadow-sm">
+                <div class="action-icon" style="background: rgba(255, 159, 67, 0.1); color: #ff9f43;">
+                    <i class="fa-solid fa-gavel"></i>
+                </div>
+                <h6 class="text-warning">Xử Lý Tranh Chấp</h6>
+                <small class="text-secondary">Phán quyết kiện cáo chợ vé</small>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/admin/movies" class="action-card">
+                <div class="action-icon" style="background: rgba(229, 9, 20, 0.1); color: #E50914;">
+                    <i class="fa-solid fa-circle-plus"></i>
+                </div>
+                <h6>Thêm Phim Mới</h6>
+                <small class="text-secondary">Cập nhật kho phim của rạp</small>
+            </a>
+        </div>
+
+        <div class="col-md-4">
             <a href="/admin/promotions" class="action-card">
                 <div class="action-icon" style="background: rgba(255, 193, 7, 0.1); color: #ffc107;">
                     <i class="fa-solid fa-ticket-simple"></i>
@@ -122,25 +145,18 @@
                 <small class="text-secondary">Tạo mã, sửa chiết khấu</small>
             </a>
         </div>
-        <div class="col-md-3">
+
+        <div class="col-md-4">
             <a href="/admin/comments" class="action-card">
                 <div class="action-icon" style="background: rgba(13, 202, 240, 0.1); color: #0dcaf0;">
                     <i class="fa-solid fa-comment-dots"></i>
                 </div>
                 <h6>Kiểm Duyệt Cmt</h6>
-                <small class="text-secondary">Xóa bình luận toxic</small>
+                <small class="text-secondary">Xóa bình luận phim toxic</small>
             </a>
         </div>
-        <div class="col-md-3">
-            <a href="/admin/movies" class="action-card">
-                <div class="action-icon">
-                    <i class="fa-solid fa-circle-plus"></i>
-                </div>
-                <h6>Thêm Phim Mới</h6>
-                <small class="text-secondary">Cập nhật kho phim</small>
-            </a>
-        </div>
-        <div class="col-md-3">
+
+        <div class="col-md-4">
             <a href="/admin/bookings" class="action-card">
                 <div class="action-icon" style="background: rgba(40, 167, 69, 0.1); color: #28a745;">
                     <i class="fa-solid fa-receipt"></i>
@@ -149,10 +165,20 @@
                 <small class="text-secondary">Kiểm tra lịch sử mua vé</small>
             </a>
         </div>
+
+        <div class="col-md-4">
+            <a href="/admin/dating" class="action-card border-danger">
+                <div class="action-icon" style="background: rgba(229, 9, 20, 0.1); color: #ff4757;">
+                    <i class="fa-solid fa-heart-crack"></i>
+                </div>
+                <h6 class="text-danger">Duyệt Thả Thính</h6>
+                <small class="text-secondary">Dọn dẹp bài đăng & cmt ế</small>
+            </a>
+        </div>
     </div>
 
     <div class="alert alert-info border-0 shadow-sm mt-5">
-        <i class="fa-solid fa-circle-info me-2"></i><strong>Hệ thống sẵn sàng:</strong> Chào Boss Quan! Mọi tính năng quản trị đã được tích hợp đầy đủ. Chúc sếp quản lý rạp phim hồng phát! 🍿
+        <i class="fa-solid fa-circle-info me-2"></i><strong>Hệ thống sẵn sàng:</strong> Chào Boss Quan! Mọi tính năng quản trị đã được khôi phục đầy đủ.
     </div>
 </div>
 

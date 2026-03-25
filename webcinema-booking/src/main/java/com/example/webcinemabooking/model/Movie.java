@@ -15,10 +15,14 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+
     @Column(nullable = false)
     private String title; // Tên phim (VD: Mai, Đào Phở và Piano)
 
-    @Column(columnDefinition = "TEXT")
+
+    @Column(columnDefinition = "LONGTEXT") // Ép Database nhận link dài
+
     private String description; // Nội dung tóm tắt phim
     private String director; // Đạo diễn
 
@@ -28,7 +32,10 @@ public class Movie {
 
     private LocalDate releaseDate; // Ngày khởi chiếu
 
-    private String posterUrl; // Link ảnh dọc (Poster dán ngoài rạp)
+    @Column(columnDefinition = "TEXT")
+    private String posterUrl;
+
+    private String genre;
 
     private String trailerUrl; // Link video Youtube
 

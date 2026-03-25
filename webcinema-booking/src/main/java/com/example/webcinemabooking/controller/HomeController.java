@@ -27,15 +27,45 @@ public class HomeController {
     @Autowired
     private ShowtimeRepository showtimeRepository;
 
-    // --- MỚI THÊM: Quản lý bình luận ---
     @Autowired
     private CommentRepository commentRepository;
 
+    // --- SỬA LẠI: Hàm trang chủ giờ biết nhận thêm Thể loại (Genre) ---
+    // ...
     @GetMapping("/")
-    public String showHomePage(Model model) {
-        model.addAttribute("movies", movieRepository.findAll());
+    public String showHomePage(@RequestParam(value = "genre", required = false) String genre, Model model) {
+
+        List<Movie> movies;
+
+        if (genre != null && !genre.isEmpty()) {
+            // ĐỔI TÊN HÀM Ở DÒNG NÀY THÀNH CHỮ CHỨA CONTAINING NHÉ SẾP
+            movies = movieRepository.findByGenreContainingIgnoreCase(genre);
+            model.addAttribute("selectedGenre", genre);
+        } else {
+            movies = movieRepository.findAll();
+            model.addAttribute("selectedGenre", null);
+        }
+
+        model.addAttribute("movies", movies);
         return "home";
     }
+    // ...
+
+    // --- MỚI THÊM: Xử lý khi khách gõ vào ô tìm kiếm ---
+    @GetMapping("/search")
+    public String searchMovies(@RequestParam("keyword") String keyword, Model model) {
+
+        // Tìm phim có chứa từ khóa đó trong tên
+        List<Movie> searchResults = movieRepository.findByTitleContainingIgnoreCase(keyword);
+
+        model.addAttribute("movies", searchResults);
+        // Để nó không tô đỏ nút thể loại nào cả khi đang tìm kiếm
+        model.addAttribute("selectedGenre", "searching...");
+
+        return "home"; // Đẩy kết quả về lại trang chủ cho nó ngầu
+    }
+
+    // --- CÁC HÀM CŨ GIỮ NGUYÊN 100% ---
 
     @GetMapping("/movie/{id}")
     public String movieDetail(@PathVariable("id") Long id, Model model) {
@@ -45,43 +75,36 @@ public class HomeController {
         }
 
         List<Showtime> showtimes = showtimeRepository.findByMovieId(id);
-
-        // --- MỚI THÊM: Lấy danh sách bình luận của phim này ra ---
         List<Comment> comments = commentRepository.findByMovieIdOrderByCreatedAtDesc(id);
 
         model.addAttribute("movie", movie);
         model.addAttribute("showtimes", showtimes);
-        model.addAttribute("comments", comments); // Gửi mớ bình luận sang HTML
+        model.addAttribute("comments", comments);
 
         return "movie-detail";
     }
 
-    // --- MỚI THÊM: Hàm bắt bưu kiện bình luận từ khách gửi lên ---
     @PostMapping("/movie/comment")
     public String postComment(@RequestParam("movieId") Long movieId,
                               @RequestParam("content") String content,
                               @RequestParam("rating") int rating,
                               HttpSession session) {
 
-        // Kiểm tra xem khách đã đăng nhập chưa
         User user = (User) session.getAttribute("loggedInUser");
         if (user == null) {
-            return "redirect:/login"; // Chưa đăng nhập thì đuổi đi đăng nhập
+            return "redirect:/login";
         }
 
-        // Tạo một bình luận mới
         Comment comment = new Comment();
         comment.setMovie(movieRepository.findById(movieId).orElse(null));
         comment.setUser(user);
         comment.setContent(content);
         comment.setRating(rating);
-
-        // Lưu xuống Database
         commentRepository.save(comment);
 
         System.out.println("💬 " + user.getFullName() + " vừa chấm " + rating + " sao cho phim ID: " + movieId);
 
-        return "redirect:/movie/" + movieId; // Đăng xong thì load lại trang phim để xem thành quả
+        return "redirect:/movie/" + movieId;
     }
 
     @GetMapping("/upcoming")

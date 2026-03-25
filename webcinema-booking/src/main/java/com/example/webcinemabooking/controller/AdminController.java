@@ -1,16 +1,16 @@
 package com.example.webcinemabooking.controller;
 
 import com.example.webcinemabooking.model.Comment;
+import com.example.webcinemabooking.model.TicketPass; // Thêm import này
+import com.example.webcinemabooking.model.Booking;    // Thêm import này
 import com.example.webcinemabooking.model.User;
-import com.example.webcinemabooking.repository.BookingRepository;
-import com.example.webcinemabooking.repository.CommentRepository;
-import com.example.webcinemabooking.repository.MovieRepository;
-import com.example.webcinemabooking.repository.UserRepository;
+import com.example.webcinemabooking.repository.*;    // Import hết repo cho gọn
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,11 +24,12 @@ public class AdminController {
     @Autowired private BookingRepository bookingRepository;
     @Autowired private MovieRepository movieRepository;
     @Autowired private UserRepository userRepository;
-
-    // --- MỚI THÊM: Tiêm Repository Bình luận để sếp kiểm duyệt ---
     @Autowired private CommentRepository commentRepository;
 
-    // --- KHO CHỨA MÃ GIẢM GIÁ (Tạm thời lưu trên RAM để test) ---
+    // --- TIÊM THÊM: Repository Chợ vé để sếp làm Quan Tòa ---
+    @Autowired private TicketPassRepository ticketPassRepository;
+
+    // --- KHO CHỨA MÃ GIẢM GIÁ ---
     private static List<Map<String, Object>> danhSachMa = new ArrayList<>();
 
     private boolean checkAdmin(HttpSession session) {
@@ -53,6 +54,60 @@ public class AdminController {
         return "admin/dashboard";
     }
 
+    // ================= [MỚI] QUẢN LÝ TRANH CHẤP CHỢ VÉ =================
+
+    // 1. Trang danh sách các vụ kiện (DISPUTED)
+    @GetMapping("/ticket-disputes")
+    public String viewDisputes(HttpSession session, Model model) {
+        if (!checkAdmin(session)) return "redirect:/";
+
+        // Lấy những vé đang bị gắn mác TRANH CHẤP
+        List<TicketPass> disputedTickets = ticketPassRepository.findByStatusOrderByCreatedAtDesc("DISPUTED");
+        model.addAttribute("disputedTickets", disputedTickets);
+
+        return "admin/ticket-disputes"; // Sếp nhớ tạo file này trong templates/admin/ nhé
+    }
+
+    // 2. Admin xử NGƯỜI MUA thắng -> Cưỡng chế sang tên vé
+    @PostMapping("/ticket-disputes/resolve")
+    public String resolveDispute(@RequestParam("passId") Long passId, HttpSession session, RedirectAttributes ra) {
+        if (!checkAdmin(session)) return "redirect:/";
+
+        TicketPass tp = ticketPassRepository.findById(passId).orElse(null);
+        if (tp != null) {
+            // Đánh dấu đã bán xong
+            tp.setStatus("SOLD");
+            ticketPassRepository.save(tp);
+
+            // Cưỡng chế đổi thông tin trên Booking (Sang tên chính thức)
+            Booking b = tp.getBooking();
+            b.setCustomerName(tp.getBuyer().getUsername() + " (Boss Quan xử)");
+            b.setCustomerEmail(tp.getBuyer().getEmail());
+            bookingRepository.save(b);
+
+            ra.addFlashAttribute("successMessage", "⚖️ Đã cưỡng chế sang tên vé cho người mua thành công!");
+        }
+        return "redirect:/admin/ticket-disputes";
+    }
+
+    // 3. Admin xử NGƯỜI BÁN thắng -> Hủy báo cáo, trả vé về trạng thái cũ
+    @PostMapping("/ticket-disputes/reject")
+    public String rejectDispute(@RequestParam("passId") Long passId, HttpSession session, RedirectAttributes ra) {
+        if (!checkAdmin(session)) return "redirect:/";
+
+        TicketPass tp = ticketPassRepository.findById(passId).orElse(null);
+        if (tp != null) {
+            // Nhả vé lại ra chợ (AVAILABLE) và đuổi thằng mua ra khỏi vé này
+            tp.setStatus("AVAILABLE");
+            tp.setBuyer(null);
+            ticketPassRepository.save(tp);
+
+            ra.addFlashAttribute("successMessage", "⚖️ Đã hủy báo cáo lừa đảo. Vé đã được trả lại chợ!");
+        }
+        return "redirect:/admin/ticket-disputes";
+    }
+
+
     // ================= QUẢN LÝ MÃ GIẢM GIÁ =================
 
     @GetMapping("/promotions")
@@ -72,15 +127,12 @@ public class AdminController {
         maMoi.put("expiryDate", expiryDate);
 
         danhSachMa.add(maMoi);
-        System.out.println("🎉 Sếp Quan vừa tạo mã: " + code + " | Giảm: " + discountAmount);
-
         return "redirect:/admin/promotions";
     }
 
     @GetMapping("/promotions/delete/{code}")
     public String deletePromotion(@PathVariable("code") String code) {
         danhSachMa.removeIf(promo -> promo.get("code").toString().equals(code));
-        System.out.println("🗑️ Sếp vừa cho mã " + code + " bay màu!");
         return "redirect:/admin/promotions";
     }
 
@@ -92,50 +144,37 @@ public class AdminController {
             if (promo.get("code").toString().equals(code)) {
                 promo.put("discountAmount", discountAmount);
                 promo.put("expiryDate", expiryDate);
-                System.out.println("✍️ Sếp vừa sửa mã " + code);
                 break;
             }
         }
         return "redirect:/admin/promotions";
     }
 
-    // ================= QUẢN LÝ BÌNH LUẬN (MỚI THÊM) =================
+    // ================= QUẢN LÝ BÌNH LUẬN =================
 
-    // 1. Xem toàn bộ bình luận của rạp
     @GetMapping("/comments")
     public String manageComments(HttpSession session, Model model) {
         if (!checkAdmin(session)) return "redirect:/";
-
-        // Lấy hết bình luận ra cho sếp soi, cái nào mới đăng thì hiện lên đầu
         List<Comment> allComments = commentRepository.findAll();
         model.addAttribute("comments", allComments);
-
-        return "admin/admin-comments"; // Đường dẫn tới file HTML quản lý
+        return "admin/admin-comments";
     }
 
-    // 2. Xóa bình luận nếu thấy không hợp lý (Thanh trừng)
     @GetMapping("/comments/delete/{id}")
     public String deleteComment(@PathVariable Long id, HttpSession session) {
         if (!checkAdmin(session)) return "redirect:/";
-
         commentRepository.deleteById(id);
-        System.out.println("🗑️ Sếp Quan vừa xóa sạch bình luận ID: " + id);
-
         return "redirect:/admin/comments";
     }
 
-    // 3. Sửa bình luận (Nếu sếp muốn "nhẹ tay" sửa lại nội dung cho khách)
     @PostMapping("/comments/edit")
     public String editComment(@RequestParam("id") Long id, @RequestParam("content") String content, HttpSession session) {
         if (!checkAdmin(session)) return "redirect:/";
-
         Comment comment = commentRepository.findById(id).orElse(null);
         if (comment != null) {
             comment.setContent(content);
             commentRepository.save(comment);
-            System.out.println("✍️ Sếp Quan vừa chỉnh sửa lại nội dung bình luận ID: " + id);
         }
-
         return "redirect:/admin/comments";
     }
 }

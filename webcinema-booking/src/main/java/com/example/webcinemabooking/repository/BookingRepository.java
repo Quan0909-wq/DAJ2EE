@@ -21,6 +21,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     // MỚI THÊM: Đếm số lượng khách hàng thực tế đã mua vé (Không trùng lặp)
     @Query("SELECT COUNT(DISTINCT b.customerName) FROM Booking b")
     Long countDistinctCustomers();
-    // MỚI THÊM: Tìm tất cả vé dựa vào Email khách hàng và sắp xếp vé mới nhất lên đầu
-    List<Booking> findByCustomerEmailOrderByBookingTimeDesc(String customerEmail);
+    // THÊM CHỮ "IgnoreCase" VÀO GIỮA TÊN HÀM
+    List<Booking> findByCustomerEmailIgnoreCaseOrderByBookingTimeDesc(String customerEmail);
 }
