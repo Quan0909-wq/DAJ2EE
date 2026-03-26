@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vé Của Tôi - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #E50914;
+            --neon-glow: rgba(229, 9, 20, 0.6);
+        }
+
+        body {
+            background: radial-gradient(circle at top, #1a0505 0%, #050505 100%);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        /* --- THANH NAVBAR GỌN GÀNG (Dùng lại của index) --- */
+        .navbar { background: rgba(11, 12, 16, 0.95) !important; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .navbar-brand { font-weight: 800; color: var(--primary-color) !important; }
+
+        .ticket-container { max-width: 850px; margin: 0 auto; padding: 20px; }
+
+        /* --- HIỆU ỨNG CARD NEON GLOW --- */
+        .ticket-card {
+            background: rgba(30, 30, 30, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 5px solid var(--primary-color); /* Vạch đỏ đặc trưng */
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .ticket-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 25px var(--neon-glow); /* HIỆU ỨNG PHÁT SÁNG */
+        }
+
+        .ticket-poster { width: 120px; height: 170px; object-fit: cover; filter: brightness(0.9); transition: 0.3s; }
+        .ticket-card:hover .ticket-poster { filter: brightness(1.1); }
+
+        .ticket-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+
+        .movie-title {
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        .info-row { font-size: 0.9rem; color: #ccc; display: flex; gap: 20px; margin-bottom: 10px; }
+        .info-row i { color: var(--primary-color); }
+
+        .seat-badge {
+            background: linear-gradient(45deg, var(--primary-color), #800000);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 0 10px var(--neon-glow);
+        }
+
+        /* --- PHẦN CUỐNG VÉ (STUB) --- */
+        .ticket-right {
+            padding: 20px;
+            background: rgba(229, 9, 20, 0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-left: 2px dashed rgba(255,255,255,0.15);
+            min-width: 190px;
+        }
+
+        .price-text {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            text-shadow: 0 0 15px var(--neon-glow);
+        }
+
+        .booking-id { font-size: 0.75rem; color: #777; font-family: 'Courier New', Courier, monospace; letter-spacing: 1px; }
+
+        /* Lỗ bấm vé (Punch holes) */
+        .ticket-card::before, .ticket-card::after {
+            content: '';
+            position: absolute;
+            right: 182px;
+            width: 20px; height: 20px;
+            background: #050505; /* Khớp với background body */
+            border-radius: 50%;
+            z-index: 2;
+        }
+        .ticket-card::before { top: -10px; box-shadow: inset 0 -3px 5px rgba(0,0,0,0.5); }
+        .ticket-card::after { bottom: -10px; box-shadow: inset 0 3px 5px rgba(0,0,0,0.5); }
+
+        .qr-icon { color: rgba(255,255,255,0.3); transition: 0.3s; }
+        .ticket-card:hover .qr-icon { color: #fff; transform: scale(1.2); }
+
+        .btn-back { color: var(--primary-color); text-decoration: none; font-weight: 600; transition: 0.3s; }
+        .btn-back:hover { color: #fff; text-shadow: 0 0 15px var(--primary-color); }
+    </style>
+</head>
+<body>
+
+<nav th:replace="~{home :: nav}"></nav>
+
+<div class="container ticket-container">
+    <div class="d-flex justify-content-between align-items-center mb-5 border-bottom border-secondary pb-3">
+        <div>
+            <h2 class="fw-bold m-0" style="letter-spacing: 2px;">
+                <i class="fa-solid fa-ticket-simple me-2 text-danger"></i> VÉ CỦA TÔI
+            </h2>
+            <p class="text-secondary small m-0 mt-1">Sếp Quan ơi, đây là những thước phim sếp đã chọn!</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="/ticket-market" class="btn btn-outline-warning rounded-pill px-3" style="font-size: 0.8rem;">
+                <i class="fa-solid fa-tags me-1"></i> Chợ vé
+            </a>
+            <a href="/" class="btn-back"><i class="fa-solid fa-arrow-left-long me-2"></i> Quay lại rạp</a>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(bookings)}" class="text-center py-5">
+        <div class="mb-4">
+            <i class="fa-solid fa-film fa-4x text-secondary opacity-25"></i>
+        </div>
+        <h4 class="text-secondary fw-bold">Rạp chưa thấy dấu chân của sếp...</h4>
+        <p class="text-muted">Đặt ngay một suất chiếu để trải nghiệm điện ảnh đỉnh cao!</p>
+        <a href="/" class="btn btn-danger rounded-pill px-5 mt-3 fw-bold">ĐẾN RẠP NGAY</a>
+    </div>
+
+    <div th:each="b : ${bookings}" class="ticket-card">
+        <img th:src="${b.showtime.movie.posterUrl}" class="ticket-poster" alt="Poster">
+
+        <div class="ticket-body">
+            <div class="movie-title" th:text="${b.showtime.movie.title}">Tên Phim</div>
+            <div class="info-row">
+                <span><i class="fa-solid fa-calendar-day me-1"></i> <span th:text="${#temporals.format(b.showtime.startTime, 'dd/MM/yyyy')}">Ngày</span></span>
+                <span><i class="fa-solid fa-clock me-1"></i> <span th:text="${#temporals.format(b.showtime.startTime, 'HH:mm')}">Giờ</span></span>
+            </div>
+            <div class="info-row align-items-center">
+                <span><i class="fa-solid fa-door-open me-1"></i> <span th:text="${b.showtime.room.name}">Phòng</span></span>
+                <span class="seat-badge ms-auto">GHẾ: <span th:text="${b.seatNumbers}">A1</span></span>
+            </div>
+        </div>
+
+        <div class="ticket-right">
+            <p class="price-text" th:text="${#numbers.formatDecimal(b.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</p>
+            <span class="booking-id">NO. <span th:text="${b.id}"></span></span>
+            <div class="mt-3 qr-icon">
+                <i class="fa-solid fa-qrcode fa-3x"></i>
+            </div>
+            <small class="text-muted mt-2" style="font-size: 0.6rem;">QUÉT TẠI QUẦY SOÁT VÉ</small>
+
+            <!-- NUT PASS VE -->
+            <div class="mt-3 w-100">
+                <a th:href="@{'/ticket/post?bookingId=' + ${b.id}}"
+                   class="btn btn-sm w-100"
+                   style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 0.7rem; border-radius: 8px; padding: 8px;">
+                    <i class="fa-solid fa-tags me-1"></i>Pass vé
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

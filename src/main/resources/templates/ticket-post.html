@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Đăng vé bán - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #E50914;
+            --bg-body: #050505;
+            --bg-card: #121212;
+            --accent-purple: #667eea;
+            --accent-green: #28a745;
+            --accent-gold: #ffc107;
+        }
+        body {
+            background-color: var(--bg-body);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+        }
+
+        .post-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 40px 0;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-purple);
+        }
+        .post-header h1 {
+            font-weight: 800;
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        .form-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-control, .form-select {
+            background: #1a1a1a !important;
+            border: 1px solid #333 !important;
+            color: #fff !important;
+            border-radius: 10px;
+            padding: 12px 16px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-purple) !important;
+            box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.25) !important;
+        }
+        .form-control::placeholder { color: #555; }
+
+        .form-label {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #ccc;
+            margin-bottom: 6px;
+        }
+
+        .booking-item {
+            background: rgba(0,0,0,0.3);
+            border: 2px solid rgba(102,126,234,0.3);
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+        .booking-item:hover {
+            border-color: var(--accent-purple);
+            background: rgba(102,126,234,0.08);
+        }
+        .booking-item.selected {
+            border-color: var(--accent-green);
+            background: rgba(40,167,69,0.1);
+            box-shadow: 0 0 15px rgba(40,167,69,0.2);
+        }
+
+        .btn-post {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .btn-post:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+            color: #fff;
+        }
+
+        .info-box {
+            background: rgba(255,193,7,0.08);
+            border: 1px solid rgba(255,193,7,0.3);
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        .info-box i { color: var(--accent-gold); margin-right: 5px; }
+
+        .price-input-group {
+            position: relative;
+        }
+        .price-input-group .form-control {
+            padding-right: 50px;
+        }
+        .price-input-group::after {
+            content: 'đ';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="post-header">
+    <div class="container">
+        <a href="/ticket-market" class="text-secondary text-decoration-none small">
+            <i class="fas fa-arrow-left me-1"></i> Quay lại chợ vé
+        </a>
+        <h1 class="mt-2"><i class="fas fa-tags me-2" style="color: var(--accent-purple);"></i>ĐĂNG VÉ BÁN</h1>
+        <p class="text-secondary m-0">Chọn vé muốn pass và đặt giá bán</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <!-- ALERT -->
+    <div th:if="${error}" class="alert alert-danger text-center mb-4" style="border-radius: 12px; max-width: 800px; margin: 0 auto;">
+        <i class="fas fa-exclamation-circle me-2"></i><span th:text="${error}"></span>
+    </div>
+
+    <!-- NO BOOKINGS -->
+    <div th:if="${#lists.isEmpty(bookings)}" class="text-center py-5" style="max-width: 600px; margin: 0 auto;">
+        <i class="fas fa-ticket-alt fa-4x text-secondary mb-4"></i>
+        <h4 class="text-secondary fw-bold">Bạn chưa có vé nào có thể pass</h4>
+        <p class="text-muted mb-4">Chỉ những vé chưa sử dụng (suất chiếu chưa diễn ra) mới có thể pass.</p>
+        <a href="/" class="btn btn-danger px-4">
+            <i class="fas fa-film me-2"></i>Đặt vé ngay
+        </a>
+    </div>
+
+    <div th:if="${!#lists.isEmpty(bookings)}" class="form-card">
+        <form action="/ticket/post" method="POST" id="postForm">
+            <input type="hidden" name="bookingId" id="selectedBookingId">
+
+            <!-- CHON VE -->
+            <h5 class="fw-bold mb-3" style="color: var(--accent-purple);">
+                <i class="fas fa-ticket-alt me-2"></i>CHỌN VÉ MUỐN BÁN
+            </h5>
+
+            <div class="mb-4">
+                <th:block th:each="b : ${bookings}">
+                    <div class="booking-item"
+                         th:data-id="${b.id}"
+                         th:data-price="${b.totalAmount}"
+                         onclick="selectBooking(this)">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold" th:text="${b.showtime.movie.title}">Tên phim</div>
+                                <div class="small text-secondary">
+                                    <i class="fas fa-calendar-day me-1"></i>
+                                    <span th:text="${#temporals.format(b.showtime.startTime, 'dd/MM/yyyy HH:mm')}">25/03/2026 19:00</span>
+                                    | <span th:text="${b.showtime.room.name}">Phòng 1</span>
+                                </div>
+                                <div class="small mt-1">
+                                    <span style="background: rgba(255,193,7,0.2); padding: 2px 8px; border-radius: 10px; color: #ffc107;">
+                                        <i class="fas fa-chair me-1"></i><span th:text="${b.seatNumbers}">A1, A2</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-bold text-danger" th:text="${#numbers.formatDecimal(b.totalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">100,000đ</div>
+                                <div class="small text-secondary">Giá gốc</div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+
+            <!-- DAT GIA -->
+            <h5 class="fw-bold mb-3" style="color: var(--accent-purple);">
+                <i class="fas fa-coins me-2"></i>ĐẶT GIÁ BÁN
+            </h5>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Giá bán</label>
+                    <div class="price-input-group">
+                        <input type="number" name="passPrice" id="passPrice" class="form-control"
+                               placeholder="VD: 80000" min="1000" max="10000000" required>
+                    </div>
+                    <small class="text-secondary">Bạn có thể đặt giá thấp hơn giá gốc để bán nhanh hơn</small>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Thông tin liên hệ (tuỳ chọn)</label>
+                    <input type="text" name="contactInfo" class="form-control"
+                           placeholder="Zalo: 09xx... hoặc email">
+                </div>
+            </div>
+
+            <!-- LY DO -->
+            <div class="mb-4">
+                <label class="form-label">Lý do pass (tuỳ chọn)</label>
+                <textarea name="reason" class="form-control" rows="2"
+                          placeholder="VD: Trùng lịch, không xem được nữa..."
+                          maxlength="500"></textarea>
+                <small class="text-secondary">Lý do sẽ hiển thị trên trang chợ vé để thu hút người mua</small>
+            </div>
+
+            <!-- INFO BOX -->
+            <div class="info-box mb-4">
+                <p class="mb-2"><i class="fas fa-info-circle"></i><strong> Lưu ý khi pass vé:</strong></p>
+                <ul class="mb-0 ps-3">
+                    <li>Vé chỉ được pass trước khi suất chiếu diễn ra</li>
+                    <li>Khi vé được bán, quyền sở hữu vé sẽ chuyển sang người mua</li>
+                    <li>Bạn không thể hủy vé sau khi đã có người mua</li>
+                    <li>Người mua sẽ nhận toàn bộ thông tin vé (ghế, suất chiếu)</li>
+                </ul>
+            </div>
+
+            <button type="submit" class="btn btn-post" id="btnPost" disabled>
+                <i class="fas fa-paper-plane me-2"></i>ĐĂNG VÉ BÁN
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function selectBooking(el) {
+        // Remove previous selection
+        document.querySelectorAll('.booking-item').forEach(item => item.classList.remove('selected'));
+        el.classList.add('selected');
+
+        const bookingId = el.dataset.id;
+        const price = parseFloat(el.dataset.price);
+
+        document.getElementById('selectedBookingId').value = bookingId;
+        document.getElementById('passPrice').value = price;
+
+        document.getElementById('btnPost').disabled = false;
+    }
+
+    // If there's a pre-selected booking (e.g. from error redirect)
+    const preSelected = document.querySelector('.booking-item[data-id="' + [[${param.bookingId}]] + '"]');
+    if (preSelected) {
+        selectBooking(preSelected);
+    }
+</script>
+
+</body>
+</html>
