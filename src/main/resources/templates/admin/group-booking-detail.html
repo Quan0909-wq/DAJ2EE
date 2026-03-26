@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chi tiết đặt vé nhóm - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #050505; color: #fff; font-family: 'Montserrat', sans-serif; }
+        .sidebar { background: #121212; min-height: 100vh; padding: 20px; }
+        .nav-link { color: #888; padding: 12px 15px; border-radius: 10px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { background: rgba(229, 9, 20, 0.1); color: #E50914; }
+        .nav-link i { width: 25px; }
+        
+        .content { padding: 30px; }
+        
+        .detail-card {
+            background: #121212;
+            border-radius: 20px;
+            padding: 30px;
+        }
+        .booking-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .member-table { background: #1a1a1a; border-radius: 10px; overflow: hidden; }
+        .member-table th {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            font-weight: 700;
+            padding: 15px;
+            border: none;
+        }
+        .member-table td { padding: 12px 15px; border-color: #252525; vertical-align: middle; }
+        
+        .seat-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: 700;
+        }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .status-success { background: rgba(40, 167, 69, 0.2); color: #28a745; }
+        .status-pending { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+        
+        .action-checkbox {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        .btn-update {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+        
+        .summary-box { background: #1a1a1a; border-radius: 15px; padding: 20px; }
+        .summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #252525; }
+        .summary-row:last-child { border-bottom: none; }
+        .summary-row.total { font-size: 1.3rem; font-weight: 800; color: #28a745; }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 sidebar">
+            <h4 class="text-danger fw-bold mb-4"><i class="fas fa-film me-2"></i>PELE Admin</h4>
+            <nav class="nav flex-column">
+                <a href="/admin" class="nav-link"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="/admin/movies" class="nav-link"><i class="fas fa-film"></i> Quản lý phim</a>
+                <a href="/admin/showtimes" class="nav-link"><i class="fas fa-clock"></i> Quản lý suất chiếu</a>
+                <a href="/admin/bookings" class="nav-link"><i class="fas fa-ticket-alt"></i> Quản lý vé đơn</a>
+                <a href="/admin/group-bookings" class="nav-link active"><i class="fas fa-users"></i> Đặt vé nhóm</a>
+                <a href="/" class="nav-link mt-5"><i class="fas fa-sign-out-alt"></i> Quay lại website</a>
+            </nav>
+        </div>
+
+        <!-- Content -->
+        <div class="col-md-10 content">
+            <a href="/admin/group-bookings" class="btn btn-outline-light mb-4">
+                <i class="fas fa-arrow-left me-2"></i>Quay lại danh sách
+            </a>
+
+            <div class="detail-card">
+                <!-- Header -->
+                <div class="booking-header text-center mb-4">
+                    <span class="badge bg-primary mb-2" style="font-size: 1rem;">
+                        <i class="fas fa-users me-1"></i> VÉ NHÓM
+                    </span>
+                    <h2 class="fw-bold" style="color: #667eea;" th:text="'GRP-' + ${booking.roomCode}">GRP-XXXXXX</h2>
+                    <h4 th:text="'Phòng nhóm ' + ${booking.roomCode}">Tên nhóm</h4>
+                    <span class="status-badge status-success" th:if="${booking.status == 2}">THÀNH CÔNG</span>
+                    <span class="status-badge status-pending" th:if="${booking.status == 0 || booking.status == 1}">ĐANG CHỜ</span>
+                    <span class="status-badge status-cancelled" th:if="${booking.status == 3}">HẾT HẠN</span>
+                </div>
+
+                <div class="row">
+                    <!-- Left Column -->
+                    <div class="col-md-8">
+                        <!-- Movie Info -->
+                        <h5 class="fw-bold mb-3"><i class="fas fa-film me-2" style="color: #667eea;"></i>THÔNG TIN PHIM</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <p class="text-secondary small mb-1">Phim</p>
+                                <p class="fw-bold" th:text="${booking.showtime.movie.title}">Tên phim</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-secondary small mb-1">Phòng chiếu</p>
+                                <p class="fw-bold" th:text="${booking.showtime.room.name}">Phòng</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-secondary small mb-1">Giờ chiếu</p>
+                                <p class="fw-bold" th:text="${#temporals.format(booking.showtime.startTime, 'HH:mm - dd/MM/yyyy')}">Giờ</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-secondary small mb-1">Ghế</p>
+                                <p class="fw-bold" th:text="${booking.allSeats != null && !booking.allSeats.isEmpty()} ? ${booking.allSeats} : 'Chưa chọn'">A1, A2, A3</p>
+                            </div>
+                        </div>
+
+                        <!-- Contact Info -->
+                        <h5 class="fw-bold mb-3"><i class="fas fa-user me-2" style="color: #667eea;"></i>THÔNG TIN NGƯỜI ĐẶT</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <p class="text-secondary small mb-1">Họ tên</p>
+                                <p class="fw-bold" th:text="${booking.creator != null && booking.creator.fullName != null} ? ${booking.creator.fullName} : '—'">Tên</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="text-secondary small mb-1">Email</p>
+                                <p class="fw-bold" th:text="${booking.creator != null && booking.creator.email != null} ? ${booking.creator.email} : '—'">Email</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="text-secondary small mb-1">Điện thoại</p>
+                                <p class="fw-bold" th:text="${booking.creator != null && booking.creator.phone != null} ? ${booking.creator.phone} : '—'">SĐT</p>
+                            </div>
+                        </div>
+
+                        <!-- Members Table -->
+                        <h5 class="fw-bold mb-3">
+                            <i class="fas fa-users me-2" style="color: #667eea;"></i>DANH SÁCH THÀNH VIÊN
+                        </h5>
+                        <div class="table-responsive">
+                            <table class="table member-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Họ tên</th>
+                                        <th>Ghế</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="member, iter : ${members}">
+                                        <td th:text="${iter.index + 1}">1</td>
+                                        <td class="fw-bold" th:text="${member.name}">Tên</td>
+                                        <td><span class="seat-badge" th:text="${member.seats != null && !member.seats.isEmpty()} ? ${member.seats} : '—'">A1</span></td>
+                                        <td th:text="${member.email}">Email</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Summary -->
+                    <div class="col-md-4">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-receipt me-2" style="color: #667eea;"></i>TÓM TẮT</h5>
+                        <div class="summary-box">
+                            <div class="summary-row">
+                                <span class="text-secondary">Số thành viên:</span>
+                                <span th:text="${#lists.size(members)}">0</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="text-secondary">Tổng tiền gốc:</span>
+                                <span th:text="${#numbers.formatDecimal(booking.originalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</span>
+                            </div>
+                            <div class="summary-row" style="color: #667eea;" th:with="disc=${booking.originalAmount - booking.finalAmount}">
+                                <span><i class="fas fa-tag me-1"></i>Giảm giá:</span>
+                                <span>-<span th:text="${#numbers.formatDecimal(disc, 0, 'COMMA', 0, 'POINT')}">0</span>đ</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Thành tiền:</span>
+                                <span th:text="${#numbers.formatDecimal(booking.finalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</span>
+                            </div>
+                        </div>
+
+                        <h5 class="fw-bold mb-3 mt-4"><i class="fas fa-cog me-2" style="color: #667eea;"></i>THAO TÁC</h5>
+                        <div class="d-grid gap-2">
+                            <a th:href="@{'/group/' + ${booking.roomCode}}" class="btn btn-update">
+                                <i class="fas fa-external-link-alt me-2"></i>Xem phòng trên website
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

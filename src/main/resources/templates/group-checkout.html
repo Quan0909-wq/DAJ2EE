@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thanh toán vé nhóm - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #050505; color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 30px; }
+        .checkout-wrapper { max-width: 1100px; margin: 0 auto; background: #121212; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .left-col { padding: 30px; }
+        .right-col { background: #1a1a1a; padding: 30px; border-left: 2px solid #667eea; }
+        .form-control { background: #252525; border: 1px solid #333; color: white; padding: 12px; }
+        .form-control:focus { background: #222; border-color: #667eea; color: white; box-shadow: none; }
+        
+        .group-name-input {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 2px solid #667eea !important;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .member-card {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 3px solid #667eea;
+        }
+        .member-number {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        .seat-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        
+        .btn-pay { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; 
+            font-weight: 800; 
+            padding: 15px; 
+            text-transform: uppercase; 
+            border-radius: 8px; 
+            transition: 0.3s;
+            border: none;
+        }
+        .btn-pay:hover { 
+            transform: translateY(-2px); 
+            color: white; 
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .discount-summary {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .discount-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 0.85rem;
+        }
+        .discount-row.final {
+            border-top: 1px dashed #667eea;
+            margin-top: 10px;
+            padding-top: 10px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mb-5">
+    <div class="checkout-wrapper row g-0 mt-4">
+        <div class="col-md-7 left-col">
+            <h4 class="fw-bold mb-4" style="color: #667eea;">
+                <i class="fas fa-users me-2"></i>THÔNG TIN ĐẶT VÉ NHÓM
+            </h4>
+
+            <form action="/group-booking/confirm" method="POST">
+                <input type="hidden" name="showtimeId" th:value="${showtime.id}">
+                <input type="hidden" name="seats" th:value="${seats}">
+                <input type="hidden" name="discountedAmount" th:value="${discountedAmount}">
+
+                <!-- Tên nhóm -->
+                <div class="mb-4">
+                    <label class="form-label text-secondary fw-bold small">TÊN NHÓM</label>
+                    <input type="text" name="groupName" class="form-control group-name-input" 
+                           placeholder="VD: Công ty ABC, Gia đình Nguyễn..." required>
+                </div>
+
+                <!-- Thông tin người đặt (đại diện nhóm) -->
+                <h6 class="text-warning fw-bold mb-3"><i class="fas fa-user-tie me-2"></i>NGƯỜI ĐẠI DIỆN NHÓM</h6>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-secondary fw-bold small">HỌ VÀ TÊN</label>
+                        <input type="text" name="customerName" class="form-control" placeholder="Người đại diện..." required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-secondary fw-bold small">SỐ ĐIỆN THOẠI</label>
+                        <input type="tel" name="customerPhone" class="form-control" placeholder="0987654321" required>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-secondary fw-bold small">EMAIL NHẬN XÁC NHẬN</label>
+                    <input type="email" name="customerEmail" class="form-control" placeholder="email@example.com" required>
+                </div>
+
+                <!-- Danh sách thành viên -->
+                <h6 class="text-info fw-bold mb-3">
+                    <i class="fas fa-list-ul me-2"></i>DANH SÁCH THÀNH VIÊN (<span th:text="${memberCount}">0</span> người)
+                </h6>
+                <div style="max-height: 250px; overflow-y: auto;" class="mb-4">
+                    <div th:each="seat, iter : ${seatArray}" class="member-card d-flex align-items-center gap-3">
+                        <div class="member-number" th:text="${iter.index + 1}">1</div>
+                        <div style="flex: 1;">
+                            <div class="small text-secondary mb-1">Ghế <span th:text="${seat}">A1</span></div>
+                        </div>
+                        <div class="seat-badge" th:text="${seat}">A1</div>
+                    </div>
+                </div>
+
+                <!-- Phương thức thanh toán -->
+                <h6 class="text-warning fw-bold mb-3"><i class="fas fa-wallet me-2"></i>PHƯƠNG THỨC THANH TOÁN</h6>
+                <div class="d-flex gap-3 mb-4">
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMethod" value="CASH" checked style="display: none;">
+                        <div class="payment-card" onclick="selectPayment(this, 'CASH')">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Tiền mặt</span>
+                        </div>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMethod" value="BANKING" style="display: none;">
+                        <div class="payment-card" onclick="selectPayment(this, 'BANKING')">
+                            <i class="fas fa-university"></i>
+                            <span>Chuyển khoản</span>
+                        </div>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-pay w-100 mt-2">
+                    <i class="fas fa-check-circle me-2"></i>XÁC NHẬN ĐẶT VÉ NHÓM
+                </button>
+            </form>
+        </div>
+
+        <div class="col-md-5 right-col">
+            <h5 class="fw-bold mb-4 border-bottom border-secondary pb-3">
+                <i class="fas fa-receipt me-2" style="color: #667eea;"></i>TÓM TẮT ĐƠN HÀNG
+            </h5>
+
+            <h5 style="color: #667eea;" th:text="${showtime.movie.title}">Tên Phim</h5>
+            <p class="text-secondary small mb-4" th:text="${showtime.room.name} + ' | ' + ${#temporals.format(showtime.startTime, 'HH:mm - dd/MM/yyyy')}"></p>
+
+            <div class="d-flex justify-content-between mb-2 border-bottom border-dark pb-2">
+                <span class="text-secondary">Số ghế:</span>
+                <strong class="text-white" th:text="${memberCount}">0</strong>
+            </div>
+            <div class="d-flex justify-content-between mb-2 border-bottom border-dark pb-2">
+                <span class="text-secondary">Giá mỗi vé:</span>
+                <strong class="text-white" th:text="${#numbers.formatDecimal(showtime.price, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</strong>
+            </div>
+            <div class="d-flex justify-content-between mb-2 border-bottom border-dark pb-2">
+                <span class="text-secondary">Ghế đã chọn:</span>
+                <strong class="text-info" th:text="${seats}">A1, A2</strong>
+            </div>
+
+            <!-- Discount summary -->
+            <div class="discount-summary mt-3">
+                <div class="discount-row">
+                    <span class="text-secondary">Tổng tiền gốc:</span>
+                    <span th:text="${#numbers.formatDecimal(originalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</span>
+                </div>
+                <div class="discount-row" style="color: #667eea;">
+                    <span><i class="fas fa-tag me-1"></i> Giảm <span th:text="${#numbers.formatDecimal(discountRate * 100, 0, 'COMMA', 0, 'POINT')}">0</span>%:</span>
+                    <span>-<span th:text="${#numbers.formatDecimal(discountAmount, 0, 'COMMA', 0, 'POINT')}">0</span>đ</span>
+                </div>
+                <div class="discount-row final">
+                    <span class="fw-bold">THANH TOÁN:</span>
+                    <strong class="text-success" style="font-size: 1.3rem;" 
+                            th:text="${#numbers.formatDecimal(discountedAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</strong>
+                </div>
+            </div>
+
+            <div class="alert alert-warning py-2 mt-3" role="alert" style="font-size: 0.75rem;">
+                <i class="fas fa-info-circle me-1"></i>
+                Vé nhóm được giảm giá tự động dựa trên số lượng người. Không cần nhập mã khuyến mãi!
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .payment-option { cursor: pointer; }
+    .payment-card {
+        background: #252525;
+        border: 2px solid #333;
+        border-radius: 10px;
+        padding: 15px 20px;
+        text-align: center;
+        transition: 0.3s;
+        min-width: 100px;
+    }
+    .payment-card i { font-size: 1.5rem; margin-bottom: 5px; display: block; }
+    .payment-card span { font-size: 0.8rem; font-weight: 600; }
+    .payment-card.selected {
+        border-color: #667eea;
+        background: rgba(102, 126, 234, 0.1);
+    }
+</style>
+
+<script>
+    function selectPayment(element, value) {
+        document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('selected'));
+        element.classList.add('selected');
+        document.querySelector(`input[value="${value}"]`).checked = true;
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

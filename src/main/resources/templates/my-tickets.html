@@ -126,7 +126,12 @@
             </h2>
             <p class="text-secondary small m-0 mt-1">Sếp Quan ơi, đây là những thước phim sếp đã chọn!</p>
         </div>
-        <a href="/" class="btn-back"><i class="fa-solid fa-arrow-left-long me-2"></i> Quay lại rạp</a>
+        <div class="d-flex gap-2">
+            <a href="/ticket-market" class="btn btn-outline-warning rounded-pill px-3" style="font-size: 0.8rem;">
+                <i class="fa-solid fa-tags me-1"></i> Chợ vé
+            </a>
+            <a href="/" class="btn-back"><i class="fa-solid fa-arrow-left-long me-2"></i> Quay lại rạp</a>
+        </div>
     </div>
 
     <div th:if="${#lists.isEmpty(bookings)}" class="text-center py-5">
@@ -160,6 +165,15 @@
                 <i class="fa-solid fa-qrcode fa-3x"></i>
             </div>
             <small class="text-muted mt-2" style="font-size: 0.6rem;">QUÉT TẠI QUẦY SOÁT VÉ</small>
+
+            <!-- NUT PASS VE -->
+            <div class="mt-3 w-100">
+                <a th:href="@{'/ticket/post?bookingId=' + ${b.id}}"
+                   class="btn btn-sm w-100"
+                   style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 0.7rem; border-radius: 8px; padding: 8px;">
+                    <i class="fa-solid fa-tags me-1"></i>Pass vé
+                </a>
+            </div>
         </div>
     </div>
 </div>

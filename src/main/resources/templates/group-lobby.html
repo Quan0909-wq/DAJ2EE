@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Phòng nhóm - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #E50914;
+            --bg-body: #050505;
+            --bg-card: #121212;
+            --accent-purple: #667eea;
+            --accent-green: #28a745;
+        }
+        body {
+            background-color: var(--bg-body);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+        }
+
+        .room-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 30px 0;
+            border-bottom: 3px solid var(--accent-purple);
+        }
+        .room-code-display {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .timer-box {
+            background: rgba(220,53,69,0.15);
+            border: 2px solid rgba(220,53,69,0.4);
+            border-radius: 12px;
+            padding: 8px 20px;
+            display: inline-block;
+        }
+        .timer-box.warning {
+            background: rgba(255,193,7,0.15);
+            border-color: rgba(255,193,7,0.4);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .member-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+        .member-card:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-2px);
+        }
+        .member-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-purple), #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        .member-avatar.creator {
+            background: linear-gradient(135deg, var(--primary-red), #b30000);
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+        .status-waiting { background: rgba(255,255,255,0.1); color: #888; }
+        .status-joined { background: rgba(102,126,234,0.2); color: #667eea; }
+        .status-seated { background: rgba(40,167,69,0.2); color: #28a745; }
+
+        .invite-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 2px dashed rgba(102,126,234,0.4);
+            padding: 20px;
+        }
+
+        .summary-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--accent-purple);
+        }
+
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+        .btn-primary-gradient:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+            color: #fff;
+        }
+
+        .btn-success-gradient {
+            background: linear-gradient(135deg, #28a745 0%, #15c964 100%);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+        .btn-success-gradient:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(40,167,69,0.4);
+            color: #fff;
+        }
+
+        .discount-badge {
+            background: rgba(40,167,69,0.2);
+            color: #28a745;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: rgba(102,126,234,0.2);
+            border: 1px solid rgba(102,126,234,0.4);
+            color: #667eea;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .copy-btn:hover {
+            background: rgba(102,126,234,0.3);
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="room-header">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <a href="/" class="text-secondary text-decoration-none small mb-2 d-inline-block">
+                    <i class="fas fa-arrow-left me-1"></i> Quay lại
+                </a>
+                <div class="d-flex align-items-center gap-3">
+                    <i class="fas fa-users" style="color: var(--accent-purple); font-size: 1.5rem;"></i>
+                    <span class="text-secondary fw-bold">PHÒNG NHÓM</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="room-code-display" th:text="${group.roomCode}">ABC123</div>
+                <div class="mt-1">
+                    <div class="timer-box" id="timer-box">
+                        <i class="fas fa-clock me-1"></i>
+                        <span id="timer-text">--:--</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="small text-secondary mb-1">Phim</div>
+                <div class="fw-bold" th:text="${showtime.movie.title}">Tên phim</div>
+                <div class="small text-secondary" th:text="${#temporals.format(showtime.startTime, 'HH:mm - dd/MM/yyyy')}">19:00 - 25/03/2026</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+
+    <!-- ALERT -->
+    <div id="alert-box" class="alert alert-danger text-center" style="display: none;">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        <span id="alert-text"></span>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- BENH TRAI: THANH VIEN -->
+        <div class="col-lg-7">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0">
+                    <i class="fas fa-users me-2" style="color: var(--accent-purple);"></i>
+                    Thành viên
+                    <span class="badge bg-secondary ms-2" th:text="${members.size()}">0</span>
+                </h5>
+                <button class="copy-btn" onclick="copyRoomCode()">
+                    <i class="fas fa-copy me-1"></i> Copy mã phòng
+                </button>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6" th:each="m : ${members}">
+                    <div class="member-card">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="member-avatar" th:classappend="${m.isCreator} ? 'creator' : ''"
+                                 th:text="${#strings.substring(m.name, 0, 1)}">A</div>
+                            <div class="flex-grow-1">
+                                <div class="fw-bold d-flex align-items-center gap-2">
+                                    <span th:text="${m.name}">Nguyễn Văn A</span>
+                                    <span th:if="${m.isCreator}" class="badge bg-danger" style="font-size: 0.6rem;">ADMIN</span>
+                                </div>
+                                <div class="small text-secondary" th:text="${m.email}">email@example.com</div>
+                                <div class="mt-1">
+                                    <span th:if="${m.joinStatus == 0}" class="status-badge status-waiting">
+                                        <i class="fas fa-hourglass-half me-1"></i>Chưa tham gia
+                                    </span>
+                                    <span th:if="${m.joinStatus == 1}" class="status-badge status-joined">
+                                        <i class="fas fa-check me-1"></i>Đã tham gia
+                                    </span>
+                                    <span th:if="${m.joinStatus == 2}" class="status-badge status-seated">
+                                        <i class="fas fa-chair me-1"></i>Đã chọn ghế
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-bold" style="color: var(--accent-purple);"
+                                     th:text="${m.seats != null && !m.seats.isEmpty()} ? ${m.seats} : '-'">A1, A2</div>
+                                <div class="small text-secondary">ghế</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MOI THANH VIEN -->
+            <div class="invite-card">
+                <h6 class="fw-bold mb-3">
+                    <i class="fas fa-user-plus me-2" style="color: var(--accent-purple);"></i>Mời thành viên
+                </h6>
+                <div class="row g-2">
+                    <div class="col-md-4">
+                        <input type="text" id="invite-name" class="form-control" placeholder="Tên">
+                    </div>
+                    <div class="col-md-5">
+                        <input type="email" id="invite-email" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-primary-gradient w-100" onclick="inviteMember()">
+                            <i class="fas fa-paper-plane me-1"></i> Mời
+                        </button>
+                    </div>
+                </div>
+                <div id="invite-result" class="small mt-2" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- BENH PHAI: TOM TAT VA HANH DONG -->
+        <div class="col-lg-5">
+            <!-- TOM TAT -->
+            <div class="summary-card mb-4">
+                <h6 class="fw-bold mb-3 border-bottom border-secondary pb-2">
+                    <i class="fas fa-receipt me-2" style="color: var(--accent-purple);"></i>Tóm tắt đơn hàng
+                </h6>
+
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-secondary small">Phòng chiếu</span>
+                    <span class="fw-bold" th:text="${showtime.room.name}">Phòng 1</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-secondary small">Số ghế</span>
+                    <span class="fw-bold" id="total-seats" th:text="${statusData.totalSeats}">0</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-secondary small">Đã chọn ghế</span>
+                    <span class="fw-bold" id="selected-seats" th:text="${group.allSeats != null && !group.allSeats.isEmpty()} ? ${group.allSeats} : 'Chưa có'">Chưa có</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-secondary small">Giá gốc</span>
+                    <span class="fw-bold" th:text="${#numbers.formatDecimal(statusData.originalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-secondary small">Giảm giá</span>
+                    <span class="discount-badge" id="discount-badge"
+                          th:text="${statusData.discountPercent > 0} ? (${statusData.discountPercent * 100} + '%') : 'Không'">0%</span>
+                </div>
+                <hr class="border-secondary">
+                <div class="d-flex justify-content-between">
+                    <span class="fw-bold">Tổng tiền</span>
+                    <span class="fw-bold text-price" style="color: var(--accent-purple); font-size: 1.3rem;"
+                          id="final-amount"
+                          th:text="${#numbers.formatDecimal(statusData.finalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</span>
+                </div>
+            </div>
+
+            <!-- HANH DONG -->
+            <div class="d-grid gap-2">
+                <a th:href="@{'/group/' + ${group.roomCode} + '/seats'(memberId=${currentMember?.id})}"
+                   class="btn btn-primary-gradient">
+                    <i class="fas fa-chair me-2"></i>CHỌN GHẾ CỦA TÔI
+                </a>
+                <a th:href="@{'/group/' + ${group.roomCode} + '/payment'}"
+                   class="btn btn-success-gradient">
+                    <i class="fas fa-credit-card me-2"></i>THANH TOÁN
+                </a>
+                <a href="/group" class="btn btn-outline-secondary">
+                    <i class="fas fa-plus me-2"></i>Tạo phòng khác
+                </a>
+            </div>
+
+            <!-- HUONG DAN -->
+            <div class="mt-4 p-3" style="background: rgba(255,255,255,0.02); border-radius: 10px;">
+                <h7 class="fw-bold text-secondary mb-2 d-block">
+                    <i class="fas fa-info-circle me-1"></i> Hướng dẫn
+                </h7>
+                <ol class="small text-secondary mb-0 ps-3">
+                    <li class="mb-1">Chia sẻ mã phòng cho bạn bè</li>
+                    <li class="mb-1">Mỗi người chọn ghế riêng của mình</li>
+                    <li class="mb-1">Chọn thanh toán 1 người hoặc chia đều</li>
+                    <li>Vé sẽ được xác nhận khi tất cả thanh toán xong</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    const roomCode = [[${group.roomCode}]];
+    let remainingSeconds = [[${statusData.remainingSeconds}]];
+
+    // Timer
+    function updateTimer() {
+        if (remainingSeconds <= 0) {
+            document.getElementById('timer-text').innerText = 'Hết hạn!';
+            document.getElementById('timer-box').classList.add('warning');
+            return;
+        }
+        const mins = Math.floor(remainingSeconds / 60);
+        const secs = remainingSeconds % 60;
+        document.getElementById('timer-text').innerText =
+            String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+        if (mins < 5) {
+            document.getElementById('timer-box').classList.add('warning');
+        }
+        remainingSeconds--;
+    }
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    // Copy room code
+    function copyRoomCode() {
+        navigator.clipboard.writeText(roomCode).then(() => {
+            const btn = document.querySelector('.copy-btn');
+            btn.innerHTML = '<i class="fas fa-check me-1"></i> Đã copy!';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-copy me-1"></i> Copy mã phòng';
+            }, 2000);
+        });
+    }
+
+    // Invite member
+    function inviteMember() {
+        const name = document.getElementById('invite-name').value;
+        const email = document.getElementById('invite-email').value;
+        if (!name || !email) {
+            showAlert('Vui lòng nhập tên và email');
+            return;
+        }
+
+        fetch('/group/' + roomCode + '/invite', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email)
+        })
+        .then(r => r.json())
+        .then(data => {
+            const result = document.getElementById('invite-result');
+            result.style.display = 'block';
+            if (data.success) {
+                result.innerHTML = '<span style="color: #28a745;"><i class="fas fa-check-circle me-1"></i>Đã mời ' + data.name + '! Mã phòng: ' + roomCode + '</span>';
+                document.getElementById('invite-name').value = '';
+                document.getElementById('invite-email').value = '';
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                result.innerHTML = '<span style="color: #ff6b6b;"><i class="fas fa-times-circle me-1"></i>' + data.message + '</span>';
+            }
+        })
+        .catch(() => {
+            showAlert('Có lỗi khi mời thành viên');
+        });
+    }
+
+    // Show alert
+    function showAlert(msg) {
+        const box = document.getElementById('alert-box');
+        document.getElementById('alert-text').innerText = msg;
+        box.style.display = 'block';
+        setTimeout(() => { box.style.display = 'none'; }, 5000);
+    }
+
+    // Poll status
+    setInterval(() => {
+        fetch('/group/' + roomCode + '/status')
+            .then(r => r.json())
+            .then(data => {
+                if (data.status === 2) {
+                    location.href = '/group/' + roomCode + '/success';
+                }
+                if (data.status === 3) {
+                    showAlert('Phòng đã hết hạn!');
+                }
+            });
+    }, 10000);
+</script>
+
+</body>
+</html>

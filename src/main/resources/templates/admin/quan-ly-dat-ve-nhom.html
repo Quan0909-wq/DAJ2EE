@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quản lý đặt vé nhóm - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #050505; color: #fff; font-family: 'Montserrat', sans-serif; }
+        .sidebar {
+            background: #121212;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .nav-link { color: #888; padding: 12px 15px; border-radius: 10px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { background: rgba(229, 9, 20, 0.1); color: #E50914; }
+        .nav-link i { width: 25px; }
+        
+        .content { padding: 30px; }
+        .page-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 25px; }
+        
+        .stat-card {
+            background: #121212;
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 4px solid #667eea;
+        }
+        .stat-number { font-size: 2rem; font-weight: 800; color: #667eea; }
+        
+        .booking-table {
+            background: #121212;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .booking-table th {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            font-weight: 700;
+            padding: 15px;
+            border: none;
+        }
+        .booking-table td {
+            padding: 15px;
+            border-color: #252525;
+            vertical-align: middle;
+        }
+        .booking-table tr:hover { background: rgba(102, 126, 234, 0.05); }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .status-success { background: rgba(40, 167, 69, 0.2); color: #28a745; }
+        .status-pending { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+        .status-cancelled { background: rgba(220, 53, 69, 0.2); color: #dc3545; }
+        
+        .booking-code {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #667eea;
+        }
+        
+        .action-btn {
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-view { background: rgba(102, 126, 234, 0.2); color: #667eea; }
+        .btn-view:hover { background: #667eea; color: white; }
+        .btn-cancel { background: rgba(220, 53, 69, 0.2); color: #dc3545; }
+        .btn-cancel:hover { background: #dc3545; color: white; }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .filter-tab {
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: #1a1a1a;
+            color: #888;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+        .filter-tab:hover, .filter-tab.active { background: #667eea; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 sidebar">
+            <h4 class="text-danger fw-bold mb-4"><i class="fas fa-film me-2"></i>PELE Admin</h4>
+            <nav class="nav flex-column">
+                <a href="/admin" class="nav-link"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="/admin/movies" class="nav-link"><i class="fas fa-film"></i> Quản lý phim</a>
+                <a href="/admin/showtimes" class="nav-link"><i class="fas fa-clock"></i> Quản lý suất chiếu</a>
+                <a href="/admin/bookings" class="nav-link"><i class="fas fa-ticket-alt"></i> Quản lý vé đơn</a>
+                <a href="/admin/group-bookings" class="nav-link active"><i class="fas fa-users"></i> Đặt vé nhóm</a>
+                <a href="/" class="nav-link mt-5"><i class="fas fa-sign-out-alt"></i> Quay lại website</a>
+            </nav>
+        </div>
+
+        <!-- Content -->
+        <div class="col-md-10 content">
+            <h2 class="page-title">
+                <i class="fas fa-users me-3" style="color: #667eea;"></i>QUẢN LÝ ĐẶT VÉ NHÓM
+            </h2>
+
+            <!-- Stats -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="text-secondary small">Tổng đơn nhóm</div>
+                        <div class="stat-number" th:text="${totalBookings}">0</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card" style="border-left-color: #28a745;">
+                        <div class="text-secondary small">Thành công</div>
+                        <div class="stat-number" style="color: #28a745;" th:text="${successBookings}">0</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card" style="border-left-color: #ffc107;">
+                        <div class="text-secondary small">Đang chờ</div>
+                        <div class="stat-number" style="color: #ffc107;" th:text="${pendingBookings}">0</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card" style="border-left-color: #dc3545;">
+                        <div class="text-secondary small">Đã hủy</div>
+                        <div class="stat-number" style="color: #dc3545;" th:text="${cancelledBookings}">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterBookings('all')">Tất cả</button>
+                <button class="filter-tab" onclick="filterBookings('SUCCESS')">Thành công</button>
+                <button class="filter-tab" onclick="filterBookings('PENDING')">Đang chờ</button>
+                <button class="filter-tab" onclick="filterBookings('CANCELLED')">Đã hủy</button>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="table booking-table">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn</th>
+                            <th>Tên nhóm</th>
+                            <th>Phim</th>
+                            <th>Người đại diện</th>
+                            <th>Số người</th>
+                            <th>Tổng tiền</th>
+                            <th>Giảm giá</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsTable">
+                        <tr th:each="booking : ${bookings}"
+                            th:data-status="${booking.status == 2 ? 'SUCCESS' : (booking.status == 3 ? 'CANCELLED' : 'PENDING')}">
+                            <td><span class="booking-code" th:text="'GRP-' + ${booking.roomCode}">GRP-XXXXXX</span></td>
+                            <td class="fw-bold" th:text="'Phòng ' + ${booking.roomCode}">Phòng</td>
+                            <td th:text="${booking.showtime != null && booking.showtime.movie != null} ? ${booking.showtime.movie.title} : '-'">Tên phim</td>
+                            <td>
+                                <div th:text="${booking.creator != null && booking.creator.fullName != null} ? ${booking.creator.fullName} : '—'">Tên</div>
+                                <small class="text-secondary" th:text="${booking.creator != null && booking.creator.phone != null} ? ${booking.creator.phone} : ''">SĐT</small>
+                            </td>
+                            <td>
+                                <span class="badge bg-primary" th:text="${memberCounts[booking.id]}">0</span>
+                            </td>
+                            <td class="text-success fw-bold" th:text="${#numbers.formatDecimal(booking.finalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</td>
+                            <td class="text-info" th:with="disc=${booking.originalAmount - booking.finalAmount}"
+                                th:text="'-' + ${#numbers.formatDecimal(disc, 0, 'COMMA', 0, 'POINT')} + 'đ'">-0đ</td>
+                            <td>
+                                <span class="status-badge status-success" th:if="${booking.status == 2}">Thành công</span>
+                                <span class="status-badge status-pending" th:if="${booking.status == 0 || booking.status == 1}">Đang chờ</span>
+                                <span class="status-badge status-cancelled" th:if="${booking.status == 3}">Hết hạn</span>
+                            </td>
+                            <td>
+                                <a th:href="@{/admin/group-booking/{id}(id=${booking.id})}" class="action-btn btn-view">
+                                    <i class="fas fa-eye"></i> Chi tiết
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterBookings(status) {
+        // Update active tab
+        document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+        event.target.classList.add('active');
+
+        // Filter rows
+        const rows = document.querySelectorAll('#bookingsTable tr');
+        rows.forEach(row => {
+            if (status === 'all' || row.dataset.status === status) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

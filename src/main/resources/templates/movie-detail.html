@@ -108,10 +108,16 @@
                 <h5 class="section-header">CHỌN SUẤT CHIẾU</h5>
                 <div class="showtime-grid">
                     <div th:each="st : ${showtimes}">
-                        <a th:href="@{/booking/{id}(id=${st.id})}" class="btn-showtime">
-                            <span class="time" th:text="${#temporals.format(st.startTime, 'HH:mm')}">19:00</span>
-                            <span class="room" th:text="${st.room.name}">Phòng 1</span>
-                        </a>
+                        <div class="showtime-row d-flex align-items-center gap-2 mb-2">
+                            <a th:href="@{/booking/{id}(id=${st.id})}" class="btn-showtime flex-grow-1">
+                                <span class="time" th:text="${#temporals.format(st.startTime, 'HH:mm')}">19:00</span>
+                                <span class="room" th:text="${st.room.name}">Phòng 1</span>
+                            </a>
+                            <a th:href="@{/group-booking/{id}(id=${st.id})}" class="btn btn-sm px-3" 
+                               style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 20px; font-weight: 600; font-size: 0.75rem;">
+                                <i class="fas fa-users me-1"></i> Nhóm
+                            </a>
+                        </div>
                     </div>
                     <div th:if="${#lists.isEmpty(showtimes)}" class="alert alert-dark bg-transparent border-secondary text-muted">
                         Hiện chưa có suất chiếu cho phim này.
@@ -122,12 +128,12 @@
     </div>
 </div>
 
-<div class="container mt-5 pt-5">
+<div class="container mt-5 pt-5" th:if="${trailerEmbedUrl != null and !trailerEmbedUrl.isEmpty()}">
     <h3 class="section-header text-uppercase">Trailer Siêu Phẩm</h3>
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="trailer-container ratio ratio-21x9">
-                <iframe th:src="${movie.trailerUrl}" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+                <iframe th:src="${trailerEmbedUrl}" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
     </div>
@@ -137,6 +143,10 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <h3 class="section-header text-uppercase">Cộng Đồng PELE Phê Bình</h3>
+
+            <div class="alert alert-success bg-transparent border-success text-success text-center p-3 mb-4" role="alert" th:if="${success != null}">
+                <i class="fa-solid fa-check-circle me-2"></i>Binh luan cua ban da duoc dang!
+            </div>
 
             <div class="card bg-dark border-secondary p-4 mb-5" th:if="${session.loggedInUser != null}">
                 <form action="/movie/comment" method="POST">
