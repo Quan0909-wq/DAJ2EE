@@ -1,0 +1,807 @@
+<style th:fragment="navbarStyles">
+/* ================= SHARED PELE CSS ================= */
+:root {
+    --primary: #E50914;
+    --primary-dark: #B8070F;
+    --primary-glow: rgba(229, 9, 20, 0.4);
+    --bg-dark: #0b0c10;
+    --bg-sidebar: #12131a;
+    --bg-card: #1f2833;
+    --text-light: #c5c6c7;
+    --text-dim: #8b8d9a;
+    --border-subtle: rgba(255,255,255,0.06);
+}
+body { background-color: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; }
+
+/* ─── TOP PROMO BAR ─── */
+.pele-topbar {
+    background: linear-gradient(90deg, #0d0d0d 0%, #1a0000 50%, #0d0d0d 100%);
+    border-bottom: 1px solid rgba(229, 9, 20, 0.3);
+    font-size: 0.78rem;
+    padding: 6px 0;
+    letter-spacing: 0.5px;
+}
+.pele-topbar a { color: #ff6b6b; text-decoration: none; transition: color 0.2s; }
+.pele-topbar a:hover { color: #fff; }
+.pele-topbar .topbar-divider { color: rgba(255,255,255,0.15); margin: 0 8px; }
+
+/* ─── MAIN NAVBAR ─── */
+.pele-navbar {
+    background: rgba(11, 12, 16, 0.96) !important;
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(229, 9, 20, 0.15);
+    padding: 10px 0;
+    transition: all 0.3s ease;
+}
+.pele-navbar .pele-navbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: nowrap;
+    width: 100%;
+    min-height: 52px;
+}
+.pele-navbar .pele-navbar-left,
+.pele-navbar .pele-navbar-right {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.pele-navbar .pele-navbar-center {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+}
+.pele-navbar .btn-menu-hamburger {
+    font-size: 1.25rem;
+    padding: 6px 12px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    line-height: 1;
+    color: #d8d9de;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.pele-navbar .btn-menu-hamburger:hover {
+    background: rgba(229, 9, 20, 0.15);
+    border-color: rgba(229, 9, 20, 0.35);
+    color: #fff;
+}
+.pele-navbar.scrolled {
+    box-shadow: 0 4px 30px rgba(0,0,0,0.6);
+    border-bottom-color: rgba(229, 9, 20, 0.3);
+}
+.pele-logo img {
+    height: 52px;
+    transition: transform 0.3s;
+    filter: drop-shadow(0 0 6px rgba(229,9,20,0.3));
+}
+.pele-logo:hover img { transform: scale(1.05); }
+
+/* ─── NAV LINKS (desktop center) ─── */
+.pele-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.pele-nav-links > li {
+    list-style: none;
+}
+.pele-nav-links .nav-item .nav-link {
+    color: #c8c9ce !important;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.25s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+.pele-nav-links .nav-item .nav-link i {
+    flex-shrink: 0;
+    width: 1em;
+    text-align: center;
+    opacity: 0.9;
+}
+.pele-nav-links .nav-item .nav-link:hover,
+.pele-nav-links .nav-item .nav-link.active {
+    color: #fff !important;
+    background: rgba(229, 9, 20, 0.15);
+}
+.pele-nav-links .nav-item .nav-link.active {
+    color: var(--primary) !important;
+    font-weight: 700;
+}
+.pele-nav-links .nav-item .nav-link.text-warning { color: #ffc107 !important; }
+.pele-nav-links .nav-item .nav-link.text-info { color: #74b9ff !important; }
+
+/* Nav divider */
+.nav-sep { width: 1px; height: 20px; background: rgba(255,255,255,0.1); margin: 0 4px; }
+
+/* ─── SEARCH BAR ─── */
+.pele-search-form {
+    position: relative;
+    margin: 0;
+}
+.pele-search-form input {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    border-radius: 25px;
+    padding: 8px 38px 8px 16px;
+    font-size: 0.83rem;
+    width: 200px;
+    transition: all 0.3s;
+}
+.pele-search-form input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(229,9,20,0.15);
+    outline: none;
+    width: 260px;
+    background: rgba(255,255,255,0.08);
+}
+.pele-search-form input::placeholder { color: #7a7d88; }
+.pele-search-form .btn-search {
+    position: absolute; right: 5px; top: 50%; transform: translateY(-50%);
+    color: var(--primary); background: none; border: none; padding: 4px 8px;
+    cursor: pointer;
+}
+
+/* ─── USER ACTIONS ─── */
+.pele-user-actions { display: flex; align-items: center; gap: 8px; }
+.btn-login-nav {
+    background: transparent;
+    border: 1.5px solid var(--primary);
+    color: var(--primary) !important;
+    padding: 6px 18px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-decoration: none;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.btn-login-nav:hover { background: var(--primary); color: #fff !important; box-shadow: 0 0 15px var(--primary-glow); }
+
+.btn-dating-nav {
+    background: rgba(229, 9, 20, 0.12);
+    border: 1px solid rgba(229, 9, 20, 0.3);
+    color: #ff6b6b;
+    padding: 7px 12px;
+    border-radius: 10px;
+    transition: all 0.25s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+.btn-dating-nav:hover { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 0 15px var(--primary-glow); }
+
+.btn-bell {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #aaa;
+    padding: 7px 12px;
+    border-radius: 10px;
+    transition: all 0.25s;
+    position: relative;
+    cursor: pointer;
+}
+.btn-bell:hover { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2); }
+.btn-bell .bell-badge {
+    position: absolute; top: -4px; right: -4px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 800;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--bg-dark);
+}
+
+.user-avatar-nav {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), #ff4757);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.85rem;
+    border: 2px solid rgba(229,9,20,0.4);
+    flex-shrink: 0;
+}
+.user-info-nav { line-height: 1.2; }
+.user-greeting { font-size: 0.7rem; color: #666; }
+.user-name-nav { font-size: 0.82rem; font-weight: 700; color: #ffc107; }
+
+/* ─── OFFCANVAS SIDEBAR (force dark — overrides Bootstrap offcanvas white) ─── */
+.offcanvas.pele-sidebar {
+    --bs-offcanvas-bg: #12131a;
+    background-color: #12131a !important;
+    background-image: linear-gradient(180deg, #16171f 0%, #0e0f14 55%, #12131a 100%);
+    color: #e8e9ed !important;
+    border-right: 1px solid rgba(229, 9, 20, 0.18);
+    width: 310px !important;
+    box-shadow: 8px 0 40px rgba(0,0,0,0.55);
+}
+.pele-sidebar .offcanvas-body {
+    background-color: transparent !important;
+    color: inherit !important;
+    flex: 1 1 auto;
+    min-height: calc(100vh - 76px);
+}
+.pele-sidebar .offcanvas-header {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 18px 22px;
+    background: linear-gradient(135deg, #1e0a0c 0%, #12131a 100%);
+}
+.sidebar-heading {
+    color: rgba(255,255,255,0.45);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin: 18px 0 6px 25px;
+    letter-spacing: 1.6px;
+}
+.pele-sidebar .nav-link {
+    color: #d7d8de !important;
+    padding: 12px 22px;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s, padding-left 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.9rem;
+    border-radius: 0 22px 22px 0;
+    margin-right: 12px;
+    text-decoration: none;
+}
+.pele-sidebar .nav-link:hover {
+    background: rgba(229, 9, 20, 0.14);
+    color: #fff !important;
+    padding-left: 26px;
+}
+.pele-sidebar .nav-link i { width: 22px; font-size: 1.05rem; text-align: center; opacity: 0.95; }
+.pele-sidebar .nav-link .nav-badge {
+    margin-left: auto;
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.65rem;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+.sidebar-logout {
+    margin-top: auto;
+    padding: 18px 25px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+.sidebar-user-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 15px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    margin-bottom: 14px;
+}
+.sidebar-user-card .user-avatar-lg {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), #ff4757);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1rem;
+    border: 2px solid rgba(229,9,20,0.3);
+}
+.sidebar-user-card .user-name { font-weight: 700; font-size: 0.9rem; }
+.sidebar-user-card .user-username { font-size: 0.75rem; color: #9a9ca8; }
+
+/* Mobile sidebar search */
+.sidebar-mobile-search {
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.sidebar-mobile-search .form-control {
+    background: rgba(255,255,255,0.07) !important;
+    border-color: rgba(255,255,255,0.12) !important;
+    color: #f0f0f3 !important;
+}
+.sidebar-mobile-search .form-control::placeholder {
+    color: #8e9099 !important;
+}
+
+/* Sidebar accent links (readable on dark) */
+.pele-sidebar .nav-link.nav-accent-dating { color: #ff8a9a !important; }
+.pele-sidebar .nav-link.nav-accent-dating:hover { color: #fff !important; }
+.pele-sidebar .nav-link.nav-accent-gold { color: #f0c14a !important; }
+.pele-sidebar .nav-link.nav-accent-gold:hover { color: #fff !important; }
+.pele-sidebar .nav-link.nav-accent-violet { color: #b8b3ff !important; }
+.pele-sidebar .nav-link.nav-accent-violet:hover { color: #fff !important; }
+.pele-sidebar .nav-link.nav-accent-admin { color: #7ec8ff !important; }
+.pele-sidebar .nav-link.nav-accent-admin:hover { color: #fff !important; }
+
+/* Navbar dropdown — avoid Bootstrap light-hover on dark menu */
+.pele-navbar .dropdown-menu.pele-dropdown-menu {
+    background: #1a1b22 !important;
+    border: 1px solid rgba(229,9,20,0.35) !important;
+    border-radius: 12px;
+    padding: 8px 0;
+    min-width: 190px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.85);
+}
+.pele-navbar .dropdown-menu.pele-dropdown-menu .dropdown-item {
+    color: #e2e3e8 !important;
+    font-size: 0.85rem;
+    padding: 9px 16px;
+}
+.pele-navbar .dropdown-menu.pele-dropdown-menu .dropdown-item:hover,
+.pele-navbar .dropdown-menu.pele-dropdown-menu .dropdown-item:focus {
+    background: rgba(229, 9, 20, 0.18) !important;
+    color: #fff !important;
+}
+.pele-navbar .dropdown-menu.pele-dropdown-menu .dropdown-item.text-danger:hover {
+    background: rgba(255, 71, 87, 0.2) !important;
+    color: #ff8a92 !important;
+}
+.pele-navbar .dropdown-menu.pele-dropdown-menu .dropdown-divider {
+    border-color: rgba(255,255,255,0.08);
+    margin: 6px 0;
+}
+
+/* Sidebar auth buttons */
+.pele-sidebar .sidebar-auth-actions {
+    padding: 16px 22px 24px;
+    margin-top: auto;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.25));
+}
+.pele-sidebar .sidebar-auth-actions .btn-sidebar-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 11px 16px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    border-radius: 999px;
+    text-decoration: none;
+    border: 2px solid var(--primary);
+    color: #ff6b6b !important;
+    background: rgba(229, 9, 20, 0.08);
+    transition: all 0.2s;
+}
+.pele-sidebar .sidebar-auth-actions .btn-sidebar-login:hover {
+    background: var(--primary);
+    color: #fff !important;
+    box-shadow: 0 4px 20px var(--primary-glow);
+}
+.pele-sidebar .sidebar-auth-actions .btn-sidebar-register {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 11px 16px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    border-radius: 999px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #d7d8de !important;
+    background: rgba(255,255,255,0.04);
+    margin-top: 10px;
+    transition: all 0.2s;
+}
+.pele-sidebar .sidebar-auth-actions .btn-sidebar-register:hover {
+    background: rgba(255,255,255,0.1);
+    color: #fff !important;
+    border-color: rgba(255,255,255,0.35);
+}
+
+/* ─── DATING NOTIFICATION PANEL ─── */
+.dating-notif-panel {
+    display: none;
+    position: fixed;
+    top: 70px; right: 12px;
+    z-index: 1060;
+    width: 340px;
+    background: #141414;
+    border: 1px solid rgba(229,9,20,0.3);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    overflow: hidden;
+}
+.notif-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(135deg, #1a0000, #0d0d0d);
+}
+.notif-list { max-height: 350px; overflow-y: auto; }
+.notif-list::-webkit-scrollbar { width: 4px; }
+.notif-list::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+.notif-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex; align-items: center; gap: 10px;
+    transition: background 0.15s;
+}
+.notif-item:hover { background: rgba(255,255,255,0.03); }
+.notif-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+    flex-shrink: 0;
+}
+.notif-avatar-placeholder {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), #ff4757);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; flex-shrink: 0;
+}
+.notif-content { flex: 1; min-width: 0; }
+.notif-text { font-size: 0.8rem; line-height: 1.3; }
+.notif-time { font-size: 0.7rem; color: #555; margin-top: 2px; }
+.notif-empty {
+    text-align: center; padding: 40px 20px; color: #444;
+}
+.notif-empty i { font-size: 2rem; margin-bottom: 10px; display: block; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 991px) {
+    .pele-nav-links { display: none !important; }
+    .pele-search-desktop { display: none !important; }
+    .user-info-nav { display: none; }
+    .pele-topbar { display: none; }
+}
+@media (max-width: 576px) {
+    .pele-logo img { height: 44px; }
+    .pele-sidebar { width: 85vw !important; }
+}
+</style>
+
+<!-- ================= TOP PROMO BAR ================= -->
+<div class="pele-topbar" th:fragment="topbar">
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center flex-wrap gap-1 gap-md-2">
+            <a href="/promotions"><i class="fa-solid fa-gift me-1"></i>KHUYẾN MÃI</a>
+            <span class="topbar-divider d-none d-md-inline">|</span>
+            <a href="/hotline" class="d-none d-md-inline"><i class="fa-solid fa-phone me-1"></i>Hotline: 1900 0000</a>
+            <span class="topbar-divider d-none d-md-inline">|</span>
+            <a href="/pele-dating" class="d-none d-md-inline" style="color:#ff6b6b;"><i class="fa-solid fa-heart me-1"></i>Dating</a>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MAIN NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top pele-navbar" th:fragment="navbar" id="peleMainNavbar">
+    <div class="container pele-navbar-inner">
+        <!-- LEFT: hamburger + logo -->
+        <div class="pele-navbar-left">
+            <button class="btn btn-menu-hamburger me-1" id="sidebarToggleBtn"
+                    type="button" data-bs-toggle="offcanvas" data-bs-target="#peleSidebarMenu"
+                    aria-controls="peleSidebarMenu" aria-label="Mở menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a class="pele-logo" href="/" aria-label="PELE Cinema">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAP8AAAB+CAYAAADr5Me3AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAALh0SURBVHhe7P1nkCVXducJ/q7rJyPihdYqtRZIgURCqwKqgJIki03VbG53z07PTk/bCpu1/gKz3unZbrPptSF7KIpbRs0qkqW1IEQBiQQykVqLyIjIyNDiaeV6P1x/kRKJLBJVhbblqXrIeP6U+/V77j3if/5HNMVSIQAgIERKKEJ8P4ie3V9UVQEEIQIQq8dF48sIQYSE4eqB+4oQ0XeE0b8ijP6++d3yfcjvls9ued+txwL58zc/dg+J3i/e/3ob1xIAvu/f8htSlNueyrFwXB8rHsPQDXw/oFqr4Hk+qqqgqhoCgR94WGaMIPTx/YAgCBCAoqgIRZ51GISEBCiqjlgd1MZ1Nv59sLFdlZCb9+POcV4dx8YxJRqbaII0jq2KvL9CabwG4q4Rl/cvCANq1RphGKKqGrpuYOgGQih4nofnefiBj0CgaXJeRf+ncbpChAhF3JwncMv13zkOt47N3XPop5XVbw+V6Enj++QY3Hv8PtxjYRDN6zvvxx3HAp+7jt35PpFKNIXR6f8j5X4DKyfwg4igMbFuGdjbvlv+fdu9h3u8Tx4T972ym5ND3Of8bj2TMAxWJ+Ktr916JBQKqqoTIgiCkCAICMNAKrUQhGGI7/v4vkcYgqIIVE1DUzUURU7ShnI2JrrneXdcya3Xe/M6HlTCQCrq+4/zT3FMhAg1Oof7KD+AqqqEYUgYSIX2fR/P8wmCAASoioqmaTiOQxiGKIpAUVQ0TUVV5aIYhgFBID+jKI35cq8xuPXYrQvWP0zkcAmpjMGd13iPcfkZHLt7D733++4+dreIZKL5rq8DbhnU+0sQvL/S3C4B4V0353aRk+ZBflfcQ/nvLfdT6psTI0S57/seXEIECIV4PEmtblOv24RhiGEYaJpGEARyh/P91fvTmPCKohCGIZ7nrY6rqqooikJwx6Jzu7zvC+8rYfDTf+Z+ItSgcfX3mHhS+YUQaJomFd6V1o5UcBVVk9fZWDg8z0NRFJRo8WuMSxhGloa4c46G9xiHW5/feU7/MFm1cO9S/p+ffJAVLcSdltG95X2VX9O0Ow/dUzzPu/PQveU+ZvVtcptJ+f7yIBfHByo/q5NGuefkuVs+6HdvKn+CSrVOvW4DYFkWiqLgiu6+5wHgGA7W29j4AQ==" alt="PELE">
+            </a>
+        </div>
+
+        <!-- CENTER: nav links (desktop only) -->
+        <div class="pele-navbar-center d-none d-lg-flex">
+        <ul class="pele-nav-links">
+            <li class="nav-item"><a class="nav-link active" href="/"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
+            <li class="nav-item"><a class="nav-link" href="/upcoming"><i class="fa-solid fa-calendar-days"></i>Phim Sắp Chiếu</a></li>
+            <li class="nav-item"><a class="nav-link" href="/news"><i class="fa-solid fa-newspaper"></i>Tin Tức</a></li>
+            <li class="nav-sep"></li>
+            <li class="nav-item"><a class="nav-link text-warning" href="/promotions"><i class="fa-solid fa-gift"></i>Khuyến Mãi</a></li>
+            <th:block th:if="${session.loggedInUser != null}">
+                <li class="nav-item"><a class="nav-link" href="/my-tickets"><i class="fa-solid fa-ticket-simple"></i>Vé Của Tôi</a></li>
+            </th:block>
+            <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'ADMIN'}">
+                <li class="nav-item"><a class="nav-link text-info" href="/admin"><i class="fa-solid fa-user-shield"></i>Quản Trị</a></li>
+            </th:block>
+        </ul>
+        </div>
+
+        <!-- RIGHT: search + user actions -->
+        <div class="pele-navbar-right">
+            <!-- Search (desktop) -->
+            <form action="/search" method="get" class="pele-search-form pele-search-desktop d-none d-lg-flex">
+                <input type="text" name="keyword" placeholder="Tìm phim..." autocomplete="off">
+                <button type="submit" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+
+            <!-- Logged out -->
+            <th:block th:if="${session.loggedInUser == null}">
+                <a class="btn-login-nav" href="/login">
+                    <i class="fa-solid fa-right-to-bracket"></i>ĐĂNG NHẬP
+                </a>
+            </th:block>
+
+            <!-- Logged in -->
+            <th:block th:if="${session.loggedInUser != null}">
+                <!-- Dating shortcut -->
+                <a href="/pele-dating" class="btn-dating-nav d-none d-sm-flex" title="PELE Dating">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <span class="d-none d-md-inline">Dating</span>
+                </a>
+
+                <!-- Dating bell -->
+                <button class="btn-bell d-none d-sm-flex" id="datingBell" title="Thông báo Dating" onclick="showDatingNotifs()">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="bell-badge" id="notifBadge" style="display:none;">0</span>
+                </button>
+
+                <!-- User avatar -->
+                <div class="d-flex align-items-center gap-2 ms-1">
+                    <div class="user-avatar-nav" th:text="${#strings.substring(session.loggedInUser.fullName, 0, 1)}">U</div>
+                    <div class="user-info-nav d-none d-md-block">
+                        <div class="user-greeting">Xin chào,</div>
+                        <div class="user-name-nav" th:text="${session.loggedInUser.fullName}">—</div>
+                    </div>
+                    <!-- User dropdown -->
+                    <div class="dropdown">
+                        <a href="#" class="btn-bell" data-bs-toggle="dropdown" aria-expanded="false" style="padding:7px 8px;">
+                            <i class="fa-solid fa-chevron-down" style="font-size:0.7rem;"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end pele-dropdown-menu">
+                            <li><a class="dropdown-item" href="/dating-profile"><i class="fa-solid fa-user-pen me-2 text-danger"></i>Hồ sơ Dating</a></li>
+                            <li><a class="dropdown-item" href="/my-group-bookings"><i class="fa-solid fa-users me-2" style="color:#8b9cff;"></i>Vé Nhóm</a></li>
+                            <li><a class="dropdown-item" href="/my-tickets"><i class="fa-solid fa-ticket me-2" style="color:#5ce08a;"></i>Vé Đã Đặt</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="/logout"><i class="fa-solid fa-power-off me-2"></i>Đăng Xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </div>
+</nav>
+
+<!-- ================= OFFCANVAS SIDEBAR ================= -->
+<div class="offcanvas offcanvas-start pele-sidebar text-white" tabindex="-1" id="peleSidebarMenu"
+     th:fragment="sidebar">
+    <div class="offcanvas-header">
+        <div>
+            <h5 class="offcanvas-title fw-bold mb-0" style="color:var(--primary);">
+                <i class="fa-solid fa-clapperboard me-2"></i>MENU
+            </h5>
+            <small class="text-white-50 d-block" style="font-size:0.7rem;" th:if="${session.loggedInUser != null}"
+                   th:text="${session.loggedInUser.fullName}">—</small>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body p-0 d-flex flex-column">
+
+        <!-- Mobile search -->
+        <div class="sidebar-mobile-search d-lg-none">
+            <form action="/search" method="get" class="position-relative">
+                <input type="text" name="keyword" class="form-control rounded-pill ps-3 pe-5 py-2 border-secondary"
+                       placeholder="Tìm phim...">
+                <button type="submit" class="position-absolute end-0 top-50 translate-middle-y btn text-danger pe-3">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- ─ Trải nghiệm đặc biệt ─ -->
+        <div class="sidebar-heading">Trải nghiệm đặc biệt</div>
+        <a class="nav-link nav-accent-dating" th:href="@{/pele-dating}">
+            <i class="fa-solid fa-heart-circle-bolt"></i>Xem Phim Cùng Người Lạ
+        </a>
+        <a class="nav-link nav-accent-gold" th:href="@{/ticket-market}">
+            <i class="fa-solid fa-tags"></i>Chợ Pass Vé
+        </a>
+        <a class="nav-link nav-accent-violet" th:href="@{/group}">
+            <i class="fa-solid fa-users-rectangle"></i>Đặt Vé Nhóm
+        </a>
+
+        <!-- ─ Khám phá ─ -->
+        <div class="sidebar-heading">Khám phá</div>
+        <a class="nav-link" href="/"><i class="fa-solid fa-house"></i>Trang Chủ</a>
+        <a class="nav-link" href="/upcoming"><i class="fa-solid fa-calendar-days"></i>Phim Sắp Chiếu</a>
+        <a class="nav-link" href="/news"><i class="fa-solid fa-newspaper"></i>Tin Tức</a>
+        <a class="nav-link text-warning" href="/promotions"><i class="fa-solid fa-gift"></i>Khuyến Mãi</a>
+
+        <!-- ─ Tài khoản ─ -->
+        <th:block th:if="${session.loggedInUser != null}">
+            <div class="sidebar-heading">Tài khoản</div>
+            <a href="/my-tickets" class="nav-link"><i class="fa-solid fa-ticket-simple"></i>Vé Đã Đặt</a>
+            <a href="/my-passes" class="nav-link"><i class="fa-solid fa-tag"></i>Vé Đang Bán</a>
+            <a href="/my-group-bookings" class="nav-link"><i class="fa-solid fa-users"></i>Vé Nhóm Của Tôi</a>
+            <a href="/dating-profile" class="nav-link"><i class="fa-solid fa-user-pen"></i>Hồ Sơ Dating</a>
+
+            <th:block th:if="${session.loggedInUser.role == 'ADMIN'}">
+                <div class="sidebar-heading">Quản trị</div>
+                <a href="/admin" class="nav-link nav-accent-admin"><i class="fa-solid fa-user-shield"></i>Trang Quản Trị</a>
+                <a href="/admin/movies" class="nav-link nav-accent-admin"><i class="fa-solid fa-film"></i>Quản Lý Phim</a>
+                <a href="/admin/showtimes" class="nav-link nav-accent-admin"><i class="fa-solid fa-clock"></i>Quản Lý Suất Chiếu</a>
+                <a href="/admin/bookings" class="nav-link nav-accent-admin"><i class="fa-solid fa-receipt"></i>Quản Lý Hóa Đơn</a>
+            </th:block>
+
+            <!-- User card + logout -->
+            <div class="sidebar-logout mt-auto">
+                <div class="sidebar-user-card">
+                    <div class="user-avatar-lg" th:text="${#strings.substring(session.loggedInUser.fullName, 0, 1)}">U</div>
+                    <div>
+                        <div class="user-name" th:text="${session.loggedInUser.fullName}">—</div>
+                        <div class="user-username" th:text="${session.loggedInUser.username}">@user</div>
+                    </div>
+                </div>
+                <a href="/logout" class="btn btn-danger w-100 rounded-pill fw-bold" style="padding:10px;">
+                    <i class="fa-solid fa-power-off me-2"></i>ĐĂNG XUẤT
+                </a>
+            </div>
+        </th:block>
+
+        <!-- Chưa đăng nhập -->
+        <th:block th:if="${session.loggedInUser == null}">
+            <div class="sidebar-auth-actions mt-auto">
+                <a href="/login" class="btn-sidebar-login">
+                    <i class="fa-solid fa-right-to-bracket"></i>ĐĂNG NHẬP
+                </a>
+                <a href="/register" class="btn-sidebar-register">
+                    <i class="fa-solid fa-user-plus"></i>ĐĂNG KÝ
+                </a>
+            </div>
+        </th:block>
+    </div>
+</div>
+
+<!-- ================= DATING NOTIFICATION PANEL ================= -->
+<div id="datingNotifPanel" class="dating-notif-panel" th:fragment="notifPanel">
+    <div class="notif-header">
+        <h6 class="mb-0 fw-bold"><i class="fa-solid fa-heart text-danger me-2"></i>Thông báo Dating</h6>
+        <button onclick="document.getElementById('datingNotifPanel').style.display='none'"
+                style="background:none;border:none;color:#666;font-size:1rem;cursor:pointer;padding:4px;">&times;</button>
+    </div>
+    <div id="datingNotifList" class="notif-list"></div>
+    <div id="datingNotifEmpty" class="notif-empty">
+        <i class="fa-solid fa-bell-slash"></i>
+        <p class="small mb-0">Không có thông báo mới</p>
+    </div>
+</div>
+
+<!-- ================= SHARED SCRIPTS ================= -->
+<th:block th:fragment="scripts">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+    var navbar = document.getElementById('peleMainNavbar');
+    if (navbar) {
+        if (window.scrollY > 20) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    }
+});
+
+// Set active nav link based on current path
+(function() {
+    var path = window.location.pathname;
+    document.querySelectorAll('.pele-nav-links .nav-link, .pele-sidebar .nav-link').forEach(function(link) {
+        var href = link.getAttribute('href');
+        if (href && href !== '/' && path.startsWith(href)) {
+            link.classList.add('active');
+        } else if (href === '/' && path === '/') {
+            link.classList.add('active');
+        }
+    });
+})();
+
+// — Dating notifications —
+function showDatingNotifs() {
+    var panel = document.getElementById('datingNotifPanel');
+    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    if (panel.style.display === 'block') loadNotifications();
+}
+
+function loadNotifications() {
+    var list = document.getElementById('datingNotifList');
+    var empty = document.getElementById('datingNotifEmpty');
+    list.innerHTML = '<div style="text-align:center;padding:30px;color:#555;"><i class="fa-solid fa-spinner fa-spin fa-lg"></i></div>';
+    fetch('/pele-dating/notifications')
+        .then(r => r.json())
+        .then(data => {
+            if (data.count === 0) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            var html = '';
+            data.notifications.forEach(function(n) {
+                var iconColor = n.type === 'MATCHED' ? '#ff4757' :
+                           n.type === 'REQUEST_RECEIVED' ? '#ffc107' :
+                           n.type === 'NEW_MESSAGE' ? '#74b9ff' : '#888';
+                var msg = n.type === 'MATCHED' ? 'đã match với bạn!' :
+                          n.type === 'REQUEST_RECEIVED' ? 'đã gửi lời mời cho bạn!' :
+                          n.type === 'NEW_MESSAGE' ? 'đã nhắn tin cho bạn!' : 'có thông báo mới';
+                var actionBtn = '';
+                if (n.type === 'REQUEST_RECEIVED' && n.requestId) {
+                    actionBtn = '<button class="btn btn-danger btn-sm rounded-pill" onclick="respondFromNotif(' + n.requestId + ',true)" style="font-size:0.7rem;padding:3px 10px;white-space:nowrap;">Đồng ý</button>';
+                }
+                var avatar = n.avatarUrl
+                    ? '<img src="' + n.avatarUrl + '" class="notif-avatar" style="border-color:' + iconColor + ';">'
+                    : '<div class="notif-avatar-placeholder" style="background:linear-gradient(135deg,' + iconColor + ',#ff4757);">' + (n.displayName ? n.displayName[0] : '?') + '</div>';
+                html += '<div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:10px;" id="notif-' + n.id + '">' +
+                    avatar +
+                    '<div class="notif-content">' +
+                        '<div class="notif-text"><strong>' + escHtml(n.displayName || n.fromUserName || '') + '</strong> ' + msg + '</div>' +
+                        '<div class="notif-time">' + (n.createdAt || '') + '</div>' +
+                    '</div>' +
+                    (actionBtn ? '<div style="margin-left:auto;flex-shrink:0;">' + actionBtn + '</div>' : '') +
+                    '<button onclick="dismissNotif(' + n.id + ')" style="background:none;border:none;color:#333;font-size:0.8rem;cursor:pointer;padding:4px;flex-shrink:0;" title="Bỏ thông báo"><i class="fa-solid fa-xmark"></i></button>' +
+                '</div>';
+            });
+            list.innerHTML = html;
+        }).catch(() => { list.innerHTML = '<div style="padding:20px;text-align:center;color:#444;">Lỗi tải thông báo</div>'; });
+}
+
+function dismissNotif(id) {
+    fetch('/pele-dating/notifications/dismiss/' + id, {method:'POST'})
+        .then(() => {
+            var el = document.getElementById('notif-' + id);
+            if (el) el.remove();
+            updateNotifBadge();
+        });
+}
+
+function respondFromNotif(requestId, accept) {
+    fetch('/pele-dating/respond/' + requestId + '?accept=' + accept, {method:'POST'})
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                if (data.matched) alert('Match thành công!');
+                loadNotifications();
+                updateNotifBadge();
+            }
+        });
+}
+
+function updateNotifBadge() {
+    fetch('/pele-dating/notifications')
+        .then(r => r.json())
+        .then(data => {
+            var badge = document.getElementById('notifBadge');
+            if (!badge) return;
+            if (data.count > 0) {
+                badge.textContent = data.count > 9 ? '9+' : data.count;
+                badge.style.display = 'inline-flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }).catch(function() {});
+}
+
+// Poll every 8s
+setInterval(updateNotifBadge, 8000);
+updateNotifBadge();
+
+// Close panel when clicking outside
+document.addEventListener('click', function(e) {
+    var panel = document.getElementById('datingNotifPanel');
+    var bell = document.getElementById('datingBell');
+    if (panel && panel.style.display === 'block' && !panel.contains(e.target) && (!bell || !bell.contains(e.target))) {
+        panel.style.display = 'none';
+    }
+});
+
+function escHtml(text) {
+    if (!text) return '';
+    var d = document.createElement('div');
+    d.textContent = text;
+    return d.innerHTML;
+}
+</script>
+</th:block>

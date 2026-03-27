@@ -30,7 +30,7 @@
             <form action="/booking/confirm" method="POST">
                 <input type="hidden" name="showtimeId" th:value="${showtime.id}">
                 <input type="hidden" name="seats" th:value="${seats}">
-                <input type="hidden" id="totalAmountInput" name="totalAmount" th:value="${totalAmount}">
+                <input type="hidden" id="totalAmountInput" name="finalAmount" th:value="${totalAmount}">
 
                 <div class="mb-3">
                     <label class="form-label text-secondary fw-bold small">HỌ VÀ TÊN</label>
@@ -48,12 +48,34 @@
 
                 <div class="discount-box mt-4 mb-4 p-3 rounded">
                     <label class="form-label text-warning fw-bold"><i class="fa-solid fa-gift me-2"></i>MÃ KHUYẾN MÃI</label>
+
+                    <!-- Danh sách mã đang có -->
+                    <div class="mb-3" th:if="${not #lists.isEmpty(activePromotions)}">
+                        <small class="text-secondary d-block mb-2">Mã khuyến mãi hiện có:</small>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="button" class="btn btn-sm"
+                                    th:each="p : ${activePromotions}"
+                                    th:data-code="${p.code}"
+                                    th:data-discount="${p.discountAmount > 0 ? #numbers.formatDecimal(p.discountAmount, 0, 0, 'POINT') + 'đ' : p.discountPercent + '%'}"
+                                    onclick="fillPromoCode(this)"
+                                    style="background: rgba(229,9,20,0.15); border: 1px dashed #E50914; color: #ff6b6b; font-size: 0.75rem; cursor: pointer;">
+                                <span th:text="${p.code}">CODE</span>
+                                <span class="ms-1" th:text="${p.discountAmount > 0} ? ${'(-' + #numbers.formatDecimal(p.discountAmount, 0, 0, 'POINT') + 'đ)'} : ${'(-' + p.discountPercent + '%)'}">(-0%)</span>
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="input-group">
-                        <input type="text" id="promoCode" class="form-control border-secondary" placeholder="Nhập mã (VD: PELE50K)">
+                        <input type="text" id="promoCode" class="form-control border-secondary"
+                               placeholder="Nhập mã khuyến mãi..."
+                               autocomplete="off">
                         <button type="button" class="btn btn-danger fw-bold px-4" onclick="applyPromo()">ÁP DỤNG</button>
                     </div>
                     <small id="promoMessage" class="fw-bold mt-2 d-none"></small>
                 </div>
+
+                <!-- Thông tin giảm giá ẩn gửi về server -->
+                <input type="hidden" id="appliedDiscount" name="appliedDiscount" value="0">
 
                 <button type="submit" class="btn btn-pay w-100 mt-2"><i class="fa-solid fa-check-circle me-2"></i>XÁC NHẬN THANH TOÁN</button>
             </form>
@@ -85,46 +107,72 @@
 
 <script th:inline="javascript">
     // Lấy tổng tiền thực tế từ Java đẩy xuống HTML
-    let originalTotal = /*[[${totalAmount}]]*/ 0;
+    let originalTotal = /*[[${originalAmount}]]*/ 0;
     let isPromoApplied = false;
 
-    function applyPromo() {
-        if(isPromoApplied) return; // Tránh việc khách bấm spam Áp dụng nhiều lần
+    /** Điền nhanh mã từ nút bấm trên giao diện */
+    function fillPromoCode(btn) {
+        const code = btn.getAttribute('data-code');
+        document.getElementById('promoCode').value = code;
+        applyPromo();
+    }
 
+    /** Gọi API /booking/apply-promo để kiểm tra & tính giảm giá từ DB */
+    function applyPromo() {
         const codeInput = document.getElementById('promoCode');
         const code = codeInput.value.trim().toUpperCase();
         const msg = document.getElementById('promoMessage');
         const totalDisplay = document.getElementById('totalAmountDisplay');
         const totalInput = document.getElementById('totalAmountInput');
         const discountRow = document.getElementById('discountRow');
+        const discountHidden = document.getElementById('appliedDiscount');
+        const showtimeId = /*[[${showtime.id}]]*/ null;
 
-        if(code === 'PELE50K') {
-            // Toán học tiểu học: Tổng tiền - 50k
-            let newTotal = originalTotal - 50000;
-            if(newTotal < 0) newTotal = 0; // Đặt phòng âm tiền thì hỏng bét
-
-            // 1. Cập nhật lại số tiền hiển thị trên màn hình
-            totalDisplay.innerText = new Intl.NumberFormat('vi-VN').format(newTotal) + ' đ';
-            // 2. Cập nhật số tiền ẩn để khi bấm Submit nó gửi về Database
-            totalInput.value = newTotal;
-
-            // Hiện thông báo ăn mừng
-            msg.innerText = "🎉 Áp dụng thành công! Đã giảm 50.000đ";
-            msg.className = "text-success fw-bold mt-2 d-block";
-
-            // Hiện dòng chữ "-50.000đ" bên cột phải
-            discountRow.className = "d-flex justify-content-between mb-3";
-
-            // Khóa ô nhập mã lại để khách khỏi táy máy
-            isPromoApplied = true;
-            codeInput.readOnly = true;
-        } else if (code === '') {
-            msg.innerText = "⚠️ Sếp chưa nhập mã kìa!";
+        if (!code) {
+            msg.innerText = "⚠️ Vui lòng nhập mã khuyến mãi!";
             msg.className = "text-warning fw-bold mt-2 d-block";
-        } else {
-            msg.innerText = "❌ Mã không hợp lệ hoặc đã hết hạn!";
-            msg.className = "text-danger fw-bold mt-2 d-block";
+            return;
         }
+        if (isPromoApplied) return;
+
+        fetch('/booking/apply-promo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                code: code,
+                originalAmount: originalTotal,
+                showtimeId: showtimeId || ''
+            })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                let newTotal = data.newTotal;
+                let discountAmt = data.discount;
+
+                totalDisplay.innerText = new Intl.NumberFormat('vi-VN').format(newTotal) + ' đ';
+                totalInput.value = newTotal;
+                discountHidden.value = discountAmt;
+
+                // Hiện dòng giảm giá bên cột phải
+                discountRow.querySelector('strong').innerText =
+                    '-' + Intl.NumberFormat('vi-VN').format(discountAmt) + ' đ';
+                discountRow.className = "d-flex justify-content-between mb-3";
+
+                msg.innerText = "🎉 " + data.discountText + " — Áp dụng thành công!";
+                msg.className = "text-success fw-bold mt-2 d-block";
+
+                isPromoApplied = true;
+                codeInput.readOnly = true;
+            } else {
+                msg.innerText = "❌ " + data.message;
+                msg.className = "text-danger fw-bold mt-2 d-block";
+            }
+        })
+        .catch(() => {
+            msg.innerText = "❌ Đã xảy ra lỗi khi áp dụng mã!";
+            msg.className = "text-danger fw-bold mt-2 d-block";
+        });
     }
 </script>
 

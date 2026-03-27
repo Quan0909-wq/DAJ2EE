@@ -16,6 +16,16 @@ public interface TicketPassRepository extends JpaRepository<TicketPass, Long> {
 
     List<TicketPass> findBySellerIdOrderByCreatedAtDesc(Long sellerId);
 
+    /** Eager-load graph for list views (avoids LazyInitializationException when OSIV is off or session closed). */
+    @Query("SELECT tp FROM TicketPass tp " +
+           "JOIN FETCH tp.booking b " +
+           "JOIN FETCH b.showtime s " +
+           "JOIN FETCH s.movie " +
+           "JOIN FETCH s.room " +
+           "WHERE tp.seller.id = :sellerId " +
+           "ORDER BY tp.createdAt DESC")
+    List<TicketPass> findBySellerIdWithDetails(@Param("sellerId") Long sellerId);
+
     @Query("SELECT tp FROM TicketPass tp WHERE tp.status = 'AVAILABLE' " +
            "AND LOWER(tp.booking.showtime.movie.title) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
            "ORDER BY tp.createdAt DESC")

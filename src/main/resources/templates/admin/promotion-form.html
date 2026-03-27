@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm/Sửa Khuyến Mãi - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #E50914; --bg-dark: #0b0c10; --bg-card: #1f2833; }
+        body { background-color: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 70px; }
+        .form-control, .form-select { background: #1a1a1a !important; border: 1px solid #333 !important; color: #fff !important; border-radius: 10px; }
+        .form-control:focus, .form-select:focus { border-color: var(--primary) !important; box-shadow: 0 0 0 0.2rem rgba(229,9,20,0.25) !important; }
+        .form-control::placeholder { color: #555; }
+        .form-label { color: #aaa; font-size: 0.85rem; font-weight: 600; }
+        .card-dark { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 30px; }
+        .btn-save { background: var(--primary); border: none; color: #fff; font-weight: 700; padding: 12px 35px; border-radius: 30px; font-size: 1rem; transition: 0.3s; }
+        .btn-save:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(229,9,20,0.5); color: #fff; }
+        .promo-type-btn { border: 2px solid #333; background: #1a1a1a; color: #aaa; padding: 15px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.3s; }
+        .promo-type-btn.selected { border-color: var(--primary); background: rgba(229,9,20,0.1); color: var(--primary); }
+        .promo-type-btn input { display: none; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/">
+            <span style="color:#fff">PELE</span> <span style="color:var(--primary)">CINEMA</span>
+            <span class="badge bg-danger ms-2"><i class="fa-solid fa-shield-halved me-1"></i>ADMIN</span>
+        </a>
+        <div class="d-flex align-items-center">
+            <a href="/admin/promotions" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-arrow-left me-1"></i>Quay lại</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h4 class="fw-bold mb-4 text-danger">
+                <i class="fa-solid fa-tags me-2"></i>
+                <span th:text="${promotion.id != null} ? 'Sửa Khuyến Mãi' : 'Thêm Khuyến Mãi Mới'">Thêm Khuyến Mãi</span>
+            </h4>
+
+            <div class="card-dark">
+                <form th:action="@{/admin/promotions/save}" method="POST">
+                    <input type="hidden" name="id" th:value="${promotion.id}">
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Mã Khuyến Mãi <span class="text-danger">*</span></label>
+                                <input type="text" name="code" class="form-control text-uppercase fw-bold"
+                                       required maxlength="20"
+                                       th:value="${promotion.code}"
+                                       placeholder="VD: PELE50K"
+                                       style="letter-spacing: 2px;"
+                                       oninput="this.value = this.value.toUpperCase()">
+                                <small class="text-secondary">Tối đa 20 ký tự, không trùng lặp.</small>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tiêu Đề <span class="text-danger">*</span></label>
+                                <input type="text" name="title" class="form-control" required
+                                       th:value="${promotion.title}" placeholder="VD: Giảm 20% cho ngày Valentine">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mô Tả</label>
+                                <textarea name="description" class="form-control" rows="3"
+                                          th:text="${promotion.description}" placeholder="Mô tả chi tiết khuyến mãi..."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Chọn loại giảm giá -->
+                            <div class="mb-3">
+                                <label class="form-label">Loại Giảm Giá <span class="text-danger">*</span></label>
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <label class="promo-type-btn w-100" id="typeAmount">
+                                            <input type="radio" name="promoType" value="amount"
+                                                   th:checked="${promotion.discountAmount > 0}"
+                                                   onchange="togglePromoType('amount')">
+                                            <div class="fs-5 fw-bold mb-1"><i class="fa-solid fa-tag me-1"></i>Số Tiền</div>
+                                            <small>VD: Giảm 50,000đ</small>
+                                        </label>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="promo-type-btn w-100" id="typePercent">
+                                            <input type="radio" name="promoType" value="percent"
+                                                   th:checked="${promotion.discountPercent > 0}"
+                                                   onchange="togglePromoType('percent')">
+                                            <div class="fs-5 fw-bold mb-1"><i class="fa-solid fa-percent me-1"></i>Phần Trăm</div>
+                                            <small>VD: Giảm 20%</small>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Giá trị giảm theo số tiền -->
+                            <div class="mb-3" id="discountAmountField">
+                                <label class="form-label">Số Tiền Giảm (đ)</label>
+                                <input type="number" name="discountAmount" class="form-control"
+                                       min="0" step="1000"
+                                       th:value="${promotion.discountAmount > 0 ? promotion.discountAmount : '0'}"
+                                       placeholder="50000">
+                                <small class="text-secondary">Nhập số tiền cố định được giảm (VD: 50000 = giảm 50,000đ)</small>
+                            </div>
+
+                            <!-- Giá trị giảm theo phần trăm -->
+                            <div class="mb-3" id="discountPercentField">
+                                <label class="form-label">Phần Trăm Giảm (%)</label>
+                                <input type="number" name="discountPercent" class="form-control"
+                                       min="1" max="100"
+                                       th:value="${promotion.discountPercent > 0 ? promotion.discountPercent : '0'}"
+                                       placeholder="20">
+                                <small class="text-secondary">Nhập % giảm giá (VD: 20 = giảm 20%)</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Ngày Hết Hạn</label>
+                                <input type="date" name="expiresAt" class="form-control"
+                                       th:value="${promotion.expiresAt != null ? #temporals.format(promotion.expiresAt, 'yyyy-MM-dd') : ''}">
+                                <small class="text-secondary">Để trống nếu không có hạn sử dụng.</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Áp Dụng Cho Suất Chiếu</label>
+                                <select name="showtimeId" class="form-select">
+                                    <option value="">— Mọi suất chiếu —</option>
+                                    <option th:each="s : ${showtimes}"
+                                            th:value="${s.id}"
+                                            th:selected="${promotion.showtime != null && promotion.showtime.id == s.id}"
+                                            th:text="${s.movie.title} + ' - ' + ${#temporals.format(s.startTime, 'HH:mm dd/MM')}">
+                                    </option>
+                                </select>
+                                <small class="text-secondary">Chỉ áp dụng mã này cho suất chiếu cụ thể (tuỳ chọn).</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="/admin/promotions" class="btn btn-outline-secondary me-3 px-4">Hủy</a>
+                        <button type="submit" class="btn-save">
+                            <i class="fa-solid fa-check me-2"></i>Lưu Khuyến Mãi
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePromoType(type) {
+        document.getElementById('typeAmount').classList.toggle('selected', type === 'amount');
+        document.getElementById('typePercent').classList.toggle('selected', type === 'percent');
+        document.getElementById('discountAmountField').style.display = type === 'amount' ? 'block' : 'none';
+        document.getElementById('discountPercentField').style.display = type === 'percent' ? 'block' : 'none';
+    }
+
+    // Khởi tạo đúng trạng thái khi sửa
+    document.addEventListener('DOMContentLoaded', function() {
+        const amountVal = document.querySelector('input[name="discountAmount"]').value;
+        const percentVal = document.querySelector('input[name="discountPercent"]').value;
+        if (parseFloat(amountVal) > 0) {
+            togglePromoType('amount');
+        } else if (parseInt(percentVal) > 0) {
+            togglePromoType('percent');
+        } else {
+            togglePromoType('amount');
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

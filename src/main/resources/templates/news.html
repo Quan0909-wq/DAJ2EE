@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tin Tức - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <th:block th:replace="~{fragments/navbar :: navbarStyles}"></th:block>
+    <style>
+        body { background-color: #050505; color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 110px; }
+        .hero-banner {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 60px 0;
+            border-bottom: 3px solid #E50914;
+            text-align: center;
+        }
+        .hero-title { font-size: 2.5rem; font-weight: 800; color: #E50914; }
+        .news-card {
+            background: #121212;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .news-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(229,9,20,0.2); }
+        .news-image { width: 100%; height: 200px; object-fit: cover; }
+        .news-title { font-weight: 800; font-size: 1.1rem; color: #fff; }
+        .news-excerpt { color: #aaa; font-size: 0.85rem; }
+        .news-date { color: #E50914; font-size: 0.8rem; font-weight: 600; }
+        .category-tag {
+            background: rgba(229,9,20,0.15);
+            color: #E50914;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div th:replace="~{fragments/navbar :: topbar}"></div>
+<!-- Main navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<!-- Sidebar -->
+<div th:replace="~{fragments/navbar :: sidebar}"></div>
+<!-- Dating notification panel -->
+<div th:replace="~{fragments/navbar :: notifPanel}"></div>
+<!-- Scripts -->
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+<div class="hero-banner">
+    <div class="container">
+        <h1 class="hero-title"><i class="fas fa-newspaper me-3"></i>TIN TỨC</h1>
+        <p class="text-secondary mt-2">Cập nhật tin tức điện ảnh, reviews phim mới nhất</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-md-4" th:each="article : ${news}">
+            <div class="news-card">
+                <img th:src="${article.imageUrl}" class="news-image" alt="News">
+                <div class="p-3">
+                    <span class="category-tag mb-2 d-inline-block" th:text="${article.category}">Tin tức</span>
+                    <div class="news-title mb-2" th:text="${article.title}">Tiêu đề bài viết</div>
+                    <div class="news-excerpt mb-3" th:text="${article.excerpt}">Mô tả ngắn...</div>
+                    <div class="news-date">
+                        <i class="fas fa-calendar-alt me-1"></i>
+                        <span th:text="${#temporals.format(article.publishedAt, 'dd/MM/yyyy')}">01/01/2026</span>
+                    </div>
+                    <a th:href="@{/news/{id}(id=${article.id})}" class="btn btn-outline-danger btn-sm mt-3">
+                        Đọc tiếp <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 text-center text-secondary py-5" th:if="${#lists.isEmpty(news)}">
+            <i class="fas fa-newspaper fa-4x mb-3" style="color: #333;"></i>
+            <h4>Chưa có tin tức</h4>
+            <p>Hãy quay lại sau để cập nhật tin tức mới nhất</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

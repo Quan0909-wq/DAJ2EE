@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi Tiết Tin Tức - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <th:block th:replace="~{fragments/navbar :: navbarStyles}"></th:block>
+    <style>
+        body { background-color: #050505; color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 110px; }
+        .article-card { background: #121212; border-radius: 16px; overflow: hidden; }
+        .article-header { padding: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .article-category { background: rgba(229,9,20,0.15); color: #ff6b6b; padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+        .article-title { font-weight: 800; font-size: 2rem; line-height: 1.2; margin: 15px 0; }
+        .article-meta { color: #666; font-size: 0.85rem; }
+        .article-image { width: 100%; max-height: 450px; object-fit: cover; }
+        .article-body { padding: 30px; line-height: 1.8; font-size: 1.05rem; color: #ccc; }
+        .article-body p { margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: topbar}"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/navbar :: sidebar}"></div>
+<div th:replace="~{fragments/navbar :: notifPanel}"></div>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <a href="/news" class="btn btn-outline-secondary btn-sm mb-4">
+                <i class="fa-solid fa-arrow-left me-1"></i>Quay lại Tin Tức
+            </a>
+
+            <div class="article-card">
+                <img th:src="${article.imageUrl}" class="article-image" alt=""
+                     onerror="this.onerror=null; this.style.display='none';">
+
+                <div class="article-header">
+                    <span class="article-category" th:text="${article.category}">Tin tức</span>
+                    <h1 class="article-title" th:text="${article.title}">Tiêu đề bài viết</h1>
+                    <div class="article-meta">
+                        <i class="fa-solid fa-user me-1"></i>
+                        <span th:text="${article.author}">PELE Admin</span>
+                        <span class="mx-2">|</span>
+                        <i class="fa-solid fa-calendar me-1"></i>
+                        <span th:text="${#temporals.format(article.publishedAt, 'dd/MM/yyyy HH:mm')}">27/03/2026</span>
+                    </div>
+                </div>
+
+                <div class="article-body">
+                    <p th:text="${article.content}">Nội dung bài viết...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

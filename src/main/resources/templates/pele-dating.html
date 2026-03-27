@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Xem Phim Cùng Người Lạ - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <th:block th:replace="~{fragments/navbar :: navbarStyles}"></th:block>
+    <style>
+        :root { --primary: #E50914; --bg-dark: #0b0c10; }
+        body { background: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 110px; }
+
+        /* Dating Layout */
+        .dating-layout { display: flex; height: calc(100vh - 110px); overflow: hidden; }
+        .matches-panel { width: 320px; background: #0d0e12; border-right: 1px solid #222; display: flex; flex-direction: column; overflow: hidden; }
+        .matches-header { padding: 20px; border-bottom: 1px solid #222; font-weight: 800; font-size: 1rem; }
+        .matches-list { flex: 1; overflow-y: auto; }
+        .match-item { padding: 15px 20px; border-bottom: 1px solid #1a1a1a; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 12px; }
+        .match-item:hover { background: #1a1a1a; }
+        .match-item.active { background: rgba(229,9,20,0.1); border-left: 3px solid var(--primary); }
+        .match-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); flex-shrink: 0; }
+        .match-avatar-placeholder { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #ff4757); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; flex-shrink: 0; }
+        .match-info { flex: 1; min-width: 0; }
+        .match-name { font-weight: 700; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .match-preview { font-size: 0.75rem; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .match-badge { width: 10px; height: 10px; background: var(--primary); border-radius: 50%; }
+        .matches-empty { text-align: center; padding: 40px 20px; color: #444; }
+
+        /* Chat Area */
+        .chat-area { flex: 1; display: flex; flex-direction: column; background: #0b0c10; overflow: hidden; }
+        .chat-header { padding: 15px 20px; background: #121212; border-bottom: 1px solid #222; display: flex; align-items: center; gap: 12px; }
+        .chat-avatar-sm { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .chat-avatar-placeholder-sm { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #ff4757); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; }
+        .chat-messages-area { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .msg-bubble { max-width: 65%; padding: 10px 15px; border-radius: 18px; font-size: 0.88rem; }
+        .msg-mine { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 4px; }
+        .msg-other { align-self: flex-start; background: #222; color: #fff; border-bottom-left-radius: 4px; }
+        .msg-time { font-size: 0.6rem; opacity: 0.6; margin-top: 3px; }
+        .msg-mine .msg-time { text-align: right; }
+        .msg-other .msg-time { text-align: left; }
+        .chat-input-row { padding: 15px; background: #121212; border-top: 1px solid #222; display: flex; gap: 10px; }
+        .chat-input-filed { background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 25px; padding: 10px 18px; flex: 1; font-family: 'Montserrat', sans-serif; }
+        .chat-input-filed:focus { border-color: var(--primary); outline: none; }
+        .btn-send-chat { background: var(--primary); border: none; color: #fff; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; transition: 0.3s; flex-shrink: 0; }
+        .btn-send-chat:hover { background: #ff4757; transform: scale(1.1); }
+
+        /* Profiles Grid */
+        .profiles-grid { flex: 1; padding: 20px; overflow-y: auto; }
+        .profile-card { background: #121212; border-radius: 15px; overflow: hidden; transition: 0.3s; cursor: pointer; position: relative; border: 1px solid #222; }
+        .profile-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(229,9,20,0.3); border-color: rgba(229,9,20,0.4); }
+        .profile-card img { width: 100%; height: 280px; object-fit: cover; }
+        .profile-card-placeholder { width: 100%; height: 280px; background: linear-gradient(135deg, var(--primary), #ff4757); display: flex; align-items: center; justify-content: center; font-size: 4rem; font-weight: 800; }
+        .profile-card-body { padding: 15px; }
+        .profile-card-name { font-weight: 800; font-size: 1.1rem; }
+        .profile-card-info { color: #aaa; font-size: 0.8rem; }
+        .profile-card-like { position: absolute; bottom: 15px; right: 15px; }
+        .like-btn { background: var(--primary); border: none; color: #fff; width: 44px; height: 44px; border-radius: 50%; font-size: 1.1rem; transition: 0.3s; }
+        .like-btn:hover { background: #ff4757; transform: scale(1.1); }
+        .like-btn.sent { background: #444; }
+
+        /* Profile Popup Modal */
+        .profile-modal .modal-content { background: #1a1a1a; border: 1px solid #333; border-radius: 20px; }
+        .profile-modal .modal-header { border-bottom: 1px solid #333; padding: 20px; }
+        .profile-modal .modal-body { padding: 0; }
+        .profile-modal .btn-close { filter: invert(1); }
+        .profile-photo-carousel { position: relative; }
+        .profile-photo-main { width: 100%; height: 350px; object-fit: cover; background: #222; }
+        .profile-photo-main-placeholder { width: 100%; height: 350px; background: linear-gradient(135deg, var(--primary), #ff4757); display: flex; align-items: center; justify-content: center; font-size: 5rem; font-weight: 800; }
+        .profile-photo-dots { text-align: center; padding: 10px; }
+        .profile-photo-dot { width: 8px; height: 8px; border-radius: 50%; background: #444; display: inline-block; margin: 0 3px; cursor: pointer; }
+        .profile-photo-dot.active { background: var(--primary); }
+        .profile-info-section { padding: 20px; }
+        .profile-badge { display: inline-block; background: rgba(229,9,20,0.15); color: #ff4757; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin: 2px; }
+        .profile-action-area { padding: 15px 20px; border-top: 1px solid #333; }
+
+        /* Request Response Modal */
+        .request-modal .modal-content { background: #1a1a1a; border: 1px solid #333; border-radius: 15px; }
+        .request-modal .btn-close { filter: invert(1); }
+        .request-avatar { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); }
+        .request-avatar-placeholder { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #ff4757); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; }
+
+        /* Notice Popup */
+        .notice-popup { position: fixed; top: 80px; right: 20px; z-index: 9999; max-width: 360px; width: 100%; }
+        .notice-card { background: #1a1a1a; border: 2px solid var(--primary); border-radius: 15px; padding: 15px; margin-bottom: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); animation: slideInRight 0.3s ease; }
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .notice-dismiss { background: none; border: none; color: #888; font-size: 1.2rem; cursor: pointer; }
+        .notice-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+
+        /* Dating Post Cards */
+        .post-card { background: #121212; border-radius: 15px; border: 1px solid #222; padding: 20px; margin-bottom: 15px; transition: 0.3s; position: relative; }
+        .post-card:hover { border-color: rgba(229,9,20,0.3); }
+        .post-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary), #ff4757); border-radius: 15px 15px 0 0; }
+        .post-avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); cursor: pointer; }
+        .post-avatar-placeholder { width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #ff4757); display: flex; align-items: center; justify-content: center; font-weight: 800; cursor: pointer; }
+
+        .btn-create { background: linear-gradient(135deg, var(--primary), #ff4757); border: none; color: #fff; font-weight: 700; padding: 10px 25px; border-radius: 25px; transition: 0.3s; }
+        .btn-create:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(229,9,20,0.5); color: #fff; }
+        .btn-like { background: transparent; border: 2px solid var(--primary); color: var(--primary); font-weight: 700; padding: 8px 20px; border-radius: 25px; transition: 0.3s; }
+        .btn-like:hover, .btn-like.sent { background: var(--primary); color: #fff; }
+        .btn-match { background: linear-gradient(135deg, var(--primary), #ff4757); border: none; color: #fff; font-weight: 700; padding: 10px 25px; border-radius: 25px; }
+        .btn-reject { background: transparent; border: 2px solid #444; color: #888; font-weight: 700; padding: 10px 25px; border-radius: 25px; }
+
+        .empty-state { text-align: center; padding: 60px 20px; color: #444; }
+        .info-tag { display: inline-flex; align-items: center; gap: 5px; background: rgba(229,9,20,0.1); color: #ff4757; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+
+        .form-control, .form-select { background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 10px; }
+        .form-control:focus, .form-select:focus { background: #1a1a1a; border-color: var(--primary); color: #fff; box-shadow: 0 0 0 0.2rem rgba(229,9,20,0.25); }
+        .form-control::placeholder { color: #555; }
+        .form-label { color: #aaa; font-size: 0.85rem; font-weight: 600; }
+        .modal-content { background: #1a1a1a; border: 1px solid #333; border-radius: 15px; }
+        .btn-close { filter: invert(1); }
+    </style>
+</head>
+<body>
+
+<!-- SHARED NAVBAR (from fragment) -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/navbar :: sidebar}"></div>
+<div th:replace="~{fragments/navbar :: notifPanel}"></div>
+
+<!-- NOTICES POPUP -->
+<div class="notice-popup" id="noticePopup"></div>
+
+<!-- MAIN CONTENT -->
+<div class="container-fluid p-0">
+
+    <!-- Dating page top bar (shared navbar is above) -->
+    <div style="background:#0d0e12;border-bottom:1px solid #222;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;">
+        <h4 class="mb-0" style="color:var(--primary);font-weight:800;">
+            <i class="fa-solid fa-heart-pulse me-2"></i>PELE Dating
+        </h4>
+        <div class="d-flex gap-2">
+            <button class="btn btn-create btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#createPostModal">
+                <i class="fa-solid fa-plus me-1"></i>Đăng Tin
+            </button>
+        </div>
+    </div>
+    <div th:if="${postSuccess != null}" class="alert alert-success alert-dismissible fade show mx-3 mt-2 mb-0" role="alert" style="max-width:720px;">
+        <i class="fa-solid fa-circle-check me-2"></i><span th:text="${postSuccess}">OK</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${postError != null}" class="alert alert-danger alert-dismissible fade show mx-3 mt-2 mb-0" role="alert" style="max-width:720px;">
+        <i class="fa-solid fa-circle-exclamation me-2"></i><span th:text="${postError}">Lỗi</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Dating Content -->
+    <div class="dating-layout">
+
+        <!-- LEFT: Matches Panel -->
+        <div class="matches-panel">
+            <div class="matches-header">
+                <i class="fa-solid fa-heart me-2" style="color:var(--primary)"></i>Đã Match
+                <span class="badge bg-danger ms-2" id="matchCountBadge" th:text="${#lists.size(matches)}">0</span>
+            </div>
+            <div class="matches-list" id="matchesList">
+                <div class="matches-empty" th:if="${#lists.isEmpty(matches)}">
+                    <i class="fa-solid fa-heart-crack fa-2x mb-2"></i>
+                    <p class="mb-0">Chưa có match nào</p>
+                    <small class="text-secondary">Gửi lời mời để match với người khác!</small>
+                </div>
+                <div th:each="m : ${matches}" class="match-item" th:attr="onclick=|openChat(${m.id})|"
+                     th:with="otherProfile=${m.getOtherProfile(session.loggedInUser)}">
+                    <div th:if="${otherProfile != null and otherProfile.avatarUrl != null and !otherProfile.avatarUrl.isBlank()}"
+                         class="match-avatar-placeholder" style="overflow:hidden;">
+                        <img th:src="${otherProfile.avatarUrl}" class="match-avatar" style="border:none;width:44px;height:44px;">
+                    </div>
+                    <div th:unless="${otherProfile != null and otherProfile.avatarUrl != null and !otherProfile.avatarUrl.isBlank()}"
+                         class="match-avatar-placeholder">
+                        <span th:text="${otherProfile != null ? #strings.substring(otherProfile.displayName, 0, 1) : '?'}">?</span>
+                    </div>
+                    <div class="match-info">
+                        <div class="match-name" th:text="${otherProfile != null ? otherProfile.displayName : 'Người dùng'}">Người dùng</div>
+                        <div class="match-preview">Nhấn để chat</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER: Profiles + Posts -->
+        <div class="profiles-grid" id="profilesArea">
+
+            <!-- Pending Requests -->
+            <div th:if="${!#lists.isEmpty(pendingRequests)}" class="mb-4">
+                <h6 class="text-danger mb-3">
+                    <i class="fa-solid fa-bell me-2"></i>Lời mời kết bạn mới
+                    <span class="badge bg-danger ms-2" th:text="${#lists.size(pendingRequests)}">0</span>
+                </h6>
+                <div class="row g-3">
+                    <div class="col-md-4" th:each="req : ${pendingRequests}">
+                        <div class="post-card" style="position:relative;">
+                            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                                <div th:with="fromP=${req.fromProfile}">
+                                    <div th:if="${fromP != null and fromP.avatarUrl != null and !fromP.avatarUrl.isBlank()}"
+                                         style="width:50px;height:50px;border-radius:50%;overflow:hidden;border:2px solid var(--primary);">
+                                        <img th:src="${fromP.avatarUrl}" style="width:100%;height:100%;object-fit:cover;">
+                                    </div>
+                                    <div th:unless="${fromP != null and fromP.avatarUrl != null and !fromP.avatarUrl.isBlank()}"
+                                         style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#ff4757);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3rem;">
+                                        <span th:text="${fromP != null ? #strings.substring(fromP.displayName, 0, 1) : '?'}">?</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="fw-bold" th:text="${req.fromProfile != null ? req.fromProfile.displayName : 'Người dùng'}">Người dùng</div>
+                                    <small class="text-secondary">
+                                        <span th:if="${req.fromProfile != null and req.fromProfile.age != null}" th:text="${req.fromProfile.age}">?</span> tuổi ·
+                                        <span th:if="${req.fromProfile != null and req.fromProfile.hometown != null}" th:text="${req.fromProfile.hometown}">?</span>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-match flex-fill"
+                                        th:attr="onclick=|respondRequest(${req.id}, true)|">
+                                    <i class="fa-solid fa-heart me-1"></i>Chấp nhận
+                                </button>
+                                <button class="btn btn-reject flex-fill"
+                                        th:attr="onclick=|respondRequest(${req.id}, false)|">
+                                    <i class="fa-solid fa-xmark me-1"></i>Từ chối
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <h5 class="mb-1 fw-bold" style="color:var(--primary);"><i class="fa-solid fa-film me-2"></i>Tin tìm bạn xem phim</h5>
+                <p class="small text-secondary mb-0">Thích một tin để gửi lời mời. Chỉ khi người đăng tin <strong class="text-white">chấp nhận</strong>, hai bạn mới match, nhận thông báo và chat ở cột <strong class="text-white">Đã Match</strong>.</p>
+            </div>
+
+            <div id="postsTab">
+                <div id="postsList">
+                    <div th:each="dp : ${datingPosts}" class="post-card">
+                        <div class="d-flex align-items-start gap-3 mb-3">
+                            <div th:if="${dp.authorAvatar != null and !dp.authorAvatar.isBlank()}"
+                                 th:attr="onclick=|showProfilePopup(${dp.userId})|" style="overflow:hidden;border-radius:50%;">
+                                <img th:src="${dp.authorAvatar}" class="post-avatar" alt="">
+                            </div>
+                            <div th:unless="${dp.authorAvatar != null and !dp.authorAvatar.isBlank()}"
+                                 class="post-avatar-placeholder"
+                                 th:attr="onclick=|showProfilePopup(${dp.userId})|">
+                                <span th:text="${#strings.substring(dp.authorName, 0, 1)}">?</span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="fw-bold" th:text="${dp.authorName}">Tên</div>
+                                <small class="text-secondary" th:text="${#temporals.format(dp.createdAt, 'dd/MM/yyyy HH:mm')}">—</small>
+                            </div>
+                        </div>
+                        <div class="mb-2"><span class="info-tag"><i class="fa-solid fa-film"></i> <span th:text="${dp.movieTitle}">Phim</span></span></div>
+                        <p class="mb-1 small text-secondary mb-0"><i class="fa-solid fa-clock me-1"></i>Suất: <span th:text="${dp.showtimeLabel}">—</span></p>
+                        <p class="mb-1 small"><i class="fa-solid fa-calendar me-1 text-danger"></i>Mong muốn: <span th:text="${dp.watchDateTimeLabel}">—</span></p>
+                        <p class="mb-1 small"><i class="fa-solid fa-users me-1"></i><span th:text="${dp.peopleCount}">1</span> người ·
+                            <i class="fa-solid fa-couch ms-1 me-1"></i><span th:text="${dp.seatPreference}">Ghế</span></p>
+                        <p class="mb-0 small"><i class="fa-solid fa-location-dot me-1 text-danger"></i><span th:text="${dp.theater}">Rạp</span></p>
+                        <div class="mt-3 pt-3 border-top border-secondary border-opacity-25" th:if="${loggedInUser != null}">
+                            <th:block th:if="${dp.userId == loggedInUser.id}">
+                                <span class="badge rounded-pill px-3 py-2" style="background:#333;color:#aaa;">
+                                    <i class="fa-solid fa-user me-1"></i>Tin của bạn
+                                </span>
+                            </th:block>
+                            <th:block th:unless="${dp.userId == loggedInUser.id}">
+                                <button type="button" class="btn btn-like"
+                                        th:attr="onclick=|sendLike(${dp.userId}, this)|">
+                                    <i class="fa-solid fa-heart me-2"></i>Gửi lời mời kết bạn
+                                </button>
+                                <p class="small text-secondary mt-2 mb-0">
+                                    Đối phương sẽ thấy lời mời ở khung phía trên và trên trang chủ. Sau khi họ chấp nhận, cả hai nhận thông báo và có thể nhắn tin.
+                                </p>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="empty-state" th:if="${#lists.isEmpty(datingPosts)}">
+                        <i class="fa-solid fa-film fa-3x mb-3"></i>
+                        <h5>Tin tìm bạn xem phim</h5>
+                        <p>Đăng tin để tìm người cùng đi xem phim!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PROFILE POPUP MODAL -->
+<div class="modal fade profile-modal" id="profileModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-white">
+                    <i class="fa-solid fa-user-heart text-danger me-2"></i>Hồ Sơ Dating
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0" id="profileModalBody">
+                <!-- Dynamic content -->
+            </div>
+            <div class="profile-action-area" id="profileActionArea">
+                <!-- Dynamic action buttons -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CREATE POST MODAL -->
+<div class="modal fade" id="createPostModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-white">
+                    <i class="fa-solid fa-film text-danger me-2"></i>Đăng Tin Tìm Bạn Xem Phim
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form th:action="@{/pele-dating/create-post}" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fa-solid fa-film text-danger me-2"></i>Chọn Phim</label>
+                        <select name="movieId" id="postMovieSelect" class="form-select" required>
+                            <option value="">-- Chọn phim --</option>
+                            <option th:each="m : ${movies}" th:value="${m.id}" th:text="${m.title}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fa-solid fa-clock text-danger me-2"></i>Suất Chiếu</label>
+                        <select name="showtimeId" id="postShowtimeSelect" class="form-select" required>
+                            <option value="">-- Chọn suất chiếu --</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fa-solid fa-calendar text-danger me-2"></i>Ngày & Giờ</label>
+                            <input type="datetime-local" name="dateTime" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fa-solid fa-users text-danger me-2"></i>Số Người Tìm</label>
+                            <input type="number" name="peopleCount" class="form-control" min="1" max="10" value="1" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fa-solid fa-couch text-danger me-2"></i>Ghế Ưa Thích</label>
+                        <input type="text" name="seatPreference" class="form-control" placeholder="VD: Ghế G8, G9" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fa-solid fa-location-dot text-danger me-2"></i>Rạp Chiếu</label>
+                        <input type="text" name="theater" class="form-control" placeholder="VD: Rạp Galaxy Nguyen Du" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-create rounded-pill">
+                        <i class="fa-solid fa-paper-plane me-2"></i>Đăng Tin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- SHARED SCRIPTS (from fragment) -->
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+
+<!-- PAGE SCRIPTS -->
+<script th:inline="javascript">
+    var loggedInUserId = /*[[${loggedInUser != null ? loggedInUser.id : 0}]]*/ 0;
+
+    // ============ LOAD SHOWTIMES FOR POST ============
+    document.getElementById('postMovieSelect').addEventListener('change', function() {
+        const select = document.getElementById('postShowtimeSelect');
+        select.innerHTML = '<option value="">Đang tải...</option>';
+        if (!this.value) { select.innerHTML = '<option value="">-- Chọn suất chiếu --</option>'; return; }
+        fetch('/pele-dating/showtimes?movieId=' + this.value)
+            .then(r => r.json())
+            .then(data => {
+                select.innerHTML = '<option value="">-- Chọn suất chiếu --</option>';
+                data.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.id;
+                    opt.text = s.time + ' - ' + s.room;
+                    select.appendChild(opt);
+                });
+                if (data.length === 0) select.innerHTML = '<option value="">Không có suất chiếu</option>';
+            }).catch(() => { select.innerHTML = '<option value="">Lỗi tải</option>'; });
+    });
+
+    // ============ PROFILE POPUP ============
+    function showProfilePopup(userId) {
+        fetch('/pele-dating/profile/' + userId)
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) { alert(data.error); return; }
+                var p = data.profile;
+                var photos = [];
+                if (p.avatarUrl) photos.push(p.avatarUrl);
+                if (p.photo1) photos.push(p.photo1);
+                if (p.photo2) photos.push(p.photo2);
+                if (p.photo3) photos.push(p.photo3);
+                if (p.photo4) photos.push(p.photo4);
+
+                var photoHtml = photos.length > 0
+                    ? '<img id="popupMainPhoto" src="' + photos[0] + '" class="profile-photo-main" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';">'
+                      + '<div class="profile-photo-main-placeholder" style="display:none;"><span>' + (p.displayName ? p.displayName[0] : '?') + '</span></div>'
+                    : '<div class="profile-photo-main-placeholder"><span>' + (p.displayName ? p.displayName[0] : '?') + '</span></div>';
+
+                var dotsHtml = '';
+                for (var i = 0; i < photos.length; i++) {
+                    dotsHtml += '<span class="profile-photo-dot' + (i === 0 ? ' active' : '') + '" onclick="changePopupPhoto(' + i + ', \'' + photos.join('\',\'') + '\')"></span>';
+                }
+
+                var actionHtml = '';
+                if (loggedInUserId !== 0) {
+                    if (data.alreadyMatched) {
+                        actionHtml = data.matchId
+                            ? '<a href="/pele-dating/chat/' + data.matchId + '" class="btn btn-match w-100"><i class="fa-solid fa-comment me-2"></i>Đã Match - Nhắn tin</a>'
+                            : '<button type="button" class="btn btn-match w-100" onclick="location.reload()"><i class="fa-solid fa-rotate me-2"></i>Tải lại trang để mở chat</button>';
+                    } else if (data.alreadySent) {
+                        actionHtml = '<button class="btn btn-like sent w-100" disabled><i class="fa-solid fa-clock me-2"></i>Đã gửi lời mời...</button>';
+                    } else {
+                        actionHtml = '<button class="btn btn-like w-100" onclick="sendLikeFromPopup(' + p.userId + ')"><i class="fa-solid fa-heart me-2"></i>Gửi lời mời kết bạn</button>';
+                    }
+                } else {
+                    actionHtml = '<a href="/login" class="btn btn-outline-danger w-100"><i class="fa-solid fa-sign-in-alt me-2"></i>Đăng nhập để gửi lời mời</a>';
+                }
+
+                document.getElementById('profileModalBody').innerHTML =
+                    '<div class="profile-photo-carousel">' +
+                        photoHtml +
+                        '<div class="profile-photo-dots">' + dotsHtml + '</div>' +
+                    '</div>' +
+                    '<div class="profile-info-section">' +
+                        '<h4 class="fw-bold mb-1">' + escHtml(p.displayName || '') + ' <span class="text-secondary fw-normal" style="font-size:1rem;">' + (p.age || '') + ' tuổi</span></h4>' +
+                        '<div class="mb-2">' +
+                            '<span class="info-tag me-1"><i class="fa-solid fa-ruler-vertical me-1"></i>' + (p.height || '') + 'cm</span>' +
+                            '<span class="info-tag me-1"><i class="fa-solid fa-location-dot me-1"></i>' + escHtml(p.hometown || '') + '</span>' +
+                            '<span class="info-tag"><i class="fa-solid fa-ring me-1"></i>' + maritalLabel(p.maritalStatus) + '</span>' +
+                        '</div>' +
+                        '<p class="text-secondary" style="font-size:0.88rem;">' + escHtml(p.bio || 'Chưa có giới thiệu') + '</p>' +
+                    '</div>';
+                document.getElementById('profileActionArea').innerHTML = actionHtml;
+
+                window.popupPhotos = photos;
+                new bootstrap.Modal(document.getElementById('profileModal')).show();
+            }).catch(err => { alert('Không thể tải hồ sơ!'); console.error(err); });
+    }
+
+    function changePopupPhoto(idx, photos) {
+        if (!window.popupPhotos || !window.popupPhotos[idx]) return;
+        document.getElementById('popupMainPhoto').src = window.popupPhotos[idx];
+        document.querySelectorAll('.profile-photo-dot').forEach((d, i) => {
+            d.classList.toggle('active', i === idx);
+        });
+    }
+
+    function maritalLabel(status) {
+        var map = { 'SINGLE': 'Độc thân', 'DIVORCED': 'Đã ly hôn', 'WIDOWED': 'Góa phụ', 'MARRIED': 'Đã kết hôn' };
+        return map[status] || status || '';
+    }
+
+    // ============ SEND LIKE ============
+    function sendLike(userId, btn) {
+        if (!loggedInUserId) { alert('Vui lòng đăng nhập!'); return; }
+        fetch('/pele-dating/like/' + userId, { method: 'POST' })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) { alert(data.error); return; }
+                if (btn) btn.classList.add('sent');
+                showNotice('success', 'Đã gửi lời mời kết bạn!', userId);
+            }).catch(() => { alert('Gửi thất bại!'); });
+    }
+
+    function sendLikeFromPopup(userId) {
+        sendLike(userId, null);
+        bootstrap.Modal.getInstance(document.getElementById('profileModal')).hide();
+    }
+
+    // ============ RESPOND TO REQUEST ============
+    function respondRequest(requestId, accept) {
+        fetch('/pele-dating/respond/' + requestId + '?accept=' + accept, { method: 'POST' })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) { alert(data.error); return; }
+                if (data.matched) {
+                    showNotice('match', 'Match thành công! Hãy bắt đầu trò chuyện!', null);
+                } else {
+                    showNotice('info', 'Đã ' + (accept ? 'chấp nhận' : 'từ chối') + ' lời mời.', null);
+                }
+                setTimeout(() => location.reload(), 2000);
+            }).catch(() => { alert('Có lỗi xảy ra!'); });
+    }
+
+    // ============ CHAT ============
+    function openChat(matchId) {
+        window.location.href = '/pele-dating/chat/' + matchId;
+    }
+
+    // ============ NOTICES ============
+    function showNotice(type, message, fromUserId) {
+        var popup = document.getElementById('noticePopup');
+        var html = '<div class="notice-card">';
+        html += '<div class="d-flex align-items-start gap-3">';
+        html += '<div><i class="fa-solid ' + (type === 'match' ? 'fa-heart text-danger fa-2x' : 'fa-heart-circle-check text-danger fa-2x') + '"></i></div>';
+        html += '<div class="flex-fill"><div class="fw-bold mb-1">' + (type === 'match' ? 'Match!' : 'Thông báo') + '</div>';
+        html += '<div class="small text-secondary">' + escHtml(message) + '</div></div>';
+        html += '<button class="notice-dismiss" onclick="dismissNotice(this)"><i class="fa-solid fa-xmark"></i></button>';
+        html += '</div></div>';
+        popup.innerHTML = html;
+    }
+
+    function dismissNotice(btn) {
+        btn.closest('.notice-card').remove();
+    }
+
+    // ============ UTILS ============
+    function escHtml(text) {
+        if (!text) return '';
+        var div = document.createElement('div'); div.textContent = text; return div.innerHTML;
+    }
+</script>
+
+</body>
+</html>

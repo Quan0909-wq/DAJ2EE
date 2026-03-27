@@ -1,0 +1,2015 @@
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:445)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:592)
+	at org.springframework.boot.loader.net.protocol.jar.JarUrlClassLoader.loadClass(JarUrlClassLoader.java:107)
+	at org.springframework.boot.loader.launch.LaunchedClassLoader.loadClass(LaunchedClassLoader.java:91)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "mysql-cj-abandoned-connection-cleanup" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread$ConnectionFinalizerPhantomReference.finalizeResources(AbandonedConnectionCleanupThread.java:251)
+	at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.finalizeResource(AbandonedConnectionCleanupThread.java:228)
+	at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:95)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 7 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more
+Exception in thread "HikariPool-1 connection closer" java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+	at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+	at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+	at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+	at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+	at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+	at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+	Suppressed: java.lang.NoClassDefFoundError: com/mysql/cj/protocol/ExportControlled
+		at com.mysql.cj.protocol.NetworkResources.forceClose(NetworkResources.java:54)
+		at com.mysql.cj.protocol.AbstractSocketConnection.forceClose(AbstractSocketConnection.java:114)
+		at com.mysql.cj.protocol.a.NativeProtocol.quit(NativeProtocol.java:1331)
+		at com.mysql.cj.NativeSession.quit(NativeSession.java:149)
+		at com.mysql.cj.jdbc.ConnectionImpl.realClose(ConnectionImpl.java:1684)
+		at com.mysql.cj.jdbc.ConnectionImpl.close(ConnectionImpl.java:699)
+		at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:136)
+		... 4 more
+	Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+		... 11 more
+Caused by: java.lang.ClassNotFoundException: com.mysql.cj.protocol.ExportControlled
+	... 11 more

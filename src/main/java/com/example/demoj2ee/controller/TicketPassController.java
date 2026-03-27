@@ -81,8 +81,19 @@ public class TicketPassController {
 
         model.addAttribute("bookings", availableBookings);
 
-        if (bookingId != null) {
-            Booking selectedBooking = bookingRepository.findById(bookingId).orElse(null);
+        Long preselectId = bookingId;
+        if (preselectId == null) {
+            Object flashBid = model.getAttribute("bookingId");
+            if (flashBid instanceof Long) {
+                preselectId = (Long) flashBid;
+            } else if (flashBid instanceof Number) {
+                preselectId = ((Number) flashBid).longValue();
+            }
+        }
+        model.addAttribute("preselectBookingId", preselectId != null ? preselectId.toString() : "");
+
+        if (preselectId != null) {
+            Booking selectedBooking = bookingRepository.findById(preselectId).orElse(null);
             model.addAttribute("selectedBooking", selectedBooking);
         }
 

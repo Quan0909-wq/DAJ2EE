@@ -237,9 +237,10 @@
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-secondary">Suất chiếu</label>
                         <select name="showtimeId" class="form-select" required>
-                            <option value="" disabled selected>-- Chọn suất chiếu --</option>
-                            <option th:each="s : ${showtimes}" 
+                            <option value="" disabled th:selected="${preselectedShowtimeId == null}">-- Chọn suất chiếu --</option>
+                            <option th:each="s : ${showtimes}"
                                     th:value="${s.id}"
+                                    th:selected="${preselectedShowtimeId != null and preselectedShowtimeId == s.id}"
                                     th:text="${s.movie.title} + ' - ' + ${#temporals.format(s.startTime, 'HH:mm dd/MM')} + ' - ' + ${s.room.name}">
                             </option>
                         </select>

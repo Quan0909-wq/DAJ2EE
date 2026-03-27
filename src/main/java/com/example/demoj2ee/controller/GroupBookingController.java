@@ -29,6 +29,21 @@ public class GroupBookingController {
     @GetMapping("/group")
     public String groupBookingPage(Model model) {
         model.addAttribute("showtimes", showtimeRepository.findAll());
+        model.addAttribute("preselectedShowtimeId", null);
+        return "group-booking";
+    }
+
+    /** Link từ trang chi tiết phim: /group-booking/{showtimeId} — chọn sẵn suất chiếu. */
+    @GetMapping("/group-booking/{id}")
+    public String groupBookingForShowtime(@PathVariable("id") Long showtimeId,
+                                          Model model,
+                                          RedirectAttributes ra) {
+        if (!showtimeRepository.existsById(showtimeId)) {
+            ra.addFlashAttribute("error", "Không tìm thấy suất chiếu.");
+            return "redirect:/group";
+        }
+        model.addAttribute("showtimes", showtimeRepository.findAll());
+        model.addAttribute("preselectedShowtimeId", showtimeId);
         return "group-booking";
     }
 
@@ -55,7 +70,7 @@ public class GroupBookingController {
             if (creatorEmail == null || creatorEmail.isEmpty()) creatorEmail = "guest_" + System.currentTimeMillis() + "@pele.com";
             if (creatorPhone == null || creatorPhone.isEmpty()) creatorPhone = "0000000000";
 
-            GroupBooking group = groupBookingService.createGroup(showtimeId, creatorName, creatorEmail, creatorPhone);
+            GroupBooking group = groupBookingService.createGroup(showtimeId, creatorName, creatorEmail, creatorPhone, loggedInUser);
             ra.addFlashAttribute("roomCode", group.getRoomCode());
             return "redirect:/group/" + group.getRoomCode();
         } catch (Exception e) {
@@ -452,5 +467,37 @@ public class GroupBookingController {
         model.addAttribute("showtime", group.getShowtime());
 
         return "group-success";
+    }
+
+    // ============================================================
+    // VE NHOM CUA TOI
+    // ============================================================
+
+    @GetMapping("/my-group-bookings")
+    public String myGroupBookings(HttpSession session, Model model) {
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        // Lọc: chỉ hiển thị phòng nhóm mà user là creator hoặc là thành viên
+        List<GroupBooking> allGroups = groupBookingRepository.findAll();
+        List<GroupBooking> myGroups = new java.util.ArrayList<>();
+        for (GroupBooking g : allGroups) {
+            if (g.getCreator() != null && g.getCreator().getId().equals(loggedInUser.getId())) {
+                myGroups.add(g);
+            } else {
+                // Kiểm tra trong danh sách thành viên
+                for (GroupMember m : groupMemberRepository.findByGroupBookingId(g.getId())) {
+                    if (m.getEmail() != null && m.getEmail().equalsIgnoreCase(loggedInUser.getEmail())) {
+                        myGroups.add(g);
+                        break;
+                    }
+                }
+            }
+        }
+
+        model.addAttribute("groupBookings", myGroups);
+        return "my-group-bookings";
     }
 }

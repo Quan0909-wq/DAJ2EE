@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymoleaf.org">
 <head>
     <title>Vé nhóm của tôi - PELE Cinema</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <th:block th:replace="~{fragments/navbar :: navbarStyles}"></th:block>
     <style>
-        body { background-color: #050505; color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 80px; min-height: 100vh; }
+        body { background-color: #050505; color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 110px; min-height: 100vh; }
         .container { max-width: 1100px; }
         .page-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 30px; }
-        
+
         .booking-card {
             background: #121212;
             border-radius: 15px;
@@ -39,12 +40,12 @@
         .status-success { background: rgba(40, 167, 69, 0.2); color: #28a745; }
         .status-pending { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
         .status-cancelled { background: rgba(220, 53, 69, 0.2); color: #dc3545; }
-        
+
         .movie-title { font-weight: 800; font-size: 1.2rem; color: #667eea; }
         .info-row { display: flex; gap: 30px; flex-wrap: wrap; }
         .info-item { display: flex; align-items: center; gap: 8px; color: #888; font-size: 0.85rem; }
         .info-item i { color: #667eea; }
-        
+
         .discount-badge {
             background: rgba(40, 167, 69, 0.2);
             color: #28a745;
@@ -53,20 +54,20 @@
             font-size: 0.75rem;
             font-weight: 700;
         }
-        
+
         .total-amount {
             font-size: 1.5rem;
             font-weight: 800;
             color: #28a745;
         }
-        
+
         .empty-state {
             text-align: center;
             padding: 60px 20px;
             color: #666;
         }
         .empty-state i { font-size: 4rem; margin-bottom: 20px; color: #333; }
-        
+
         .btn-detail {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -81,6 +82,17 @@
     </style>
 </head>
 <body>
+
+<!-- Top bar -->
+<div th:replace="~{fragments/navbar :: topbar}"></div>
+<!-- Main navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<!-- Sidebar -->
+<div th:replace="~{fragments/navbar :: sidebar}"></div>
+<!-- Dating notification panel -->
+<div th:replace="~{fragments/navbar :: notifPanel}"></div>
+<!-- Scripts -->
+<div th:replace="~{fragments/navbar :: scripts}"></div>
 
 <div class="container">
     <h2 class="page-title">
@@ -97,12 +109,12 @@
     <div th:each="booking : ${groupBookings}" class="booking-card">
         <div class="d-flex justify-content-between align-items-start mb-3">
             <div>
-                <span class="booking-code" th:text="${booking.bookingCode}">GRP-XXXXXXXX</span>
-                <h4 class="movie-title mt-2" th:text="${booking.groupName}">Tên nhóm</h4>
+                <span class="booking-code" th:text="${booking.roomCode}">GRP-XXXXXXXX</span>
+                <h4 class="movie-title mt-2">Phòng vé nhóm</h4>
             </div>
-            <span class="status-badge" 
-                  th:classappend="${booking.status == 'SUCCESS'} ? 'status-success' : (${booking.status == 'PENDING'} ? 'status-pending' : 'status-cancelled')"
-                  th:text="${booking.status == 'SUCCESS'} ? 'THÀNH CÔNG' : (${booking.status == 'PENDING'} ? 'ĐANG CHỜ' : 'ĐÃ HỦY')">
+            <span class="status-badge"
+                  th:classappend="${booking.status == 2} ? 'status-success' : (${booking.status == 1} ? 'status-pending' : 'status-cancelled')"
+                  th:text="${booking.status == 2} ? 'THÀNH CÔNG' : (${booking.status == 1} ? 'ĐANG CHỌN' : (${booking.status == 3} ? 'HẾT HẠN' : 'CHỜ'))">
                 Trạng thái
             </span>
         </div>
@@ -110,17 +122,17 @@
         <div class="info-row mb-3">
             <div class="info-item">
                 <i class="fas fa-film"></i>
-                <span th:text="${booking.showtime.movie.title}">Tên phim</span>
+                <span th:text="${booking.showtime != null ? booking.showtime.movie.title : 'Phim'}">Tên phim</span>
             </div>
             <div class="info-item">
                 <i class="fas fa-chair"></i>
-                <span th:text="${booking.seatNumbers}">Ghế</span>
+                <span th:text="${booking.allSeats != null ? booking.allSeats : 'Chưa chọn'}">Ghế</span>
             </div>
             <div class="info-item">
                 <i class="fas fa-users"></i>
-                <span th:text="${booking.totalMembers + ' người'}">Số người</span>
+                <span th:text="${booking.members.size() + ' người'}">Số người</span>
             </div>
-            <div class="info-item">
+            <div class="info-item" th:if="${booking.showtime != null}">
                 <i class="fas fa-clock"></i>
                 <span th:text="${#temporals.format(booking.showtime.startTime, 'HH:mm - dd/MM/yyyy')}">Giờ chiếu</span>
             </div>
@@ -129,14 +141,14 @@
         <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary">
             <div>
                 <span class="text-secondary small me-2">Đã tiết kiệm:</span>
-                <span class="discount-badge" th:if="${booking.discountAmount > 0}">
-                    -<span th:text="${#numbers.formatDecimal(booking.discountAmount, 0, 'COMMA', 0, 'POINT')}">0</span>đ
+                <span class="discount-badge" th:if="${booking.discountPercent > 0}">
+                    -<span th:text="${#numbers.formatDecimal(booking.originalAmount * booking.discountPercent, 0, 'COMMA', 0, 'POINT')}">0</span>đ (<span th:text="${#numbers.formatDecimal(booking.discountPercent * 100, 0, 'COMMA', 0, 'POINT')}">0</span>%)
                 </span>
-                <span class="text-secondary small" th:if="${booking.discountAmount == 0}">Không có</span>
+                <span class="text-secondary small" th:if="${booking.discountPercent == 0}">Không có</span>
             </div>
             <div class="text-end">
                 <div class="total-amount" th:text="${#numbers.formatDecimal(booking.finalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</div>
-                <a th:href="@{/group-booking/detail/{id}(id=${booking.id})}" class="btn-detail mt-2">
+                <a th:href="@{/group/{roomCode}(roomCode=${booking.roomCode})}" class="btn-detail mt-2">
                     <i class="fas fa-eye me-2"></i>Chi tiết
                 </a>
             </div>

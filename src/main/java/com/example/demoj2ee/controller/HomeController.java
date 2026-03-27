@@ -1,11 +1,7 @@
 package com.example.demoj2ee.controller;
 
-import com.example.demoj2ee.model.Comment;
-import com.example.demoj2ee.model.Movie;
-import com.example.demoj2ee.model.Showtime;
-import com.example.demoj2ee.model.User;
-import com.example.demoj2ee.repository.MovieRepository;
-import com.example.demoj2ee.repository.ShowtimeRepository;
+import com.example.demoj2ee.model.*;
+import com.example.demoj2ee.repository.*;
 import com.example.demoj2ee.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,14 +40,21 @@ public class HomeController {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping("/")
+    @Autowired
+    private NewsRepository newsRepository;
+
+    @Autowired
+    private PromotionRepository promotionRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
+
+    @GetMapping({"/", "/home"})
     public String showHomePage(@RequestParam(value = "genre", required = false) String genre, Model model) {
         List<Movie> movies;
 
         if (genre != null && !genre.isEmpty()) {
-            // Cần chắc chắn trong MovieRepository có hàm này
-            // movies = movieRepository.findByGenreContainingIgnoreCase(genre);
-            movies = movieRepository.findAll(); // Tạm thời load tất cả để không lỗi
+            movies = movieRepository.findByGenreContainingIgnoreCase(genre);
             model.addAttribute("selectedGenre", genre);
         } else {
             movies = movieRepository.findAll();
@@ -62,10 +67,7 @@ public class HomeController {
 
     @GetMapping("/search")
     public String searchMovies(@RequestParam("keyword") String keyword, Model model) {
-        // Cần chắc chắn trong MovieRepository có hàm findByTitleContainingIgnoreCase
-        // List<Movie> searchResults = movieRepository.findByTitleContainingIgnoreCase(keyword);
-        List<Movie> searchResults = movieRepository.findAll(); // Tránh lỗi khi chưa cấu hình Repos
-
+        List<Movie> searchResults = movieRepository.findByTitleContainingIgnoreCase(keyword);
         model.addAttribute("movies", searchResults);
         model.addAttribute("selectedGenre", "searching...");
         return "home";
@@ -105,13 +107,47 @@ public class HomeController {
         return "redirect:/movie/" + movieId;
     }
 
-    // Các trang tĩnh
     @GetMapping("/upcoming")
-    public String showUpcoming() { return "upcoming"; }
+    public String showUpcoming(Model model) {
+        List<Movie> upcomingMovies = movieRepository.findAll().stream()
+                .filter(m -> m.getReleaseDate() != null && m.getReleaseDate().isAfter(LocalDate.now()))
+                .toList();
+        model.addAttribute("movies", upcomingMovies);
+        return "upcoming";
+    }
 
     @GetMapping("/news")
-    public String showNews() { return "news"; }
+    public String showNews(Model model) {
+        List<News> newsList = newsRepository.findByActiveTrueOrderByPublishedAtDesc();
+        model.addAttribute("news", newsList);
+        return "news";
+    }
+
+    @GetMapping("/news/{id}")
+    public String newsDetail(@PathVariable Long id, Model model) {
+        News news = newsRepository.findById(id).orElse(null);
+        if (news == null) return "redirect:/news";
+        model.addAttribute("article", news);
+        return "news-detail";
+    }
 
     @GetMapping("/promotions")
-    public String showPromotions() { return "promotions"; }
+    public String showPromotions(Model model) {
+        List<Promotion> promotions = promotionRepository
+                .findByActiveTrueAndExpiresAtAfterOrderByCreatedAtDesc(LocalDateTime.now());
+        model.addAttribute("promotions", promotions);
+        return "promotions";
+    }
+
+    /** Vé đã đặt (cùng gói controller với trang chủ để route luôn được đăng ký). */
+    @GetMapping("/my-tickets")
+    public String myTickets(jakarta.servlet.http.HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        List<Booking> bookings = bookingRepository.findByUserIdWithDetails(user.getId());
+        model.addAttribute("bookings", bookings);
+        return "my-tickets";
+    }
 }

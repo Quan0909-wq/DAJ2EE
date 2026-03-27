@@ -29,13 +29,14 @@ public class GroupBookingService {
     // ============================================================
 
     @Transactional
-    public GroupBooking createGroup(Long showtimeId, String creatorName, String creatorEmail, String creatorPhone) {
+    public GroupBooking createGroup(Long showtimeId, String creatorName, String creatorEmail, String creatorPhone, User creatorUser) {
         Showtime showtime = showtimeRepository.findById(showtimeId).orElse(null);
         if (showtime == null) throw new RuntimeException("Suất chiếu không tồn tại");
 
         GroupBooking group = new GroupBooking();
         group.setRoomCode(generateRoomCode());
         group.setShowtime(showtime);
+        group.setCreator(creatorUser);
         group.setStatus(0);
         group.setCreatedAt(LocalDateTime.now());
         group.setExpiresAt(LocalDateTime.now().plusMinutes(30));

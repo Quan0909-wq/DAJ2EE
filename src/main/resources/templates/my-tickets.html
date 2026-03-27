@@ -5,6 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <th:block th:replace="~{fragments/navbar :: navbarStyles}"></th:block>
     <style>
         :root {
             --primary-color: #E50914;
@@ -15,13 +16,9 @@
             background: radial-gradient(circle at top, #1a0505 0%, #050505 100%);
             color: #fff;
             font-family: 'Montserrat', sans-serif;
-            padding-top: 80px;
+            padding-top: 110px;
             min-height: 100vh;
         }
-
-        /* --- THANH NAVBAR GỌN GÀNG (Dùng lại của index) --- */
-        .navbar { background: rgba(11, 12, 16, 0.95) !important; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .navbar-brand { font-weight: 800; color: var(--primary-color) !important; }
 
         .ticket-container { max-width: 850px; margin: 0 auto; padding: 20px; }
 
@@ -116,7 +113,10 @@
 </head>
 <body>
 
-<nav th:replace="~{home :: nav}"></nav>
+<div th:replace="~{fragments/navbar :: topbar}"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/navbar :: sidebar}"></div>
+<div th:replace="~{fragments/navbar :: notifPanel}"></div>
 
 <div class="container ticket-container">
     <div class="d-flex justify-content-between align-items-center mb-5 border-bottom border-secondary pb-3">
@@ -144,7 +144,9 @@
     </div>
 
     <div th:each="b : ${bookings}" class="ticket-card">
-        <img th:src="${b.showtime.movie.posterUrl}" class="ticket-poster" alt="Poster">
+        <img th:src="${b.showtime.movie.posterUrl}" class="ticket-poster" alt="Poster"
+             referrerpolicy="no-referrer"
+             onerror="this.onerror=null; this.src='https://image.tmdb.org/t/p/w500/7I6VUdPj6tQECNHdviJkUHD2u89.jpg';">
 
         <div class="ticket-body">
             <div class="movie-title" th:text="${b.showtime.movie.title}">Tên Phim</div>
@@ -178,6 +180,6 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<div th:replace="~{fragments/navbar :: scripts}"></div>
 </body>
 </html>

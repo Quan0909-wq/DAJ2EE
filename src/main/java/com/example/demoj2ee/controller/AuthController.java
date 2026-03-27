@@ -25,6 +25,7 @@ public class AuthController {
     @PostMapping("/register")
     public String registerUser(@RequestParam String username, @RequestParam String password,
                                @RequestParam String email, @RequestParam String fullName,
+                               @RequestParam String phone,
                                Model model) {
         // Kiểm tra xem tên đăng nhập hoặc email đã tồn tại chưa
         if (userRepository.existsByUsername(username) || userRepository.existsByEmail(email)) {
@@ -38,6 +39,7 @@ public class AuthController {
         newUser.setPassword(password); // Tạm thời lưu thẳng pass
         newUser.setEmail(email);
         newUser.setFullName(fullName);
+        newUser.setPhone(phone);
         userRepository.save(newUser);
 
         return "redirect:/login?success=true";

@@ -76,7 +76,7 @@ public class TicketPassService {
     }
 
     public List<TicketPass> getSellerPasses(Long sellerId) {
-        return ticketPassRepository.findBySellerIdOrderByCreatedAtDesc(sellerId);
+        return ticketPassRepository.findBySellerIdWithDetails(sellerId);
     }
 
     public Optional<TicketPass> getPassById(Long id) {

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm/Sửa Tin Tức - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #E50914; --bg-dark: #0b0c10; --bg-card: #1f2833; }
+        body { background-color: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; padding-top: 70px; }
+        .form-control, .form-select { background: #1a1a1a !important; border: 1px solid #333 !important; color: #fff !important; border-radius: 10px; }
+        .form-control:focus, .form-select:focus { border-color: var(--primary) !important; box-shadow: 0 0 0 0.2rem rgba(229,9,20,0.25) !important; }
+        .form-control::placeholder { color: #555; }
+        .form-label { color: #aaa; font-size: 0.85rem; font-weight: 600; }
+        .card-dark { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 30px; }
+        .btn-save { background: var(--primary); border: none; color: #fff; font-weight: 700; padding: 12px 35px; border-radius: 30px; font-size: 1rem; transition: 0.3s; }
+        .btn-save:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(229,9,20,0.5); color: #fff; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/">
+            <span style="color:#fff">PELE</span> <span style="color:var(--primary)">CINEMA</span>
+            <span class="badge bg-danger ms-2"><i class="fa-solid fa-shield-halved me-1"></i>ADMIN</span>
+        </a>
+        <div class="d-flex align-items-center">
+            <a href="/admin/news" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-arrow-left me-1"></i>Quay lại</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h4 class="fw-bold mb-4 text-danger">
+                <i class="fa-solid fa-newspaper me-2"></i>
+                <span th:text="${newsItem.id != null} ? 'Sửa Tin Tức' : 'Thêm Tin Tức Mới'">Thêm Tin Tức</span>
+            </h4>
+
+            <div class="card-dark">
+                <form th:action="@{/admin/news/save}" method="POST">
+                    <input type="hidden" name="id" th:value="${newsItem.id}">
+
+                    <div class="row g-4">
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label class="form-label">Tiêu Đề <span class="text-danger">*</span></label>
+                                <input type="text" name="title" class="form-control" required
+                                       th:value="${newsItem.title}" placeholder="Nhập tiêu đề tin tức...">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mô Tả Ngắn (Excerpt) <span class="text-danger">*</span></label>
+                                <input type="text" name="excerpt" class="form-control" required
+                                       th:value="${newsItem.excerpt}" placeholder="Mô tả ngắn 1-2 dòng...">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Nội Dung Chi Tiết</label>
+                                <textarea name="content" class="form-control" rows="8"
+                                          th:text="${newsItem.content}" placeholder="Nhập nội dung bài viết..."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Chuyên Mục <span class="text-danger">*</span></label>
+                                <select name="category" class="form-select" required>
+                                    <option value="">-- Chọn chuyên mục --</option>
+                                    <option th:selected="${newsItem.category == 'Tin tức'}" value="Tin tức">Tin tức</option>
+                                    <option th:selected="${newsItem.category == 'Review'}" value="Review">Review</option>
+                                    <option th:selected="${newsItem.category == 'So sánh'}" value="So sánh">So sánh</option>
+                                    <option th:selected="${newsItem.category == 'Top phim'}" value="Top phim">Top phim</option>
+                                    <option th:selected="${newsItem.category == 'Sự kiện'}" value="Sự kiện">Sự kiện</option>
+                                    <option th:selected="${newsItem.category == 'Khác'}" value="Khác">Khác</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tác Giả</label>
+                                <input type="text" name="author" class="form-control"
+                                       th:value="${newsItem.author != null ? newsItem.author : 'PELE Admin'}"
+                                       placeholder="Tên tác giả...">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">URL Ảnh Bìa</label>
+                                <input type="text" name="imageUrl" class="form-control"
+                                       th:value="${newsItem.imageUrl}"
+                                       placeholder="https://example.com/image.jpg">
+                                <div class="mt-2">
+                                    <img th:if="${newsItem.imageUrl != null}" th:src="${newsItem.imageUrl}"
+                                         style="width:100%; max-height:150px; object-fit:cover; border-radius:8px;"
+                                         onerror="this.style.display='none'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="/admin/news" class="btn btn-outline-secondary me-3 px-4">Hủy</a>
+                        <button type="submit" class="btn-save">
+                            <i class="fa-solid fa-check me-2"></i>Lưu Tin Tức
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

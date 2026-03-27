@@ -241,26 +241,35 @@
     </div>
 </div>
 
-<script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
     function selectBooking(el) {
-        // Remove previous selection
-        document.querySelectorAll('.booking-item').forEach(item => item.classList.remove('selected'));
+        document.querySelectorAll('.booking-item').forEach(function (item) { item.classList.remove('selected'); });
         el.classList.add('selected');
 
-        const bookingId = el.dataset.id;
-        const price = parseFloat(el.dataset.price);
+        var bookingId = el.getAttribute('data-id');
+        var price = parseFloat(el.getAttribute('data-price'));
 
         document.getElementById('selectedBookingId').value = bookingId;
-        document.getElementById('passPrice').value = price;
+        document.getElementById('passPrice').value = isNaN(price) ? '' : price;
 
         document.getElementById('btnPost').disabled = false;
     }
 
-    // If there's a pre-selected booking (e.g. from error redirect)
-    const preSelected = document.querySelector('.booking-item[data-id="' + [[${param.bookingId}]] + '"]');
-    if (preSelected) {
-        selectBooking(preSelected);
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+        /* Pre-select from ?bookingId= (redirect lỗi / link từ "Vé của tôi") — luôn là chuỗi hợp lệ, tránh lỗi cú pháp JS */
+        var preId = /*[[${preselectBookingId}]]*/ '';
+        if (preId) {
+            var preEl = document.querySelector('.booking-item[data-id="' + preId + '"]');
+            if (preEl) selectBooking(preEl);
+        }
+        /* Chỉ 1 vé: tự chọn để nút Đăng không bị kẹt disabled */
+        var items = document.querySelectorAll('.booking-item');
+        if (items.length === 1 && !document.getElementById('selectedBookingId').value) {
+            selectBooking(items[0]);
+        }
+    });
+    /*]]>*/
 </script>
 
 </body>
