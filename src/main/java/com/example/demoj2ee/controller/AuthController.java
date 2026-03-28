@@ -27,19 +27,18 @@ public class AuthController {
                                @RequestParam String email, @RequestParam String fullName,
                                @RequestParam String phone,
                                Model model) {
-        // Kiểm tra xem tên đăng nhập hoặc email đã tồn tại chưa
         if (userRepository.existsByUsername(username) || userRepository.existsByEmail(email)) {
             model.addAttribute("error", "Tên đăng nhập hoặc Email đã được sử dụng!");
             return "register";
         }
 
-        // Tạo tài khoản mới (Đã bỏ thuộc tính Phone và Role để khớp Database)
         User newUser = new User();
         newUser.setUsername(username);
-        newUser.setPassword(password); // Tạm thời lưu thẳng pass
+        newUser.setPassword(password);
         newUser.setEmail(email);
         newUser.setFullName(fullName);
         newUser.setPhone(phone);
+        newUser.setActive(true); // tài khoản mới mặc định hoạt động
         userRepository.save(newUser);
 
         return "redirect:/login?success=true";
@@ -56,14 +55,18 @@ public class AuthController {
                             HttpSession session, Model model) {
         User user = userRepository.findByUsername(username);
 
-        // Kiểm tra đúng tên và mật khẩu
-        if (user != null && user.getPassword().equals(password)) {
-            session.setAttribute("loggedInUser", user);
-            return "redirect:/";
+        if (user == null || !user.getPassword().equals(password)) {
+            model.addAttribute("error", "Sai tên đăng nhập hoặc mật khẩu!");
+            return "login";
         }
 
-        model.addAttribute("error", "Sai tên đăng nhập hoặc mật khẩu!");
-        return "login";
+        if (!user.isActive()) {
+            model.addAttribute("error", "Tài khoản của bạn đã bị khóa!");
+            return "login";
+        }
+
+        session.setAttribute("loggedInUser", user);
+        return "redirect:/";
     }
 
     // ----- PHẦN ĐĂNG XUẤT -----

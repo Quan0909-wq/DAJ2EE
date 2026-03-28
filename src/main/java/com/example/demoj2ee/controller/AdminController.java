@@ -18,16 +18,28 @@ import java.util.*;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired private MovieRepository movieRepository;
-    @Autowired private BookingRepository bookingRepository;
-    @Autowired private UserRepository userRepository;
-    @Autowired private ShowtimeRepository showtimeRepository;
-    @Autowired private RoomRepository roomRepository;
-    @Autowired private ProductRepository productRepository;
-    @Autowired private GroupBookingRepository groupBookingRepository;
-    @Autowired private GroupMemberRepository groupMemberRepository;
-    @Autowired private NewsRepository newsRepository;
-    @Autowired private PromotionRepository promotionRepository;
+    @Autowired
+    private MovieRepository movieRepository;
+    @Autowired
+    private BookingRepository bookingRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ShowtimeRepository showtimeRepository;
+    @Autowired
+    private RoomRepository roomRepository;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private GroupBookingRepository groupBookingRepository;
+    @Autowired
+    private GroupMemberRepository groupMemberRepository;
+    @Autowired
+    private NewsRepository newsRepository;
+    @Autowired
+    private PromotionRepository promotionRepository;
+    @Autowired
+    private TicketDisputeRepository ticketDisputeRepository;
 
     private boolean isAdmin(HttpSession session) {
         User user = (User) session.getAttribute("loggedInUser");
@@ -45,21 +57,58 @@ public class AdminController {
         if (!isLoggedIn(session)) return "redirect:/login";
         if (!isAdmin(session)) return "redirect:/";
 
-        List<Booking> recentBookings = bookingRepository.findAll().stream()
+        List<Booking> allBookings = bookingRepository.findAll();
+        List<Movie> movies = movieRepository.findAll();
+
+        List<Booking> recentBookings = allBookings.stream()
                 .sorted((a, b) -> b.getBookingTime().compareTo(a.getBookingTime()))
                 .toList();
 
-        List<Movie> movies = movieRepository.findAll();
-
-        double todayRevenue = recentBookings.stream()
-                .filter(b -> b.getBookingTime().toLocalDate().equals(LocalDate.now()))
+        double todayRevenue = allBookings.stream()
+                .filter(b -> b.getBookingTime() != null && b.getBookingTime().toLocalDate().equals(LocalDate.now()))
                 .mapToDouble(Booking::getTotalAmount)
                 .sum();
+
+        double totalRevenue = allBookings.stream()
+                .mapToDouble(Booking::getTotalAmount)
+                .sum();
+
+        long successBookings = allBookings.stream()
+                .filter(b -> "SUCCESS".equalsIgnoreCase(b.getStatus()))
+                .count();
+
+        long pendingBookings = allBookings.stream()
+                .filter(b -> "PENDING".equalsIgnoreCase(b.getStatus()))
+                .count();
+
+        long cancelledBookings = allBookings.stream()
+                .filter(b -> "CANCELLED".equalsIgnoreCase(b.getStatus()))
+                .count();
+
+        String topMovieTitle = "Chưa có dữ liệu";
+        Map<String, Long> movieStats = allBookings.stream()
+                .filter(b -> b.getShowtime() != null && b.getShowtime().getMovie() != null)
+                .collect(java.util.stream.Collectors.groupingBy(
+                        b -> b.getShowtime().getMovie().getTitle(),
+                        java.util.stream.Collectors.counting()
+                ));
+
+        if (!movieStats.isEmpty()) {
+            topMovieTitle = movieStats.entrySet().stream()
+                    .max(Map.Entry.comparingByValue())
+                    .map(Map.Entry::getKey)
+                    .orElse("Chưa có dữ liệu");
+        }
 
         model.addAttribute("totalBookings", bookingRepository.count());
         model.addAttribute("totalMovies", movies.size());
         model.addAttribute("totalUsers", userRepository.count());
         model.addAttribute("todayRevenue", todayRevenue);
+        model.addAttribute("totalRevenue", totalRevenue);
+        model.addAttribute("successBookings", successBookings);
+        model.addAttribute("pendingBookings", pendingBookings);
+        model.addAttribute("cancelledBookings", cancelledBookings);
+        model.addAttribute("topMovieTitle", topMovieTitle);
         model.addAttribute("recentBookings", recentBookings.stream().limit(10).toList());
 
         return "admin/dashboard";
@@ -85,16 +134,16 @@ public class AdminController {
 
     @PostMapping("/movies/save")
     public String saveMovie(@RequestParam(required = false) Long id,
-                           @RequestParam String title,
-                           @RequestParam String description,
-                           @RequestParam String director,
-                           @RequestParam String cast,
-                           @RequestParam int duration,
-                           @RequestParam String releaseDate,
-                           @RequestParam String posterUrl,
-                           @RequestParam String genre,
-                           @RequestParam String trailerUrl,
-                           RedirectAttributes ra) {
+                            @RequestParam String title,
+                            @RequestParam String description,
+                            @RequestParam String director,
+                            @RequestParam String cast,
+                            @RequestParam int duration,
+                            @RequestParam String releaseDate,
+                            @RequestParam String posterUrl,
+                            @RequestParam String genre,
+                            @RequestParam String trailerUrl,
+                            RedirectAttributes ra) {
         Movie movie = (id != null) ? movieRepository.findById(id).orElse(new Movie()) : new Movie();
         movie.setTitle(title);
         movie.setDescription(description);
@@ -133,10 +182,10 @@ public class AdminController {
 
     @GetMapping("/bookings")
     public String manageBookings(HttpSession session,
-                                @RequestParam(required = false) String search,
-                                @RequestParam(required = false) String status,
-                                @RequestParam(required = false) String date,
-                                Model model) {
+                                 @RequestParam(required = false) String search,
+                                 @RequestParam(required = false) String status,
+                                 @RequestParam(required = false) String date,
+                                 Model model) {
         if (!isLoggedIn(session)) return "redirect:/login";
         if (!isAdmin(session)) return "redirect:/";
 
@@ -145,7 +194,7 @@ public class AdminController {
         if (search != null && !search.trim().isEmpty()) {
             bookings = bookings.stream()
                     .filter(b -> (b.getCustomerName() != null && b.getCustomerName().toLowerCase().contains(search.toLowerCase())) ||
-                                 (b.getCustomerEmail() != null && b.getCustomerEmail().toLowerCase().contains(search.toLowerCase())))
+                            (b.getCustomerEmail() != null && b.getCustomerEmail().toLowerCase().contains(search.toLowerCase())))
                     .toList();
         }
         if (status != null && !status.isEmpty() && !status.equals("all")) {
@@ -172,7 +221,7 @@ public class AdminController {
 
     @PostMapping("/bookings/update-status")
     public String updateBookingStatus(@RequestParam Long id, @RequestParam String status,
-                                     HttpSession session, RedirectAttributes ra) {
+                                      HttpSession session, RedirectAttributes ra) {
         if (!isLoggedIn(session)) return "redirect:/login";
         if (!isAdmin(session)) return "redirect:/";
         Booking booking = bookingRepository.findById(id).orElse(null);
@@ -250,8 +299,8 @@ public class AdminController {
 
     @GetMapping("/group-bookings")
     public String manageGroupBookings(HttpSession session,
-                                     @RequestParam(required = false) String status,
-                                     Model model) {
+                                      @RequestParam(required = false) String status,
+                                      Model model) {
         if (!isLoggedIn(session)) return "redirect:/login";
         if (!isAdmin(session)) return "redirect:/";
 
@@ -314,7 +363,7 @@ public class AdminController {
 
     @PostMapping("/group-bookings/update-status")
     public String updateGroupBookingStatus(@RequestParam Long id, @RequestParam String status,
-                                          HttpSession session, RedirectAttributes ra) {
+                                           HttpSession session, RedirectAttributes ra) {
         if (!isLoggedIn(session)) return "redirect:/login";
         if (!isAdmin(session)) return "redirect:/";
         GroupBooking booking = groupBookingRepository.findById(id).orElse(null);
@@ -491,5 +540,221 @@ public class AdminController {
         promotionRepository.deleteById(id);
         ra.addFlashAttribute("success", "Xóa khuyến mãi thành công!");
         return "redirect:/admin/promotions";
+    }
+    // ================== QUẢN LÝ NGƯỜI DÙNG ==================
+
+    @GetMapping("/users")
+    public String manageUsers(HttpSession session,
+                              @RequestParam(required = false) String keyword,
+                              Model model) {
+        if (!isLoggedIn(session)) return "redirect:/login";
+        if (!isAdmin(session)) return "redirect:/";
+
+        List<User> users;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            users = userRepository
+                    .findByUsernameContainingIgnoreCaseOrFullNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+                            keyword.trim(), keyword.trim(), keyword.trim()
+                    );
+        } else {
+            users = userRepository.findAll();
+        }
+
+        users = users.stream()
+                .sorted(Comparator.comparing(User::getId).reversed())
+                .toList();
+
+        model.addAttribute("users", users);
+        model.addAttribute("keyword", keyword != null ? keyword : "");
+        return "admin/admin-users";
+    }
+
+    @PostMapping("/users/toggle-status/{id}")
+    public String toggleUserStatus(@PathVariable Long id,
+                                   HttpSession session,
+                                   RedirectAttributes ra) {
+        if (!isLoggedIn(session)) return "redirect:/login";
+        if (!isAdmin(session)) return "redirect:/";
+
+        User currentUser = (User) session.getAttribute("loggedInUser");
+        User user = userRepository.findById(id).orElse(null);
+
+        if (user == null) {
+            ra.addFlashAttribute("error", "Không tìm thấy người dùng!");
+            return "redirect:/admin/users";
+        }
+
+        // Không cho admin tự khóa chính mình
+        if (currentUser != null && currentUser.getId().equals(user.getId())) {
+            ra.addFlashAttribute("error", "Bạn không thể tự khóa tài khoản của chính mình!");
+            return "redirect:/admin/users";
+        }
+
+        user.setActive(!user.isActive());
+        userRepository.save(user);
+
+        ra.addFlashAttribute("success",
+                user.isActive() ? "Đã mở khóa tài khoản thành công!" : "Đã khóa tài khoản thành công!");
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/users/toggle-role/{id}")
+    public String toggleUserRole(@PathVariable Long id,
+                                 HttpSession session,
+                                 RedirectAttributes ra) {
+        if (!isLoggedIn(session)) return "redirect:/login";
+        if (!isAdmin(session)) return "redirect:/";
+
+        User currentUser = (User) session.getAttribute("loggedInUser");
+        User user = userRepository.findById(id).orElse(null);
+
+        if (user == null) {
+            ra.addFlashAttribute("error", "Không tìm thấy người dùng!");
+            return "redirect:/admin/users";
+        }
+
+        // Không cho admin tự đổi role của chính mình
+        if (currentUser != null && currentUser.getId().equals(user.getId())) {
+            ra.addFlashAttribute("error", "Bạn không thể tự đổi quyền của chính mình!");
+            return "redirect:/admin/users";
+        }
+
+        if ("ADMIN".equalsIgnoreCase(user.getRole())) {
+            user.setRole("USER");
+        } else {
+            user.setRole("ADMIN");
+        }
+
+        userRepository.save(user);
+        ra.addFlashAttribute("success", "Cập nhật quyền người dùng thành công!");
+        return "redirect:/admin/users";
+    }
+
+    @GetMapping("/users/delete/{id}")
+    public String deleteUser(@PathVariable Long id,
+                             HttpSession session,
+                             RedirectAttributes ra) {
+        if (!isLoggedIn(session)) return "redirect:/login";
+        if (!isAdmin(session)) return "redirect:/";
+
+        User currentUser = (User) session.getAttribute("loggedInUser");
+        User user = userRepository.findById(id).orElse(null);
+
+        if (user == null) {
+            ra.addFlashAttribute("error", "Không tìm thấy người dùng!");
+            return "redirect:/admin/users";
+        }
+
+        // Không cho admin tự xóa chính mình
+        if (currentUser != null && currentUser.getId().equals(user.getId())) {
+            ra.addFlashAttribute("error", "Bạn không thể tự xóa tài khoản của chính mình!");
+            return "redirect:/admin/users";
+        }
+
+        userRepository.delete(user);
+        ra.addFlashAttribute("success", "Xóa người dùng thành công!");
+        return "redirect:/admin/users";
+    }
+    // ================== QUẢN LÝ KHIẾU NẠI VÉ ==================
+
+    @GetMapping("/disputes")
+    public String manageDisputes(HttpSession session,
+                                 @RequestParam(required = false) String status,
+                                 Model model) {
+        if (!isLoggedIn(session)) return "redirect:/login";
+        if (!isAdmin(session)) return "redirect:/";
+
+        List<TicketDispute> disputes;
+
+        if (status != null && !status.isEmpty() && !status.equals("all")) {
+            disputes = ticketDisputeRepository.findByStatusOrderByCreatedAtDesc(status);
+        } else {
+            disputes = ticketDisputeRepository.findAllByOrderByCreatedAtDesc();
+        }
+
+        model.addAttribute("disputes", disputes);
+        model.addAttribute("selectedStatus", status != null ? status : "all");
+        return "admin/quan-ly-khieu-nai";
+    }
+
+    @GetMapping("/disputes/{id}")
+    public String disputeDetail(@PathVariable Long id,
+                                HttpSession session,
+                                Model model,
+                                RedirectAttributes ra) {
+        if (!isLoggedIn(session)) return "redirect:/login";
+        if (!isAdmin(session)) return "redirect:/";
+
+        TicketDispute dispute = ticketDisputeRepository.findById(id).orElse(null);
+        if (dispute == null) {
+            ra.addFlashAttribute("error", "Không tìm thấy khiếu nại!");
+            return "redirect:/admin/disputes";
+        }
+
+        model.addAttribute("dispute", dispute);
+        return "admin/khieu-nai-detail";
+    }
+
+    @PostMapping("/disputes/update")
+    public String updateDispute(@RequestParam Long id,
+                                @RequestParam String status,
+                                @RequestParam(required = false) String resolutionType,
+                                @RequestParam(required = false) String adminReply,
+                                HttpSession session,
+                                RedirectAttributes ra) {
+        if (!isLoggedIn(session)) return "redirect:/login";
+        if (!isAdmin(session)) return "redirect:/";
+
+        TicketDispute dispute = ticketDisputeRepository.findById(id).orElse(null);
+        if (dispute == null) {
+            ra.addFlashAttribute("error", "Không tìm thấy khiếu nại!");
+            return "redirect:/admin/disputes";
+        }
+
+        dispute.setStatus(status);
+        dispute.setAdminReply(adminReply);
+        dispute.setResolutionType(resolutionType);
+
+        if ("RESOLVED".equals(status) || "REJECTED".equals(status)) {
+            dispute.setResolvedAt(LocalDateTime.now());
+        } else {
+            dispute.setResolvedAt(null);
+        }
+
+        Booking booking = dispute.getBooking();
+        if (booking != null) {
+            booking.setAllowSeatChange(false);
+            booking.setAllowShowtimeChange(false);
+            booking.setAllowMovieChange(false);
+            booking.setAllowCancelBooking(false);
+            booking.setDisputeNote(adminReply);
+
+            if ("RESOLVED".equals(status)) {
+                dispute.setCustomerActionRequired(true);
+                dispute.setCustomerActionDone(false);
+
+                if ("CHANGE_SEAT".equals(resolutionType)) {
+                    booking.setAllowSeatChange(true);
+                } else if ("CHANGE_SHOWTIME".equals(resolutionType)) {
+                    booking.setAllowShowtimeChange(true);
+                } else if ("CHANGE_MOVIE".equals(resolutionType)) {
+                    booking.setAllowMovieChange(true);
+                } else if ("CANCEL_BOOKING".equals(resolutionType)) {
+                    booking.setAllowCancelBooking(true);
+                } else {
+                    dispute.setCustomerActionRequired(false);
+                }
+            } else {
+                dispute.setCustomerActionRequired(false);
+                dispute.setCustomerActionDone(false);
+            }
+
+            bookingRepository.save(booking);
+        }
+
+        ticketDisputeRepository.save(dispute);
+        ra.addFlashAttribute("success", "Cập nhật khiếu nại thành công!");
+        return "redirect:/admin/disputes/" + id;
     }
 }

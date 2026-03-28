@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý khiếu nại vé</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f5f6fa;
+            margin:0;
+            padding:20px;
+        }
+        .container{
+            max-width:1200px;
+            margin:0 auto;
+            background:#fff;
+            padding:24px;
+            border-radius:12px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.08);
+        }
+        h1{
+            margin-bottom:20px;
+            color:#222;
+        }
+        .top-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            flex-wrap:wrap;
+            margin-bottom:20px;
+        }
+        .filter-form{
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+        }
+        select, button, .btn{
+            padding:10px 14px;
+            border:none;
+            border-radius:8px;
+            font-size:14px;
+        }
+        select{
+            border:1px solid #ccc;
+            background:#fff;
+        }
+        .btn-filter{ background:#2563eb; color:#fff; cursor:pointer; }
+        .btn-reset{ background:#6b7280; color:#fff; text-decoration:none; display:inline-block; }
+        .btn-back{ background:#111827; color:#fff; text-decoration:none; display:inline-block; }
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+        th, td{
+            border:1px solid #ddd;
+            padding:12px;
+            text-align:center;
+            vertical-align:middle;
+        }
+        th{
+            background:#f3f4f6;
+        }
+        .status-pending{
+            color:#f59e0b;
+            font-weight:bold;
+        }
+        .status-resolved{
+            color:#10b981;
+            font-weight:bold;
+        }
+        .status-rejected{
+            color:#dc2626;
+            font-weight:bold;
+        }
+        .btn-detail{
+            background:#7c3aed;
+            color:#fff;
+            text-decoration:none;
+            padding:8px 12px;
+            border-radius:8px;
+            display:inline-block;
+        }
+        .alert-success{
+            background:#dcfce7;
+            color:#166534;
+            padding:12px;
+            border-radius:8px;
+            margin-bottom:15px;
+        }
+        .alert-error{
+            background:#fee2e2;
+            color:#991b1b;
+            padding:12px;
+            border-radius:8px;
+            margin-bottom:15px;
+        }
+        .empty{
+            text-align:center;
+            padding:20px;
+            color:#666;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-bar">
+        <h1>Quản lý khiếu nại vé</h1>
+        <a th:href="@{/admin}" class="btn btn-back">← Quay lại Admin</a>
+    </div>
+
+    <div th:if="${success}" class="alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+    <form th:action="@{/admin/disputes}" method="get" class="filter-form">
+        <select name="status">
+            <option value="all" th:selected="${selectedStatus == 'all'}">Tất cả trạng thái</option>
+            <option value="PENDING" th:selected="${selectedStatus == 'PENDING'}">Đang chờ xử lý</option>
+            <option value="RESOLVED" th:selected="${selectedStatus == 'RESOLVED'}">Đã xử lý</option>
+            <option value="REJECTED" th:selected="${selectedStatus == 'REJECTED'}">Từ chối</option>
+        </select>
+        <button type="submit" class="btn-filter">Lọc</button>
+        <a th:href="@{/admin/disputes}" class="btn-reset">Làm mới</a>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Mã vé</th>
+            <th>Người gửi</th>
+            <th>Email</th>
+            <th>Tiêu đề</th>
+            <th>Trạng thái</th>
+            <th>Ngày gửi</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(disputes)}">
+            <td colspan="8" class="empty">Chưa có khiếu nại nào.</td>
+        </tr>
+
+        <tr th:each="d : ${disputes}">
+            <td th:text="${d.id}"></td>
+            <td th:text="${d.booking != null ? d.booking.id : '---'}"></td>
+            <td th:text="${d.user != null ? d.user.fullName : '---'}"></td>
+            <td th:text="${d.user != null ? d.user.email : '---'}"></td>
+            <td th:text="${d.subject}"></td>
+            <td>
+                <span th:if="${d.status == 'PENDING'}" class="status-pending">Đang chờ xử lý</span>
+                <span th:if="${d.status == 'RESOLVED'}" class="status-resolved">Đã xử lý</span>
+                <span th:if="${d.status == 'REJECTED'}" class="status-rejected">Từ chối</span>
+            </td>
+            <td th:text="${d.createdAt}"></td>
+            <td>
+                <a th:href="@{/admin/disputes/{id}(id=${d.id})}" class="btn-detail">Xem chi tiết</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

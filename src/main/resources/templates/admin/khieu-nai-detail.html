@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết khiếu nại</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f5f6fa;
+            margin:0;
+            padding:20px;
+        }
+        .container{
+            max-width:900px;
+            margin:0 auto;
+            background:#fff;
+            padding:24px;
+            border-radius:12px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.08);
+        }
+        h1{
+            margin-bottom:20px;
+            color:#222;
+        }
+        .box{
+            background:#f9fafb;
+            border:1px solid #e5e7eb;
+            border-radius:10px;
+            padding:16px;
+            margin-bottom:20px;
+        }
+        .row{
+            margin-bottom:10px;
+        }
+        label{
+            display:block;
+            font-weight:bold;
+            margin-bottom:6px;
+        }
+        textarea, select{
+            width:100%;
+            padding:10px 12px;
+            border:1px solid #ccc;
+            border-radius:8px;
+            box-sizing:border-box;
+            font-size:14px;
+        }
+        textarea{
+            min-height:140px;
+            resize:vertical;
+        }
+        .status-pending{
+            color:#f59e0b;
+            font-weight:bold;
+        }
+        .status-resolved{
+            color:#10b981;
+            font-weight:bold;
+        }
+        .status-rejected{
+            color:#dc2626;
+            font-weight:bold;
+        }
+        .actions{
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+            margin-top:20px;
+        }
+        .btn{
+            padding:10px 16px;
+            border:none;
+            border-radius:8px;
+            text-decoration:none;
+            cursor:pointer;
+            font-size:14px;
+        }
+        .btn-save{
+            background:#2563eb;
+            color:#fff;
+        }
+        .btn-back{
+            background:#6b7280;
+            color:#fff;
+        }
+        .alert-success{
+            background:#dcfce7;
+            color:#166534;
+            padding:12px;
+            border-radius:8px;
+            margin-bottom:15px;
+        }
+        .alert-error{
+            background:#fee2e2;
+            color:#991b1b;
+            padding:12px;
+            border-radius:8px;
+            margin-bottom:15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Chi tiết khiếu nại vé</h1>
+
+    <div th:if="${success}" class="alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+    <div class="box">
+        <div class="row"><strong>ID khiếu nại:</strong> <span th:text="${dispute.id}"></span></div>
+        <div class="row"><strong>Mã vé:</strong> <span th:text="${dispute.booking != null ? dispute.booking.id : '---'}"></span></div>
+        <div class="row"><strong>Người gửi:</strong> <span th:text="${dispute.user != null ? dispute.user.fullName : '---'}"></span></div>
+        <div class="row"><strong>Email:</strong> <span th:text="${dispute.user != null ? dispute.user.email : '---'}"></span></div>
+        <div class="row"><strong>Tiêu đề:</strong> <span th:text="${dispute.subject}"></span></div>
+        <div class="row"><strong>Nội dung:</strong> <span th:text="${dispute.content}"></span></div>
+        <div class="row">
+            <strong>Trạng thái hiện tại:</strong>
+            <span th:if="${dispute.status == 'PENDING'}" class="status-pending">Đang chờ xử lý</span>
+            <span th:if="${dispute.status == 'RESOLVED'}" class="status-resolved">Đã xử lý</span>
+            <span th:if="${dispute.status == 'REJECTED'}" class="status-rejected">Từ chối</span>
+        </div>
+        <div class="row"><strong>Ngày gửi:</strong> <span th:text="${dispute.createdAt}"></span></div>
+        <div class="row"><strong>Ngày xử lý:</strong> <span th:text="${dispute.resolvedAt != null ? dispute.resolvedAt : 'Chưa xử lý'}"></span></div>
+    </div>
+
+    <form th:action="@{/admin/disputes/update}" method="post">
+        <input type="hidden" name="id" th:value="${dispute.id}">
+
+        <div class="row">
+            <label>Trạng thái xử lý</label>
+            <select name="status" required>
+                <option value="PENDING" th:selected="${dispute.status == 'PENDING'}">Đang chờ xử lý</option>
+                <option value="RESOLVED" th:selected="${dispute.status == 'RESOLVED'}">Đã xử lý</option>
+                <option value="REJECTED" th:selected="${dispute.status == 'REJECTED'}">Từ chối</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <label>Hình thức xử lý</label>
+            <select name="resolutionType">
+                <option value="">-- Chọn hình thức xử lý --</option>
+                <option value="CHANGE_SEAT" th:selected="${dispute.resolutionType == 'CHANGE_SEAT'}">Chấp nhận đổi ghế</option>
+                <option value="CHANGE_SHOWTIME" th:selected="${dispute.resolutionType == 'CHANGE_SHOWTIME'}">Chấp nhận đổi suất chiếu</option>
+                <option value="CHANGE_MOVIE" th:selected="${dispute.resolutionType == 'CHANGE_MOVIE'}">Chấp nhận đổi phim khác</option>
+                <option value="CANCEL_BOOKING" th:selected="${dispute.resolutionType == 'CANCEL_BOOKING'}">Chấp nhận hủy vé</option>
+                <option value="REJECTED" th:selected="${dispute.resolutionType == 'REJECTED'}">Từ chối</option>
+                <option value="OTHER" th:selected="${dispute.resolutionType == 'OTHER'}">Khác</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <label>Phản hồi của admin</label>
+            <textarea name="adminReply" placeholder="Nhập phản hồi cho khách hàng..."
+                      th:text="${dispute.adminReply}"></textarea>
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="btn btn-save">Lưu cập nhật</button>
+            <a th:href="@{/admin/disputes}" class="btn btn-back">← Quay lại danh sách</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

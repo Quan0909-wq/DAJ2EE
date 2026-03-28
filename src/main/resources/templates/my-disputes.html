@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Khiếu nại của tôi</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f5f6fa;
+            margin:0;
+            padding:20px;
+        }
+        .container{
+            max-width:1100px;
+            margin:0 auto;
+            background:#fff;
+            padding:24px;
+            border-radius:12px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.08);
+        }
+        h1{
+            margin-bottom:20px;
+            color:#222;
+        }
+        .alert-success{
+            background:#dcfce7;
+            color:#166534;
+            padding:12px;
+            border-radius:8px;
+            margin-bottom:15px;
+        }
+        .alert-error{
+            background:#fee2e2;
+            color:#991b1b;
+            padding:12px;
+            border-radius:8px;
+            margin-bottom:15px;
+        }
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:15px;
+        }
+        th, td{
+            border:1px solid #ddd;
+            padding:12px;
+            text-align:center;
+            vertical-align:middle;
+        }
+        th{
+            background:#f3f4f6;
+        }
+        .status-pending{
+            color:#f59e0b;
+            font-weight:bold;
+        }
+        .status-resolved{
+            color:#10b981;
+            font-weight:bold;
+        }
+        .status-rejected{
+            color:#dc2626;
+            font-weight:bold;
+        }
+        .empty{
+            text-align:center;
+            padding:20px;
+            color:#666;
+        }
+        .btn-back{
+            display:inline-block;
+            margin-top:20px;
+            background:#111827;
+            color:#fff;
+            text-decoration:none;
+            padding:10px 16px;
+            border-radius:8px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Khiếu nại của tôi</h1>
+
+    <div th:if="${success}" class="alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Mã vé</th>
+            <th>Tiêu đề</th>
+            <th>Nội dung</th>
+            <th>Trạng thái</th>
+            <th>Hình thức xử lý</th>
+            <th>Phản hồi admin</th>
+            <th>Hành động</th>
+            <th>Ngày gửi</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(disputes)}">
+            <td colspan="9" class="empty">Bạn chưa gửi khiếu nại nào.</td>
+        </tr>
+
+        <tr th:each="d : ${disputes}">
+            <td th:text="${d.id}"></td>
+            <td th:text="${d.booking != null ? d.booking.id : '---'}"></td>
+            <td th:text="${d.subject}"></td>
+            <td th:text="${d.content}"></td>
+            <td>
+                <span th:if="${d.status == 'PENDING'}" class="status-pending">Đang chờ xử lý</span>
+                <span th:if="${d.status == 'RESOLVED'}" class="status-resolved">Đã xử lý</span>
+                <span th:if="${d.status == 'REJECTED'}" class="status-rejected">Từ chối</span>
+            </td>
+
+            <td>
+                <span th:if="${d.resolutionType == 'CHANGE_SEAT'}">Đổi ghế</span>
+                <span th:if="${d.resolutionType == 'CHANGE_SHOWTIME'}">Đổi suất chiếu</span>
+                <span th:if="${d.resolutionType == 'CHANGE_MOVIE'}">Đổi phim khác</span>
+                <span th:if="${d.resolutionType == 'CANCEL_BOOKING'}">Hủy vé</span>
+                <span th:if="${d.resolutionType == 'REJECTED'}">Từ chối</span>
+                <span th:if="${d.resolutionType == 'OTHER'}">Khác</span>
+                <span th:if="${d.resolutionType == null || #strings.isEmpty(d.resolutionType)}">---</span>
+            </td>
+
+            <td th:text="${d.adminReply != null && !#strings.isEmpty(d.adminReply) ? d.adminReply : 'Chưa có phản hồi'}"></td>
+
+            <td>
+                <a th:if="${d.booking != null and d.booking.allowSeatChange}"
+                   th:href="@{'/booking/change-seat/' + ${d.booking.id}}"
+                   class="btn-back" style="background:#10b981; margin:0; padding:8px 12px;">Đổi ghế</a>
+
+                <a th:if="${d.booking != null and d.booking.allowShowtimeChange}"
+                   th:href="@{'/booking/change-showtime/' + ${d.booking.id}}"
+                   class="btn-back" style="background:#f59e0b; margin:0; padding:8px 12px;">Đổi suất</a>
+
+                <a th:if="${d.booking != null and d.booking.allowMovieChange}"
+                   th:href="@{'/booking/change-movie/' + ${d.booking.id}}"
+                   class="btn-back" style="background:#2563eb; margin:0; padding:8px 12px;">Đổi phim</a>
+
+                <a th:if="${d.booking != null and d.booking.allowCancelBooking}"
+                   th:href="@{'/booking/cancel/' + ${d.booking.id}}"
+                   class="btn-back" style="background:#6b7280; margin:0; padding:8px 12px;">Hủy vé</a>
+
+                <span th:if="${d.booking == null or (!d.booking.allowSeatChange and !d.booking.allowShowtimeChange and !d.booking.allowMovieChange and !d.booking.allowCancelBooking)}">---</span>
+            </td>
+
+            <td th:text="${d.createdAt}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/" class="btn-back">← Quay lại trang chủ</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gửi khiếu nại vé</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f5f6fa;
+            margin:0;
+            padding:20px;
+        }
+        .container{
+            max-width:800px;
+            margin:0 auto;
+            background:#fff;
+            padding:24px;
+            border-radius:12px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.08);
+        }
+        h1{
+            margin-bottom:20px;
+            color:#222;
+        }
+        .box{
+            background:#f9fafb;
+            border:1px solid #e5e7eb;
+            border-radius:10px;
+            padding:16px;
+            margin-bottom:20px;
+        }
+        .row{
+            margin-bottom:10px;
+        }
+        label{
+            display:block;
+            font-weight:bold;
+            margin-bottom:6px;
+        }
+        input[type="text"], textarea{
+            width:100%;
+            padding:10px 12px;
+            border:1px solid #ccc;
+            border-radius:8px;
+            box-sizing:border-box;
+            font-size:14px;
+        }
+        textarea{
+            min-height:150px;
+            resize:vertical;
+        }
+        .actions{
+            display:flex;
+            gap:10px;
+            margin-top:20px;
+            flex-wrap:wrap;
+        }
+        .btn{
+            padding:10px 16px;
+            border:none;
+            border-radius:8px;
+            text-decoration:none;
+            cursor:pointer;
+            font-size:14px;
+        }
+        .btn-submit{
+            background:#dc2626;
+            color:#fff;
+        }
+        .btn-back{
+            background:#6b7280;
+            color:#fff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Gửi khiếu nại vé</h1>
+
+    <div class="box">
+        <div class="row"><strong>Mã vé:</strong> <span th:text="${booking.id}"></span></div>
+        <div class="row"><strong>Khách hàng:</strong> <span th:text="${booking.customerName}"></span></div>
+        <div class="row"><strong>Email:</strong> <span th:text="${booking.customerEmail}"></span></div>
+        <div class="row"><strong>Ghế:</strong> <span th:text="${booking.seatNumbers}"></span></div>
+        <div class="row"><strong>Tổng tiền:</strong> <span th:text="${booking.totalAmount}"></span></div>
+        <div class="row"><strong>Thời gian đặt:</strong> <span th:text="${booking.bookingTime}"></span></div>
+    </div>
+
+    <form th:action="@{/disputes/create}" method="post">
+        <input type="hidden" name="bookingId" th:value="${booking.id}">
+
+        <div class="row">
+            <label>Tiêu đề khiếu nại</label>
+            <input type="text" name="subject" required placeholder="Ví dụ: Thanh toán thành công nhưng không nhận được vé">
+        </div>
+
+        <div class="row">
+            <label>Nội dung khiếu nại</label>
+            <textarea name="content" required placeholder="Nhập nội dung khiếu nại của bạn..."></textarea>
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="btn btn-submit">Gửi khiếu nại</button>
+            <a href="/" class="btn btn-back">Quay lại</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

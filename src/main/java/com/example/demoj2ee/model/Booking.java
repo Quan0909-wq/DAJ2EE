@@ -15,7 +15,7 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user; // Liên kết với tài khoản người dùng
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "showtime_id")
@@ -24,10 +24,25 @@ public class Booking {
     private String customerName;
     private String customerEmail;
     private String customerPhone;
-    private String seatNumbers; // Lưu dạng chuỗi: "A1, A2, A3"
+    private String seatNumbers;
     private double totalAmount;
     private LocalDateTime bookingTime;
 
-    // Thêm trường status này là Controller sẽ tự động hết báo lỗi đỏ
     private String status;
+
+    // THÊM MỚI: quyền thao tác sau khi khiếu nại được chấp nhận
+    @Column(name = "allow_seat_change")
+    private boolean allowSeatChange = false;
+
+    @Column(name = "allow_showtime_change")
+    private boolean allowShowtimeChange = false;
+
+    @Column(name = "allow_movie_change")
+    private boolean allowMovieChange = false;
+
+    @Column(name = "allow_cancel_booking")
+    private boolean allowCancelBooking = false;
+
+    @Column(name = "dispute_note", columnDefinition = "LONGTEXT")
+    private String disputeNote;
 }

@@ -22,11 +22,10 @@
 
         .ticket-container { max-width: 850px; margin: 0 auto; padding: 20px; }
 
-        /* --- HIỆU ỨNG CARD NEON GLOW --- */
         .ticket-card {
             background: rgba(30, 30, 30, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-left: 5px solid var(--primary-color); /* Vạch đỏ đặc trưng */
+            border-left: 5px solid var(--primary-color);
             border-radius: 15px;
             margin-bottom: 20px;
             display: flex;
@@ -39,7 +38,7 @@
         .ticket-card:hover {
             transform: translateY(-5px) scale(1.01);
             border-color: var(--primary-color);
-            box-shadow: 0 0 25px var(--neon-glow); /* HIỆU ỨNG PHÁT SÁNG */
+            box-shadow: 0 0 25px var(--neon-glow);
         }
 
         .ticket-poster { width: 120px; height: 170px; object-fit: cover; filter: brightness(0.9); transition: 0.3s; }
@@ -69,7 +68,6 @@
             box-shadow: 0 0 10px var(--neon-glow);
         }
 
-        /* --- PHẦN CUỐNG VÉ (STUB) --- */
         .ticket-right {
             padding: 20px;
             background: rgba(229, 9, 20, 0.03);
@@ -91,13 +89,12 @@
 
         .booking-id { font-size: 0.75rem; color: #777; font-family: 'Courier New', Courier, monospace; letter-spacing: 1px; }
 
-        /* Lỗ bấm vé (Punch holes) */
         .ticket-card::before, .ticket-card::after {
             content: '';
             position: absolute;
             right: 182px;
             width: 20px; height: 20px;
-            background: #050505; /* Khớp với background body */
+            background: #050505;
             border-radius: 50%;
             z-index: 2;
         }
@@ -168,12 +165,51 @@
             </div>
             <small class="text-muted mt-2" style="font-size: 0.6rem;">QUÉT TẠI QUẦY SOÁT VÉ</small>
 
-            <!-- NUT PASS VE -->
             <div class="mt-3 w-100">
                 <a th:href="@{'/ticket/post?bookingId=' + ${b.id}}"
                    class="btn btn-sm w-100"
                    style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 0.7rem; border-radius: 8px; padding: 8px;">
                     <i class="fa-solid fa-tags me-1"></i>Pass vé
+                </a>
+            </div>
+
+            <div class="mt-2 w-100">
+                <a th:href="@{'/disputes/create/' + ${b.id}}"
+                   class="btn btn-sm w-100"
+                   style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; font-size: 0.7rem; border-radius: 8px; padding: 8px;">
+                    <i class="fa-solid fa-circle-exclamation me-1"></i>Khiếu nại
+                </a>
+            </div>
+
+            <div class="mt-2 w-100" th:if="${b.allowSeatChange}">
+                <a th:href="@{'/booking/change-seat/' + ${b.id}}"
+                   class="btn btn-sm w-100"
+                   style="background: linear-gradient(135deg, #10b981, #059669); color: white; font-size: 0.7rem; border-radius: 8px; padding: 8px;">
+                    <i class="fa-solid fa-chair me-1"></i>Đổi ghế
+                </a>
+            </div>
+
+            <div class="mt-2 w-100" th:if="${b.allowShowtimeChange}">
+                <a th:href="@{'/booking/change-showtime/' + ${b.id}}"
+                   class="btn btn-sm w-100"
+                   style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; font-size: 0.7rem; border-radius: 8px; padding: 8px;">
+                    <i class="fa-solid fa-clock-rotate-left me-1"></i>Đổi suất
+                </a>
+            </div>
+
+            <div class="mt-2 w-100" th:if="${b.allowMovieChange}">
+                <a th:href="@{'/booking/change-movie/' + ${b.id}}"
+                   class="btn btn-sm w-100"
+                   style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; font-size: 0.7rem; border-radius: 8px; padding: 8px;">
+                    <i class="fa-solid fa-film me-1"></i>Đổi phim
+                </a>
+            </div>
+
+            <div class="mt-2 w-100" th:if="${b.allowCancelBooking}">
+                <a th:href="@{'/booking/cancel/' + ${b.id}}"
+                   class="btn btn-sm w-100"
+                   style="background: linear-gradient(135deg, #6b7280, #374151); color: white; font-size: 0.7rem; border-radius: 8px; padding: 8px;">
+                    <i class="fa-solid fa-ban me-1"></i>Hủy vé
                 </a>
             </div>
         </div>

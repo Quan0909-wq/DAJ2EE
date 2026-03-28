@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đổi Suất Chiếu - PELE Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <th:block th:replace="~{fragments/navbar :: navbarStyles}"></th:block>
+    <style>
+        body{background:#050505;color:#fff;font-family:'Montserrat',sans-serif;padding-top:110px}
+        .wrap{max-width:1100px;margin:0 auto;padding:20px}
+        .card-box{background:#121212;border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+        .showtime-btn{display:block;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px;text-decoration:none;color:#fff;transition:.25s}
+        .showtime-btn:hover{transform:translateY(-4px);border-color:#E50914;background:rgba(229,9,20,.12);color:#fff}
+        .sub{color:#aaa;font-size:.9rem}
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: topbar}"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/navbar :: sidebar}"></div>
+<div th:replace="~{fragments/navbar :: notifPanel}"></div>
+
+<div class="wrap">
+    <div class="card-box">
+        <h2 class="fw-bold text-danger mb-2"><i class="fa-solid fa-clock-rotate-left me-2"></i>Đổi suất chiếu</h2>
+        <p class="sub mb-4">
+            Vé hiện tại: <strong th:text="${booking.showtime.movie.title}">Phim</strong> -
+            <strong th:text="${booking.seatNumbers}">A1</strong>
+        </p>
+
+        <div class="alert alert-warning" th:if="${#lists.isEmpty(showtimes)}">
+            Hiện không có suất chiếu mới phù hợp cho phim này.
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-4" th:each="s : ${showtimes}">
+                <a class="showtime-btn"
+                   th:href="@{'/booking/change-showtime/select/' + ${s.id} + '?bookingId=' + ${booking.id}}">
+                    <div class="fw-bold fs-5" th:text="${#temporals.format(s.startTime,'HH:mm')}">19:30</div>
+                    <div class="sub" th:text="${#temporals.format(s.startTime,'dd/MM/yyyy')}">01/01/2026</div>
+                    <div class="mt-2" th:text="${s.room.name}">Phòng 1</div>
+                    <div class="text-warning fw-bold mt-2" th:text="${#numbers.formatDecimal(s.price,0,'COMMA',0,'POINT')} + ' đ'">90.000 đ</div>
+                </a>
+            </div>
+        </div>
+
+        <a href="/my-tickets" class="btn btn-outline-light mt-4">← Quay lại vé của tôi</a>
+    </div>
+</div>
+
+<div th:replace="~{fragments/navbar :: scripts}"></div>
+</body>
+</html>

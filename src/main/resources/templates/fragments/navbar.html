@@ -560,6 +560,7 @@ body { background-color: var(--bg-dark); color: #fff; font-family: 'Montserrat',
                             <li><a class="dropdown-item" href="/dating-profile"><i class="fa-solid fa-user-pen me-2 text-danger"></i>Hồ sơ Dating</a></li>
                             <li><a class="dropdown-item" href="/my-group-bookings"><i class="fa-solid fa-users me-2" style="color:#8b9cff;"></i>Vé Nhóm</a></li>
                             <li><a class="dropdown-item" href="/my-tickets"><i class="fa-solid fa-ticket me-2" style="color:#5ce08a;"></i>Vé Đã Đặt</a></li>
+                            <li><a class="dropdown-item" href="/disputes/my"><i class="fa-solid fa-circle-exclamation me-2" style="color:#ff6b6b;"></i>Khiếu nại của tôi</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="/logout"><i class="fa-solid fa-power-off me-2"></i>Đăng Xuất</a></li>
                         </ul>
@@ -619,6 +620,7 @@ body { background-color: var(--bg-dark); color: #fff; font-family: 'Montserrat',
         <th:block th:if="${session.loggedInUser != null}">
             <div class="sidebar-heading">Tài khoản</div>
             <a href="/my-tickets" class="nav-link"><i class="fa-solid fa-ticket-simple"></i>Vé Đã Đặt</a>
+            <a href="/disputes/my" class="nav-link"><i class="fa-solid fa-circle-exclamation"></i>Khiếu Nại Của Tôi</a>
             <a href="/my-passes" class="nav-link"><i class="fa-solid fa-tag"></i>Vé Đang Bán</a>
             <a href="/my-group-bookings" class="nav-link"><i class="fa-solid fa-users"></i>Vé Nhóm Của Tôi</a>
             <a href="/dating-profile" class="nav-link"><i class="fa-solid fa-user-pen"></i>Hồ Sơ Dating</a>

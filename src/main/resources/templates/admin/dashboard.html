@@ -54,6 +54,8 @@
                 <a href="/admin/movies" class="nav-link admin-nav"><i class="fa-solid fa-film me-3"></i>Quản Lý Phim</a>
                 <a href="/admin/showtimes" class="nav-link admin-nav"><i class="fa-solid fa-clock me-3"></i>Suất Chiếu</a>
                 <a href="/admin/bookings" class="nav-link admin-nav"><i class="fa-solid fa-receipt me-3"></i>Quản Lý Hoá Đơn</a>
+                <a href="/admin/users" class="nav-link admin-nav"><i class="fa-solid fa-users me-3"></i>Người Dùng</a>
+                <a href="/admin/disputes" class="nav-link admin-nav"><i class="fa-solid fa-circle-exclamation me-3"></i>Khiếu Nại Vé</a>
                 <a href="/admin/news" class="nav-link admin-nav"><i class="fa-solid fa-newspaper me-3"></i>Tin Tức</a>
                 <a href="/admin/promotions" class="nav-link admin-nav"><i class="fa-solid fa-tags me-3"></i>Khuyến Mãi</a>
                 <a href="/" class="nav-link admin-nav"><i class="fa-solid fa-house me-3"></i>Về Trang Chính</a>
@@ -113,6 +115,79 @@
                             <div class="stat-icon bg-success bg-opacity-25 text-success"><i class="fa-solid fa-coins"></i></div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <!-- Thống kê bổ sung -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="card-stat">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-secondary mb-1 small text-uppercase fw-bold">Tổng Doanh Thu</p>
+                                <div class="stat-value text-success" th:text="${#numbers.formatDecimal(totalRevenue, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</div>
+                            </div>
+                            <div class="stat-icon bg-success bg-opacity-25 text-success">
+                                <i class="fa-solid fa-sack-dollar"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card-stat">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-secondary mb-1 small text-uppercase fw-bold">Vé Thành Công</p>
+                                <div class="stat-value text-info" th:text="${successBookings}">0</div>
+                            </div>
+                            <div class="stat-icon bg-info bg-opacity-25 text-info">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card-stat">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-secondary mb-1 small text-uppercase fw-bold">Vé Chờ Xử Lý</p>
+                                <div class="stat-value text-warning" th:text="${pendingBookings}">0</div>
+                            </div>
+                            <div class="stat-icon bg-warning bg-opacity-25 text-warning">
+                                <i class="fa-solid fa-hourglass-half"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card-stat">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-secondary mb-1 small text-uppercase fw-bold">Vé Đã Hủy</p>
+                                <div class="stat-value text-danger" th:text="${cancelledBookings}">0</div>
+                            </div>
+                            <div class="stat-icon bg-danger bg-opacity-25 text-danger">
+                                <i class="fa-solid fa-ban"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Báo cáo phim nổi bật -->
+            <div class="card border-secondary bg-dark mb-4">
+                <div class="card-header bg-info bg-opacity-25 border-secondary">
+                    <h6 class="mb-0 fw-bold">
+                        <i class="fa-solid fa-trophy me-2"></i>Báo Cáo Nhanh
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        <strong class="text-warning">Phim được đặt nhiều nhất:</strong>
+                        <span class="text-white" th:text="${topMovieTitle}">Chưa có dữ liệu</span>
+                    </p>
                 </div>
             </div>
 

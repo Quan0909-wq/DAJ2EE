@@ -102,13 +102,9 @@
 </head>
 <body>
 
-<!-- Top bar -->
 <div th:replace="~{fragments/navbar :: topbar}"></div>
-<!-- Main navbar -->
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-<!-- Sidebar -->
 <div th:replace="~{fragments/navbar :: sidebar}"></div>
-<!-- Scripts -->
 <div th:replace="~{fragments/navbar :: scripts}"></div>
 
 <div class="main-wrapper">
@@ -150,10 +146,19 @@
             <div class="col-lg-3">
                 <form action="/booking/checkout" method="POST" class="booking-card">
                     <input type="hidden" name="showtimeId" th:value="${showtime.id}">
+                    <input type="hidden" name="bookingId" th:value="${bookingId}">
+                    <input type="hidden" name="changeMode" th:value="${changeMode}">
+                    <input type="hidden" name="actionType" th:value="${actionType}">
                     <input type="hidden" name="seats" id="seats-input">
                     <input type="hidden" name="totalAmount" id="amount-input">
 
                     <h5 class="fw-bold mb-3 border-bottom border-secondary pb-2">VÉ CỦA BẠN</h5>
+
+                    <div th:if="${changeMode}" class="alert alert-warning py-2 small">
+                        Bạn đang đổi ghế cho vé cũ.
+                        <br>
+                        Ghế hiện tại: <strong th:text="${oldSeats}">A10</strong>
+                    </div>
 
                     <div class="mb-3">
                         <p class="text-secondary small fw-bold mb-1">GHẾ CHỌN</p>
